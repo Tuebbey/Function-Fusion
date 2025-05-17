@@ -35,11 +35,13 @@ class PerformanceModel:
             }
         }
 
+        if config:
+            self.config.update(config)
+        
         # FIO-Simulator initialisieren
         self.fio_simulator = FIOSimulator()
 
-        if config:
-            self.config.update(config)
+
     
     def simulate_execution_time(self, base_time: float, memory_mb: int, workload_type: str = "cpu_intensive") -> float:
         """Berechnet die simulierte Ausführungszeit basierend auf den Ressourcenparametern."""
@@ -201,6 +203,27 @@ class PerformanceModel:
                     "data_size_kb": data_size_kb,
                     "io_stats": io_stats
                 }
+    # Fallback-Modell
+        base_latencies = {
+            "read": self.config["io_latency_base"],
+            "write": self.config["io_latency_base"] * 2,
+            "query": self.config["io_latency_base"] * 4,
+            "scan": self.config["io_latency_base"] * 8
+        }
+        base_latency = base_latencies.get(operation_type, self.config["io_latency_base"])
+        size_factor = math.log1p(data_size_kb) * 0.1
+        jitter = random.uniform(-self.config["io_latency_jitter"], self.config["io_latency_jitter"])
+        latency = (base_latency + size_factor + jitter) / 1000
+
+        return {
+            "success": False,
+            "latency": latency,
+            "cost": 0,
+            "storage_type": storage_type,
+            "operation_type": operation_type,
+            "data_size_kb": data_size_kb,
+            "fallback": True
+        }
     
     def simulate_execution_time_detailed(self,
                                  base_execution_time: float,
