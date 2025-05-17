@@ -1,0 +1,839 @@
+{
+  "test_configurations": {
+    "functions": [
+      "add_to_cart",
+      "calculate_shipping",
+      "process_payment"
+    ],
+    "strategy_space": [
+      "local",
+      "remote"
+    ],
+    "repetitions": 3,
+    "modes": [
+      "sync"
+    ],
+    "function_types": [
+      "cpu_intensive"
+    ],
+    "regions": [
+      "us-east-1"
+    ],
+    "with_io_options": [
+      false
+    ],
+    "test_event": {
+      "userId": "user123",
+      "productId": "prod456",
+      "quantity": 2
+    }
+  },
+  "results": {
+    "config_local_local_sync_cpu_intensive_us-east-1_ioFalse": {
+      "fusion_id": "config_local_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "function_type": "cpu_intensive",
+      "source_region": "us-east-1",
+      "with_io": false,
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 38.90958380699158,
+          "trace_id": "8146eb48-14de-4b2e-8497-4fcaa84644fd",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "8146eb48-14de-4b2e-8497-4fcaa84644fd",
+            "start_time": 1745081637.530028,
+            "end_time": 1745081676.439612,
+            "duration": 38.90958380699158,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "8146eb48-14de-4b2e-8497-4fcaa84644fd",
+                "parent_id": null,
+                "start_time": 1745081637.530028,
+                "end_time": 1745081676.3646965,
+                "duration": 38.83466839790344,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "8146eb48-14de-4b2e-8497-4fcaa84644fd",
+                "parent_id": null,
+                "start_time": 1745081676.3646965,
+                "end_time": 1745081676.381511,
+                "duration": 0.016814470291137695,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "8146eb48-14de-4b2e-8497-4fcaa84644fd",
+                "parent_id": null,
+                "start_time": 1745081676.381511,
+                "end_time": 1745081676.439612,
+                "duration": 0.05810093879699707,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "06cad2ea5200ec0cc05c8e95e696838c"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 39.87820744514465,
+          "trace_id": "78e6dd04-c0e5-4d6e-bcd2-290d36f68e57",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "78e6dd04-c0e5-4d6e-bcd2-290d36f68e57",
+            "start_time": 1745081676.439612,
+            "end_time": 1745081716.3178194,
+            "duration": 39.87820744514465,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "78e6dd04-c0e5-4d6e-bcd2-290d36f68e57",
+                "parent_id": null,
+                "start_time": 1745081676.439612,
+                "end_time": 1745081716.2485743,
+                "duration": 39.80896234512329,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "78e6dd04-c0e5-4d6e-bcd2-290d36f68e57",
+                "parent_id": null,
+                "start_time": 1745081716.2485743,
+                "end_time": 1745081716.2638142,
+                "duration": 0.015239953994750977,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "78e6dd04-c0e5-4d6e-bcd2-290d36f68e57",
+                "parent_id": null,
+                "start_time": 1745081716.2648206,
+                "end_time": 1745081716.3178194,
+                "duration": 0.05299878120422363,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "41560e5053784c5a35299660eedbb059"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 39.617473125457764,
+          "trace_id": "1c634368-0eb6-483b-b2c3-95688d04f032",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "1c634368-0eb6-483b-b2c3-95688d04f032",
+            "start_time": 1745081716.3178194,
+            "end_time": 1745081755.9344,
+            "duration": 39.61658072471619,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "1c634368-0eb6-483b-b2c3-95688d04f032",
+                "parent_id": null,
+                "start_time": 1745081716.3304715,
+                "end_time": 1745081755.8610404,
+                "duration": 39.53056883811951,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "1c634368-0eb6-483b-b2c3-95688d04f032",
+                "parent_id": null,
+                "start_time": 1745081755.8610404,
+                "end_time": 1745081755.8721833,
+                "duration": 0.011142969131469727,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "1c634368-0eb6-483b-b2c3-95688d04f032",
+                "parent_id": null,
+                "start_time": 1745081755.8721833,
+                "end_time": 1745081755.9344,
+                "duration": 0.062216758728027344,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "e3f2a6bf6a0830188ecd2cbf06ef6c11"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        }
+      ],
+      "avg_execution_time": 39.468421459198,
+      "success_rate": 1.0
+    },
+    "config_local_remote_sync_cpu_intensive_us-east-1_ioFalse": {
+      "fusion_id": "config_local_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "function_type": "cpu_intensive",
+      "source_region": "us-east-1",
+      "with_io": false,
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 39.08337736129761,
+          "trace_id": "f40e66ce-5d5a-4217-b998-fe9bcab4e393",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "f40e66ce-5d5a-4217-b998-fe9bcab4e393",
+            "start_time": 1745081755.9356036,
+            "end_time": 1745081795.018981,
+            "duration": 39.08337736129761,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "f40e66ce-5d5a-4217-b998-fe9bcab4e393",
+                "parent_id": null,
+                "start_time": 1745081755.936622,
+                "end_time": 1745081794.857635,
+                "duration": 38.92101311683655,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "f40e66ce-5d5a-4217-b998-fe9bcab4e393",
+                "parent_id": null,
+                "start_time": 1745081794.8580198,
+                "end_time": 1745081794.9641902,
+                "duration": 0.1061704158782959,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "f40e66ce-5d5a-4217-b998-fe9bcab4e393",
+                "parent_id": null,
+                "start_time": 1745081794.9641902,
+                "end_time": 1745081795.018981,
+                "duration": 0.05479073524475098,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "f1bdc61d7c69c1040691ec7ad9ed222d"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 45.54782319068909,
+          "trace_id": "d551e181-04e7-4dd1-8af2-e8293860424c",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "d551e181-04e7-4dd1-8af2-e8293860424c",
+            "start_time": 1745081795.018981,
+            "end_time": 1745081840.5668042,
+            "duration": 45.54782319068909,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "d551e181-04e7-4dd1-8af2-e8293860424c",
+                "parent_id": null,
+                "start_time": 1745081795.018981,
+                "end_time": 1745081840.3598897,
+                "duration": 45.34090876579285,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "d551e181-04e7-4dd1-8af2-e8293860424c",
+                "parent_id": null,
+                "start_time": 1745081840.3598897,
+                "end_time": 1745081840.4974127,
+                "duration": 0.13752293586730957,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "d551e181-04e7-4dd1-8af2-e8293860424c",
+                "parent_id": null,
+                "start_time": 1745081840.4974127,
+                "end_time": 1745081840.5668042,
+                "duration": 0.06939148902893066,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "73c3f36d6de1888b3c2bdb347b545b4e"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 40.21715068817139,
+          "trace_id": "78e0d0ee-b635-4d93-8036-65980ffbee38",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "78e0d0ee-b635-4d93-8036-65980ffbee38",
+            "start_time": 1745081840.5677888,
+            "end_time": 1745081880.7849395,
+            "duration": 40.21715068817139,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "78e0d0ee-b635-4d93-8036-65980ffbee38",
+                "parent_id": null,
+                "start_time": 1745081840.5677888,
+                "end_time": 1745081880.6048884,
+                "duration": 40.03709959983826,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "78e0d0ee-b635-4d93-8036-65980ffbee38",
+                "parent_id": null,
+                "start_time": 1745081880.6048884,
+                "end_time": 1745081880.7300506,
+                "duration": 0.12516212463378906,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "78e0d0ee-b635-4d93-8036-65980ffbee38",
+                "parent_id": null,
+                "start_time": 1745081880.7300506,
+                "end_time": 1745081880.7849395,
+                "duration": 0.05488896369934082,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "d6d6af2319d0507445631dc666bbda37"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        }
+      ],
+      "avg_execution_time": 41.616117080052696,
+      "success_rate": 1.0
+    },
+    "config_remote_local_sync_cpu_intensive_us-east-1_ioFalse": {
+      "fusion_id": "config_remote_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "function_type": "cpu_intensive",
+      "source_region": "us-east-1",
+      "with_io": false,
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 40.16819405555725,
+          "trace_id": "e01c2a5e-bb3d-41ef-82db-b096cf0ac30f",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "e01c2a5e-bb3d-41ef-82db-b096cf0ac30f",
+            "start_time": 1745081880.7936113,
+            "end_time": 1745081920.9531336,
+            "duration": 40.15952229499817,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "e01c2a5e-bb3d-41ef-82db-b096cf0ac30f",
+                "parent_id": null,
+                "start_time": 1745081880.7936113,
+                "end_time": 1745081920.8839636,
+                "duration": 40.090352296829224,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "e01c2a5e-bb3d-41ef-82db-b096cf0ac30f",
+                "parent_id": null,
+                "start_time": 1745081920.8839636,
+                "end_time": 1745081920.900314,
+                "duration": 0.016350507736206055,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "e01c2a5e-bb3d-41ef-82db-b096cf0ac30f",
+                "parent_id": null,
+                "start_time": 1745081920.9013145,
+                "end_time": 1745081920.9531336,
+                "duration": 0.0518190860748291,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "719f28a40c6f9912b3032f7fd6b5dd24"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 41.039735078811646,
+          "trace_id": "d07fdcf0-f0f9-4d5a-aa3c-32b2d5684f93",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "d07fdcf0-f0f9-4d5a-aa3c-32b2d5684f93",
+            "start_time": 1745081920.9531336,
+            "end_time": 1745081961.9928687,
+            "duration": 41.039735078811646,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "d07fdcf0-f0f9-4d5a-aa3c-32b2d5684f93",
+                "parent_id": null,
+                "start_time": 1745081920.9531336,
+                "end_time": 1745081961.9223914,
+                "duration": 40.969257831573486,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "d07fdcf0-f0f9-4d5a-aa3c-32b2d5684f93",
+                "parent_id": null,
+                "start_time": 1745081961.9223914,
+                "end_time": 1745081961.9382021,
+                "duration": 0.015810728073120117,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "d07fdcf0-f0f9-4d5a-aa3c-32b2d5684f93",
+                "parent_id": null,
+                "start_time": 1745081961.9382021,
+                "end_time": 1745081961.9928687,
+                "duration": 0.05466651916503906,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "bca1f14ef800e2110b60c45659b4d48a"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 45.87447905540466,
+          "trace_id": "bea329b9-c42d-438a-8851-84cb1fbe00d5",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "bea329b9-c42d-438a-8851-84cb1fbe00d5",
+            "start_time": 1745081961.9928687,
+            "end_time": 1745082007.8673477,
+            "duration": 45.87447905540466,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "bea329b9-c42d-438a-8851-84cb1fbe00d5",
+                "parent_id": null,
+                "start_time": 1745081961.9928687,
+                "end_time": 1745082007.758684,
+                "duration": 45.76581525802612,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "bea329b9-c42d-438a-8851-84cb1fbe00d5",
+                "parent_id": null,
+                "start_time": 1745082007.758684,
+                "end_time": 1745082007.7832465,
+                "duration": 0.024562597274780273,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "bea329b9-c42d-438a-8851-84cb1fbe00d5",
+                "parent_id": null,
+                "start_time": 1745082007.7832465,
+                "end_time": 1745082007.8673477,
+                "duration": 0.08410120010375977,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "4ae8cc8389c9dfc593924500c5ed5f5e"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        }
+      ],
+      "avg_execution_time": 42.36080272992452,
+      "success_rate": 1.0
+    },
+    "config_remote_remote_sync_cpu_intensive_us-east-1_ioFalse": {
+      "fusion_id": "config_remote_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "function_type": "cpu_intensive",
+      "source_region": "us-east-1",
+      "with_io": false,
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 45.538494348526,
+          "trace_id": "aee59afd-5c50-4293-b286-cac4e763522c",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "aee59afd-5c50-4293-b286-cac4e763522c",
+            "start_time": 1745082007.8683472,
+            "end_time": 1745082053.4068415,
+            "duration": 45.538494348526,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "aee59afd-5c50-4293-b286-cac4e763522c",
+                "parent_id": null,
+                "start_time": 1745082007.8694236,
+                "end_time": 1745082053.2162013,
+                "duration": 45.34677767753601,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "aee59afd-5c50-4293-b286-cac4e763522c",
+                "parent_id": null,
+                "start_time": 1745082053.2162013,
+                "end_time": 1745082053.3426578,
+                "duration": 0.12645649909973145,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "aee59afd-5c50-4293-b286-cac4e763522c",
+                "parent_id": null,
+                "start_time": 1745082053.3426578,
+                "end_time": 1745082053.4068415,
+                "duration": 0.06418371200561523,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "5c6a753b0796d3911141bffe9870e7d1"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 41.65676164627075,
+          "trace_id": "3a3e72b1-9d4d-49a9-bfe7-f4f0687176ad",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "3a3e72b1-9d4d-49a9-bfe7-f4f0687176ad",
+            "start_time": 1745082053.4078486,
+            "end_time": 1745082095.0646102,
+            "duration": 41.65676164627075,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "3a3e72b1-9d4d-49a9-bfe7-f4f0687176ad",
+                "parent_id": null,
+                "start_time": 1745082053.4078486,
+                "end_time": 1745082094.870008,
+                "duration": 41.462159395217896,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "3a3e72b1-9d4d-49a9-bfe7-f4f0687176ad",
+                "parent_id": null,
+                "start_time": 1745082094.870008,
+                "end_time": 1745082095.0086257,
+                "duration": 0.13861775398254395,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "3a3e72b1-9d4d-49a9-bfe7-f4f0687176ad",
+                "parent_id": null,
+                "start_time": 1745082095.0086257,
+                "end_time": 1745082095.0646102,
+                "duration": 0.0559844970703125,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "cf8d942ca316a669eee63a2ed93e1874"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        },
+        {
+          "status": "success",
+          "execution_time": 43.197535276412964,
+          "trace_id": "e19eb4ef-a7b6-4e5d-b8f9-34c66c1f707d",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "e19eb4ef-a7b6-4e5d-b8f9-34c66c1f707d",
+            "start_time": 1745082095.0646102,
+            "end_time": 1745082138.2621455,
+            "duration": 43.197535276412964,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "e19eb4ef-a7b6-4e5d-b8f9-34c66c1f707d",
+                "parent_id": null,
+                "start_time": 1745082095.0646102,
+                "end_time": 1745082138.0831356,
+                "duration": 43.01852536201477,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "e19eb4ef-a7b6-4e5d-b8f9-34c66c1f707d",
+                "parent_id": null,
+                "start_time": 1745082138.0831356,
+                "end_time": 1745082138.2065895,
+                "duration": 0.12345385551452637,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "e19eb4ef-a7b6-4e5d-b8f9-34c66c1f707d",
+                "parent_id": null,
+                "start_time": 1745082138.2065895,
+                "end_time": 1745082138.2621455,
+                "duration": 0.05555605888366699,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "transactionId": "9710d349c79eda3ca27f9d3fa8c9d422"
+          },
+          "error": null,
+          "function_type": "cpu_intensive",
+          "source_region": "us-east-1",
+          "with_io": false
+        }
+      ],
+      "avg_execution_time": 43.46426375706991,
+      "success_rate": 1.0
+    }
+  },
+  "analysis": {
+    "overall_fastest_configuration": {
+      "name": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+      "avg_execution_time": 39.468421459198,
+      "scenario": "cpu_intensive_us-east-1_ioFalse_sync"
+    },
+    "overall_most_reliable_configuration": {
+      "name": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+      "success_rate": 1.0,
+      "scenario": "cpu_intensive_us-east-1_ioFalse_sync"
+    },
+    "overall_cheapest_configuration": {
+      "name": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+      "estimated_cost": 0,
+      "scenario": "cpu_intensive_us-east-1_ioFalse_sync"
+    },
+    "group_analysis": {
+      "cpu_intensive_us-east-1_ioFalse_sync": {
+        "fastest_configuration": {
+          "name": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+          "avg_execution_time": 39.468421459198
+        },
+        "most_reliable_configuration": {
+          "name": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+          "success_rate": 1.0
+        },
+        "cheapest_configuration": {
+          "name": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+          "estimated_cost": 0
+        }
+      }
+    },
+    "heuristic_validation": {
+      "cpu_intensive_us-east-1_ioFalse_sync": {
+        "heuristic_config": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+        "fastest_config": "config_local_local_sync_cpu_intensive_us-east-1_ioFalse",
+        "heuristic_is_optimal": true,
+        "performance_difference_percent": 0.0
+      }
+    },
+    "heuristic_success_rate": 1.0
+  }
+}

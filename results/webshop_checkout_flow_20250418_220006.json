@@ -1,0 +1,727 @@
+{
+  "test_configurations": {
+    "functions": [
+      "add_to_cart",
+      "calculate_shipping",
+      "process_payment"
+    ],
+    "strategy_space": [
+      "local",
+      "remote"
+    ],
+    "repetitions": 3,
+    "modes": [
+      "sync"
+    ],
+    "test_event": {
+      "userId": "user123",
+      "productId": "prod456",
+      "quantity": 2
+    }
+  },
+  "results": {
+    "config_local_local_sync": {
+      "fusion_id": "config_local_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 42.964187145233154,
+          "trace_id": "83c6754d-c5d7-4782-856c-7d0535984089",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "83c6754d-c5d7-4782-856c-7d0535984089",
+            "start_time": 1745005838.4183834,
+            "end_time": 1745005881.3825705,
+            "duration": 42.964187145233154,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "83c6754d-c5d7-4782-856c-7d0535984089",
+                "parent_id": null,
+                "start_time": 1745005838.4193833,
+                "end_time": 1745005880.9763043,
+                "duration": 42.55692100524902,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "83c6754d-c5d7-4782-856c-7d0535984089",
+                "parent_id": null,
+                "start_time": 1745005880.9763043,
+                "end_time": 1745005881.380533,
+                "duration": 0.40422868728637695,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "83c6754d-c5d7-4782-856c-7d0535984089",
+                "parent_id": null,
+                "start_time": 1745005881.3815339,
+                "end_time": 1745005881.3825705,
+                "duration": 0.0010366439819335938,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 44.15246367454529,
+          "trace_id": "3ad59e8c-9d04-486c-9903-6ac737bf5b46",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "3ad59e8c-9d04-486c-9903-6ac737bf5b46",
+            "start_time": 1745005881.3838446,
+            "end_time": 1745005925.5363083,
+            "duration": 44.15246367454529,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "3ad59e8c-9d04-486c-9903-6ac737bf5b46",
+                "parent_id": null,
+                "start_time": 1745005881.3847291,
+                "end_time": 1745005925.1270301,
+                "duration": 43.74230098724365,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "3ad59e8c-9d04-486c-9903-6ac737bf5b46",
+                "parent_id": null,
+                "start_time": 1745005925.1270301,
+                "end_time": 1745005925.5353096,
+                "duration": 0.4082794189453125,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "3ad59e8c-9d04-486c-9903-6ac737bf5b46",
+                "parent_id": null,
+                "start_time": 1745005925.5353096,
+                "end_time": 1745005925.5363083,
+                "duration": 0.0009987354278564453,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 44.4257652759552,
+          "trace_id": "a549edc8-b7c3-44e1-9c4f-2b423ed15e21",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "a549edc8-b7c3-44e1-9c4f-2b423ed15e21",
+            "start_time": 1745005925.5363083,
+            "end_time": 1745005969.9620736,
+            "duration": 44.4257652759552,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "a549edc8-b7c3-44e1-9c4f-2b423ed15e21",
+                "parent_id": null,
+                "start_time": 1745005925.5373065,
+                "end_time": 1745005969.5454097,
+                "duration": 44.008103132247925,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "a549edc8-b7c3-44e1-9c4f-2b423ed15e21",
+                "parent_id": null,
+                "start_time": 1745005969.5454097,
+                "end_time": 1745005969.9620736,
+                "duration": 0.41666388511657715,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "a549edc8-b7c3-44e1-9c4f-2b423ed15e21",
+                "parent_id": null,
+                "start_time": 1745005969.9620736,
+                "end_time": 1745005969.9620736,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 43.84747203191122,
+      "success_rate": 0.0
+    },
+    "config_local_remote_sync": {
+      "fusion_id": "config_local_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 48.41101789474487,
+          "trace_id": "f5880364-9622-4c51-b1ac-410a11d7c7fb",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "f5880364-9622-4c51-b1ac-410a11d7c7fb",
+            "start_time": 1745005969.9641252,
+            "end_time": 1745006018.375143,
+            "duration": 48.41101789474487,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "f5880364-9622-4c51-b1ac-410a11d7c7fb",
+                "parent_id": null,
+                "start_time": 1745005969.9641252,
+                "end_time": 1745006017.9153345,
+                "duration": 47.95120930671692,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "f5880364-9622-4c51-b1ac-410a11d7c7fb",
+                "parent_id": null,
+                "start_time": 1745006017.9164011,
+                "end_time": 1745006018.3736203,
+                "duration": 0.45721912384033203,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "f5880364-9622-4c51-b1ac-410a11d7c7fb",
+                "parent_id": null,
+                "start_time": 1745006018.3736203,
+                "end_time": 1745006018.375143,
+                "duration": 0.0015227794647216797,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 44.75117063522339,
+          "trace_id": "b3eaf9c1-4ea3-4dde-b81a-45180b468782",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "b3eaf9c1-4ea3-4dde-b81a-45180b468782",
+            "start_time": 1745006018.3762057,
+            "end_time": 1745006063.1263137,
+            "duration": 44.75010800361633,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "b3eaf9c1-4ea3-4dde-b81a-45180b468782",
+                "parent_id": null,
+                "start_time": 1745006018.3762057,
+                "end_time": 1745006062.6519928,
+                "duration": 44.275787115097046,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "b3eaf9c1-4ea3-4dde-b81a-45180b468782",
+                "parent_id": null,
+                "start_time": 1745006062.6519928,
+                "end_time": 1745006063.1253126,
+                "duration": 0.47331976890563965,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "b3eaf9c1-4ea3-4dde-b81a-45180b468782",
+                "parent_id": null,
+                "start_time": 1745006063.1253126,
+                "end_time": 1745006063.1263137,
+                "duration": 0.001001119613647461,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 45.16182541847229,
+          "trace_id": "049631ca-7d82-416d-b809-407996637091",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "049631ca-7d82-416d-b809-407996637091",
+            "start_time": 1745006063.1271765,
+            "end_time": 1745006108.289002,
+            "duration": 45.16182541847229,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "049631ca-7d82-416d-b809-407996637091",
+                "parent_id": null,
+                "start_time": 1745006063.1271765,
+                "end_time": 1745006107.8207953,
+                "duration": 44.69361877441406,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "049631ca-7d82-416d-b809-407996637091",
+                "parent_id": null,
+                "start_time": 1745006107.821764,
+                "end_time": 1745006108.289002,
+                "duration": 0.4672379493713379,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "049631ca-7d82-416d-b809-407996637091",
+                "parent_id": null,
+                "start_time": 1745006108.289002,
+                "end_time": 1745006108.289002,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 46.108004649480186,
+      "success_rate": 0.0
+    },
+    "config_remote_local_sync": {
+      "fusion_id": "config_remote_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 44.723700523376465,
+          "trace_id": "6e695bfb-faf7-4c31-aabc-d28e45eeffe6",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "6e695bfb-faf7-4c31-aabc-d28e45eeffe6",
+            "start_time": 1745006108.2900014,
+            "end_time": 1745006153.013702,
+            "duration": 44.723700523376465,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "6e695bfb-faf7-4c31-aabc-d28e45eeffe6",
+                "parent_id": null,
+                "start_time": 1745006108.2900014,
+                "end_time": 1745006152.5995135,
+                "duration": 44.3095121383667,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "6e695bfb-faf7-4c31-aabc-d28e45eeffe6",
+                "parent_id": null,
+                "start_time": 1745006152.600523,
+                "end_time": 1745006153.0125673,
+                "duration": 0.4120442867279053,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "6e695bfb-faf7-4c31-aabc-d28e45eeffe6",
+                "parent_id": null,
+                "start_time": 1745006153.0125673,
+                "end_time": 1745006153.013702,
+                "duration": 0.001134634017944336,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 48.09722852706909,
+          "trace_id": "b0d64343-13fc-422f-a781-8e8036c1bff1",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "b0d64343-13fc-422f-a781-8e8036c1bff1",
+            "start_time": 1745006153.0145946,
+            "end_time": 1745006201.111823,
+            "duration": 48.09722852706909,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "b0d64343-13fc-422f-a781-8e8036c1bff1",
+                "parent_id": null,
+                "start_time": 1745006153.0145946,
+                "end_time": 1745006200.6932569,
+                "duration": 47.67866230010986,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "b0d64343-13fc-422f-a781-8e8036c1bff1",
+                "parent_id": null,
+                "start_time": 1745006200.6932569,
+                "end_time": 1745006201.110283,
+                "duration": 0.4170260429382324,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "b0d64343-13fc-422f-a781-8e8036c1bff1",
+                "parent_id": null,
+                "start_time": 1745006201.110283,
+                "end_time": 1745006201.111823,
+                "duration": 0.0015401840209960938,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 55.66263222694397,
+          "trace_id": "066edb55-dd48-42d4-9858-654f4bbae27a",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "066edb55-dd48-42d4-9858-654f4bbae27a",
+            "start_time": 1745006201.1123705,
+            "end_time": 1745006256.7750027,
+            "duration": 55.66263222694397,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "066edb55-dd48-42d4-9858-654f4bbae27a",
+                "parent_id": null,
+                "start_time": 1745006201.1123705,
+                "end_time": 1745006256.3622227,
+                "duration": 55.24985218048096,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "066edb55-dd48-42d4-9858-654f4bbae27a",
+                "parent_id": null,
+                "start_time": 1745006256.3622227,
+                "end_time": 1745006256.773986,
+                "duration": 0.41176342964172363,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "066edb55-dd48-42d4-9858-654f4bbae27a",
+                "parent_id": null,
+                "start_time": 1745006256.773986,
+                "end_time": 1745006256.7750027,
+                "duration": 0.0010166168212890625,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 49.49452042579651,
+      "success_rate": 0.0
+    },
+    "config_remote_remote_sync": {
+      "fusion_id": "config_remote_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 47.00872826576233,
+          "trace_id": "1b936242-3811-4858-8368-5a858e7eb05e",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "1b936242-3811-4858-8368-5a858e7eb05e",
+            "start_time": 1745006256.7760544,
+            "end_time": 1745006303.7847826,
+            "duration": 47.00872826576233,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "1b936242-3811-4858-8368-5a858e7eb05e",
+                "parent_id": null,
+                "start_time": 1745006256.7771215,
+                "end_time": 1745006303.3205807,
+                "duration": 46.54345917701721,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "1b936242-3811-4858-8368-5a858e7eb05e",
+                "parent_id": null,
+                "start_time": 1745006303.3205807,
+                "end_time": 1745006303.783555,
+                "duration": 0.46297430992126465,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "1b936242-3811-4858-8368-5a858e7eb05e",
+                "parent_id": null,
+                "start_time": 1745006303.7840354,
+                "end_time": 1745006303.7847826,
+                "duration": 0.0007472038269042969,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 58.19623565673828,
+          "trace_id": "8b51739e-4463-4be8-980d-1c29097a1784",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "8b51739e-4463-4be8-980d-1c29097a1784",
+            "start_time": 1745006303.785789,
+            "end_time": 1745006361.9820247,
+            "duration": 58.19623565673828,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "8b51739e-4463-4be8-980d-1c29097a1784",
+                "parent_id": null,
+                "start_time": 1745006303.785789,
+                "end_time": 1745006361.5199862,
+                "duration": 57.73419713973999,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "8b51739e-4463-4be8-980d-1c29097a1784",
+                "parent_id": null,
+                "start_time": 1745006361.5199862,
+                "end_time": 1745006361.9804435,
+                "duration": 0.46045732498168945,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "8b51739e-4463-4be8-980d-1c29097a1784",
+                "parent_id": null,
+                "start_time": 1745006361.9804435,
+                "end_time": 1745006361.9820247,
+                "duration": 0.0015811920166015625,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 44.324249505996704,
+          "trace_id": "671394a3-158f-4eb0-8851-ca790000ddec",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "671394a3-158f-4eb0-8851-ca790000ddec",
+            "start_time": 1745006361.984326,
+            "end_time": 1745006406.3085754,
+            "duration": 44.324249505996704,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "671394a3-158f-4eb0-8851-ca790000ddec",
+                "parent_id": null,
+                "start_time": 1745006361.984326,
+                "end_time": 1745006405.842431,
+                "duration": 43.858105182647705,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "671394a3-158f-4eb0-8851-ca790000ddec",
+                "parent_id": null,
+                "start_time": 1745006405.842431,
+                "end_time": 1745006406.3075514,
+                "duration": 0.4651203155517578,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "671394a3-158f-4eb0-8851-ca790000ddec",
+                "parent_id": null,
+                "start_time": 1745006406.3075514,
+                "end_time": 1745006406.3085754,
+                "duration": 0.001024007797241211,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'process_payment' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'process_payment' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 49.843071142832436,
+      "success_rate": 0.0
+    }
+  },
+  "analysis": {
+    "fastest_configuration": {
+      "name": "config_local_local_sync",
+      "avg_execution_time": 43.84747203191122
+    },
+    "most_reliable_configuration": {
+      "name": "config_local_local_sync",
+      "success_rate": 0.0
+    },
+    "cost_analysis": null
+  }
+}

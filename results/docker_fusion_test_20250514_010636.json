@@ -1,0 +1,133 @@
+{
+  "timestamp": "2025-05-14T01:05:19.585702",
+  "test_type": "docker_fusion_test",
+  "individual_functions": {
+    "individual_calls": {
+      "total_time_ms": 36030.412673950195,
+      "add_cart_time_ms": 3818.9587593078613,
+      "storage_time_ms": 0,
+      "overhead_ms": 32211.453914642334,
+      "steps": [
+        {
+          "statusCode": 500,
+          "body": {
+            "error": "503: Cannot reach function cartkvstorage",
+            "type": "HTTPException"
+          },
+          "metadata": {
+            "function": "add_cart_item",
+            "timestamp": "2025-05-13T23:05:28.405835",
+            "error": true
+          },
+          "execution_time_ms": 3818.9587593078613,
+          "service": "add-cart-item"
+        },
+        {
+          "error": "",
+          "service": "cart-kv-storage"
+        }
+      ]
+    }
+  },
+  "fusion_simulation": {
+    "fusion_call": {
+      "total_time_ms": 3788.919448852539,
+      "result": {
+        "statusCode": 500,
+        "body": {
+          "error": "503: Cannot reach function cartkvstorage",
+          "type": "HTTPException"
+        },
+        "metadata": {
+          "function": "add_cart_item",
+          "timestamp": "2025-05-13T23:06:04.407435",
+          "error": true
+        },
+        "execution_time_ms": 3788.895606994629,
+        "service": "add-cart-item"
+      }
+    }
+  },
+  "complex_workflow": {
+    "complex_individual": {
+      "total_time_ms": 3779.780626296997
+    },
+    "complex_fusion": {
+      "total_time_ms": 3731.5876483917236,
+      "result": {
+        "statusCode": 500,
+        "body": {
+          "error": "503: Cannot reach function getcart",
+          "type": "HTTPException"
+        },
+        "metadata": {
+          "function": "checkout",
+          "timestamp": "2025-05-13T23:06:11.917949",
+          "error": true
+        },
+        "execution_time_ms": 3731.56476020813,
+        "service": "checkout"
+      }
+    },
+    "comparison": {
+      "individual_time_ms": 3779.780626296997,
+      "fusion_time_ms": 3731.5876483917236,
+      "speedup_factor": 1.0129148722866108,
+      "time_saved_ms": 48.19297790527344
+    }
+  },
+  "network_effects": {
+    "network_effects": {
+      "average_latency_ms": 4912.169551849365,
+      "min_latency_ms": 3701.7226219177246,
+      "max_latency_ms": 9558.140993118286,
+      "latencies": [
+        3830.4638862609863,
+        3756.915330886841,
+        9558.140993118286,
+        3701.7226219177246,
+        3713.6049270629883
+      ],
+      "configured_base_latency_ms": 100,
+      "configured_jitter_ms": 10
+    }
+  },
+  "region_effects": {
+    "cart-kv-storage_us-east-1": {
+      "average_latency_ms": 2.766291300455729,
+      "region": "us-east-1",
+      "latencies": [
+        4.082202911376953,
+        2.268552780151367,
+        1.9481182098388672
+      ]
+    },
+    "shipment-quote_us-west-2": {
+      "average_latency_ms": 3.888368606567383,
+      "region": "us-west-2",
+      "latencies": [
+        4.406213760375977,
+        4.979133605957031,
+        2.2797584533691406
+      ]
+    },
+    "payment_us-west-2": {
+      "average_latency_ms": 62.68541018168131,
+      "region": "us-west-2",
+      "latencies": [
+        65.28258323669434,
+        60.79244613647461,
+        61.981201171875
+      ]
+    },
+    "currency_eu-west-1": {
+      "average_latency_ms": 12.405157089233398,
+      "region": "eu-west-1",
+      "latencies": [
+        23.096799850463867,
+        7.6236724853515625,
+        6.494998931884766
+      ]
+    }
+  }
+}

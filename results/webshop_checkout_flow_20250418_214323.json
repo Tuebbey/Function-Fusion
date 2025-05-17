@@ -1,0 +1,439 @@
+{
+  "test_configurations": {
+    "functions": [
+      "add_to_cart",
+      "calculate_shipping",
+      "process_payment"
+    ],
+    "strategy_space": [
+      "local",
+      "remote"
+    ],
+    "repetitions": 3,
+    "modes": [
+      "sync"
+    ],
+    "test_event": {
+      "userId": "user123",
+      "productId": "prod456",
+      "quantity": 2
+    }
+  },
+  "results": {
+    "config_local_local_sync": {
+      "fusion_id": "config_local_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "4f4faee6-aece-415a-8612-d4cfe921b62a",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "4f4faee6-aece-415a-8612-d4cfe921b62a",
+            "start_time": 1745005403.5403216,
+            "end_time": 1745005403.5403216,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "4f4faee6-aece-415a-8612-d4cfe921b62a",
+                "parent_id": null,
+                "start_time": 1745005403.5403216,
+                "end_time": 1745005403.5403216,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.002313375473022461,
+          "trace_id": "f9e5902d-2bdd-4c5a-a646-c85a4159edc7",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "f9e5902d-2bdd-4c5a-a646-c85a4159edc7",
+            "start_time": 1745005403.5403216,
+            "end_time": 1745005403.542635,
+            "duration": 0.002313375473022461,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "f9e5902d-2bdd-4c5a-a646-c85a4159edc7",
+                "parent_id": null,
+                "start_time": 1745005403.5419588,
+                "end_time": 1745005403.542635,
+                "duration": 0.0006761550903320312,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.001043081283569336,
+          "trace_id": "a89d75e5-543d-4b8e-843f-bccbd70f1dea",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "a89d75e5-543d-4b8e-843f-bccbd70f1dea",
+            "start_time": 1745005403.542635,
+            "end_time": 1745005403.543678,
+            "duration": 0.001043081283569336,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "a89d75e5-543d-4b8e-843f-bccbd70f1dea",
+                "parent_id": null,
+                "start_time": 1745005403.543678,
+                "end_time": 1745005403.543678,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 0.0011188189188639324,
+      "success_rate": 0.0
+    },
+    "config_local_remote_sync": {
+      "fusion_id": "config_local_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0010106563568115234,
+          "trace_id": "f70ea58d-8d37-4af0-90ed-ebe795463578",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "f70ea58d-8d37-4af0-90ed-ebe795463578",
+            "start_time": 1745005403.5442204,
+            "end_time": 1745005403.545231,
+            "duration": 0.0010106563568115234,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "f70ea58d-8d37-4af0-90ed-ebe795463578",
+                "parent_id": null,
+                "start_time": 1745005403.5442204,
+                "end_time": 1745005403.545231,
+                "duration": 0.0010106563568115234,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "789eb214-4402-42bd-b7f2-8eb562808b37",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "789eb214-4402-42bd-b7f2-8eb562808b37",
+            "start_time": 1745005403.545231,
+            "end_time": 1745005403.545231,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "789eb214-4402-42bd-b7f2-8eb562808b37",
+                "parent_id": null,
+                "start_time": 1745005403.545231,
+                "end_time": 1745005403.545231,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "c5f68b63-3c82-4459-8aba-59a00e5308e8",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "c5f68b63-3c82-4459-8aba-59a00e5308e8",
+            "start_time": 1745005403.5462308,
+            "end_time": 1745005403.5462308,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "c5f68b63-3c82-4459-8aba-59a00e5308e8",
+                "parent_id": null,
+                "start_time": 1745005403.5462308,
+                "end_time": 1745005403.5462308,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 0.0003368854522705078,
+      "success_rate": 0.0
+    },
+    "config_remote_local_sync": {
+      "fusion_id": "config_remote_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "2a6257ae-ac1b-4e26-94f0-0014ee529837",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "2a6257ae-ac1b-4e26-94f0-0014ee529837",
+            "start_time": 1745005403.5472374,
+            "end_time": 1745005403.5472374,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "2a6257ae-ac1b-4e26-94f0-0014ee529837",
+                "parent_id": null,
+                "start_time": 1745005403.5472374,
+                "end_time": 1745005403.5472374,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "524ba1b2-eab9-4aef-ad51-0fd16e94b631",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "524ba1b2-eab9-4aef-ad51-0fd16e94b631",
+            "start_time": 1745005403.5482957,
+            "end_time": 1745005403.5482957,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "524ba1b2-eab9-4aef-ad51-0fd16e94b631",
+                "parent_id": null,
+                "start_time": 1745005403.5482957,
+                "end_time": 1745005403.5482957,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "2fd9423b-ae11-4035-8aac-26092bec2005",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "2fd9423b-ae11-4035-8aac-26092bec2005",
+            "start_time": 1745005403.5492315,
+            "end_time": 1745005403.5492315,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "2fd9423b-ae11-4035-8aac-26092bec2005",
+                "parent_id": null,
+                "start_time": 1745005403.5492315,
+                "end_time": 1745005403.5492315,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0
+    },
+    "config_remote_remote_sync": {
+      "fusion_id": "config_remote_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0010020732879638672,
+          "trace_id": "17d1977b-96e2-4ea3-9850-5650d29241d2",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "17d1977b-96e2-4ea3-9850-5650d29241d2",
+            "start_time": 1745005403.5492315,
+            "end_time": 1745005403.5502336,
+            "duration": 0.0010020732879638672,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "17d1977b-96e2-4ea3-9850-5650d29241d2",
+                "parent_id": null,
+                "start_time": 1745005403.5492315,
+                "end_time": 1745005403.5502336,
+                "duration": 0.0010020732879638672,
+                "status": "failed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "trace_id": "2bd6aac3-6a50-43f8-9df2-0e30bff9ac78",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "2bd6aac3-6a50-43f8-9df2-0e30bff9ac78",
+            "start_time": 1745005403.5502336,
+            "end_time": 1745005403.5502336,
+            "duration": 0.0,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "2bd6aac3-6a50-43f8-9df2-0e30bff9ac78",
+                "parent_id": null,
+                "start_time": 1745005403.5502336,
+                "end_time": 1745005403.5502336,
+                "duration": 0.0,
+                "status": "failed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.001505136489868164,
+          "trace_id": "7f2a00e0-e888-4b1c-9bbb-3252b56b761e",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "7f2a00e0-e888-4b1c-9bbb-3252b56b761e",
+            "start_time": 1745005403.5502336,
+            "end_time": 1745005403.5517387,
+            "duration": 0.001505136489868164,
+            "status": "failed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "7f2a00e0-e888-4b1c-9bbb-3252b56b761e",
+                "parent_id": null,
+                "start_time": 1745005403.5502336,
+                "end_time": 1745005403.5517387,
+                "duration": 0.001505136489868164,
+                "status": "failed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": "Funktion 'add_to_cart' nicht registriert."
+              }
+            }
+          },
+          "result": null,
+          "error": "Funktion 'add_to_cart' nicht registriert."
+        }
+      ],
+      "avg_execution_time": 0.0008357365926106771,
+      "success_rate": 0.0
+    }
+  },
+  "analysis": {
+    "fastest_configuration": {
+      "name": "config_remote_local_sync",
+      "avg_execution_time": 0.0
+    },
+    "most_reliable_configuration": {
+      "name": "config_local_local_sync",
+      "success_rate": 0.0
+    },
+    "cost_analysis": null
+  }
+}

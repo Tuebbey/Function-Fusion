@@ -1,0 +1,151 @@
+{
+  "test_configurations": {
+    "functions": [
+      "add_to_cart",
+      "calculate_shipping",
+      "process_payment"
+    ],
+    "strategy_space": [
+      "local",
+      "remote"
+    ],
+    "repetitions": 3,
+    "modes": [
+      "sync"
+    ],
+    "test_event": {
+      "userId": "user123",
+      "productId": "prod456",
+      "quantity": 2
+    }
+  },
+  "results": {
+    "config_local_local_sync": {
+      "fusion_id": null,
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        }
+      ],
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0
+    },
+    "config_local_remote_sync": {
+      "fusion_id": null,
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        }
+      ],
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0
+    },
+    "config_remote_local_sync": {
+      "fusion_id": null,
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        }
+      ],
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0
+    },
+    "config_remote_remote_sync": {
+      "fusion_id": null,
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        },
+        {
+          "status": "error",
+          "execution_time": 0.0,
+          "error": "[FusionEngine] Fusion 'None' nicht gefunden."
+        }
+      ],
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0
+    }
+  },
+  "analysis": {
+    "fastest_configuration": {
+      "name": "config_local_local_sync",
+      "avg_execution_time": 0.0
+    },
+    "most_reliable_configuration": {
+      "name": "config_local_local_sync",
+      "success_rate": 0.0
+    },
+    "cost_analysis": null
+  }
+}

@@ -1,0 +1,500 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Frontend function
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/frontend
+    container_name: frontend
+    environment:
+      FUNCTION_NAME: frontend
+      MEMORY_SIZE: 256
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./functions/webshop/frontend:/app
+
+  # Cart related functions
+  add-cart-item:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/addcartitem
+    container_name: add-cart-item
+    environment:
+      FUNCTION_NAME: add_cart_item
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./functions/webshop/addcartitem:/app
+
+  cart-kv-storage:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/cartkvstorage
+    container_name: cart-kv-storage
+    environment:
+      FUNCTION_NAME: cartkvstorage
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8003:8000"
+    volumes:
+      - ./functions/webshop/cartkvstorage:/app
+
+  get-cart:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/getcart
+    container_name: get-cart
+    environment:
+      FUNCTION_NAME: getcart
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8004:8000"
+    volumes:
+      - ./functions/webshop/getcart:/app
+
+  empty-cart:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/emptycart
+    container_name: empty-cart
+    environment:
+      FUNCTION_NAME: emptycart
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8005:8000"
+    volumes:
+      - ./functions/webshop/emptycart:/app
+
+  # Product related functions
+  list-products:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/listproducts
+    container_name: list-products
+    environment:
+      FUNCTION_NAME: listproducts
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8006:8000"
+    volumes:
+      - ./functions/webshop/listproducts:/app
+
+  get-product:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/getproduct
+    container_name: get-product
+    environment:
+      FUNCTION_NAME: getproduct
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8007:8000"
+    volumes:
+      - ./functions/webshop/getproduct:/app
+
+  search-products:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/searchproducts
+    container_name: search-products
+    environment:
+      FUNCTION_NAME: searchproducts
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8008:8000"
+    volumes:
+      - ./functions/webshop/searchproducts:/app
+
+  list-recommendations:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/listrecommendations
+    container_name: list-recommendations
+    environment:
+      FUNCTION_NAME: listrecommendations
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8009:8000"
+    volumes:
+      - ./functions/webshop/listrecommendations:/app
+
+  # Shipping and checkout
+  shipment-quote:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/shipmentquote
+    container_name: shipment-quote
+    environment:
+      FUNCTION_NAME: shipmentquote
+      MEMORY_SIZE: 128
+      REGION: us-west-2  # Different region for shipping
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./functions/webshop/shipmentquote:/app
+
+  ship-order:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/shiporder
+    container_name: ship-order
+    environment:
+      FUNCTION_NAME: shiporder
+      MEMORY_SIZE: 256
+      REGION: us-west-2
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8011:8000"
+    volumes:
+      - ./functions/webshop/shiporder:/app
+
+  checkout:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/checkout
+    container_name: checkout
+    environment:
+      FUNCTION_NAME: checkout
+      MEMORY_SIZE: 256
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8012:8000"
+    volumes:
+      - ./functions/webshop/checkout:/app
+
+  # Payment processing
+  payment:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/payment
+    container_name: payment
+    environment:
+      FUNCTION_NAME: payment
+      MEMORY_SIZE: 256
+      REGION: us-west-2  # Different region for payment processing
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8013:8000"
+    volumes:
+      - ./functions/webshop/payment:/app
+
+  # Currency and support services
+  currency:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/currency
+    container_name: currency
+    environment:
+      FUNCTION_NAME: currency
+      MEMORY_SIZE: 128
+      REGION: eu-west-1  # Currency service in EU
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8014:8000"
+    volumes:
+      - ./functions/webshop/currency:/app
+
+  supported-currencies:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/supportedcurrencies
+    container_name: supported-currencies
+    environment:
+      FUNCTION_NAME: supportedcurrencies
+      MEMORY_SIZE: 128
+      REGION: eu-west-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8015:8000"
+    volumes:
+      - ./functions/webshop/supportedcurrencies:/app
+
+  # Marketing and ads
+  get-ads:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/getads
+    container_name: get-ads
+    environment:
+      FUNCTION_NAME: getads
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8016:8000"
+    volumes:
+      - ./functions/webshop/getads:/app
+
+  # Email service
+  email:
+    build:
+      context: .
+      dockerfile: docker/function.Dockerfile
+      args:
+        FUNCTION_NAME: webshop/email
+    container_name: email
+    environment:
+      FUNCTION_NAME: email
+      MEMORY_SIZE: 128
+      REGION: us-east-1
+      LATENCY_MS: 100
+      LATENCY_JITTER_MS: 10
+      LOSS_PERCENT: 0.5
+      CORRUPT_PERCENT: 0.1
+      REORDER_PERCENT: 0.2
+      BANDWIDTH_KBIT: 512
+    networks:
+      - lambda-network
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8017:8000"
+    volumes:
+      - ./functions/webshop/email:/app
+
+  # Central orchestrator/controller (optional)
+  fusion-controller:
+    build:
+      context: .
+      dockerfile: docker/fusion-controller.Dockerfile
+    container_name: fusion-controller
+    environment:
+      CONTROLLER_ROLE: fusion-orchestrator
+    networks:
+      - lambda-network
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+      - ./config:/app/config
+      - ./results:/app/results
+    depends_on:
+      - frontend
+      - add-cart-item
+      - cart-kv-storage
+      - get-cart
+      - empty-cart
+      - list-products
+      - get-product
+      - search-products
+      - list-recommendations
+      - shipment-quote
+      - ship-order
+      - checkout
+      - payment
+      - currency
+      - supported-currencies
+      - get-ads
+      - email
+
+networks:
+  lambda-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+
+volumes:
+  results:
+    driver: local

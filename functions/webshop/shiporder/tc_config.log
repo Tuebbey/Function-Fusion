@@ -1,0 +1,9 @@
+==== Netzwerkkonfiguration für shiporder ====
+Timestamp: Tue May 13 21:23:46 UTC 2025
+[entrypoint] Setze netem-Regeln:  delay 100ms 10ms loss 0.5% corrupt 0.1% reorder 0.2%
+Error: Specified qdisc kind is unknown.
+⚠️ Netem konnte nicht gesetzt werden
+[entrypoint] Setze TBF-Regel: 512kbit
+Error: Failed to find specified qdisc.
+⚠️ TBF konnte nicht gesetzt werden
+[entrypoint] Netzwerksetup abgeschlossen. Starte Server...

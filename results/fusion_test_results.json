@@ -1,0 +1,1481 @@
+{
+  "A": [
+    {
+      "traceId": "a42644fa-2e91-4e51-9477-6b875e82a6b2",
+      "fusionGroup": "A",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1825.6113529205322,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361104549.8064,
+      "endTimestamp": 1745361106375.4177,
+      "internalDuration": 1825.6113529205322,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1825.6113529205322
+        }
+      ]
+    },
+    {
+      "traceId": "fb0c4d13-c7f4-45b7-a65e-b25765cafe59",
+      "fusionGroup": "A",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1810.1468086242676,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361106376.523,
+      "endTimestamp": 1745361108185.2102,
+      "internalDuration": 1810.1468086242676,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1808.6872100830078
+        }
+      ]
+    },
+    {
+      "traceId": "bb4557a7-d5ed-47ee-bba7-06e9f2770293",
+      "fusionGroup": "A",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1803.5831451416016,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361108186.67,
+      "endTimestamp": 1745361109990.253,
+      "internalDuration": 1803.5831451416016,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1803.5831451416016
+        }
+      ]
+    }
+  ],
+  "B": [
+    {
+      "traceId": "28993f05-1514-429d-8317-0b3fb267c6ff",
+      "fusionGroup": "B",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1558.5906505584717,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361109990.253,
+      "endTimestamp": 1745361111548.8435,
+      "internalDuration": 1558.5906505584717,
+      "calls": [
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1557.5931072235107
+        }
+      ]
+    },
+    {
+      "traceId": "dbccb622-d3aa-48ad-9434-54853eff4833",
+      "fusionGroup": "B",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1576.4634609222412,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361111549.844,
+      "endTimestamp": 1745361113126.3074,
+      "internalDuration": 1576.4634609222412,
+      "calls": [
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1575.366497039795
+        }
+      ]
+    },
+    {
+      "traceId": "08f2d1a7-5e0b-4267-9c20-aaf3f41b599c",
+      "fusionGroup": "B",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1569.152593612671,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361113127.3135,
+      "endTimestamp": 1745361114695.1765,
+      "internalDuration": 1569.152593612671,
+      "calls": [
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1567.8632259368896
+        }
+      ]
+    }
+  ],
+  "C": [
+    {
+      "traceId": "4ade7bb6-b6f7-45d7-8dfa-14d05c11a81f",
+      "fusionGroup": "C",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 130.93042373657227,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361114697.4675,
+      "endTimestamp": 1745361114828.398,
+      "internalDuration": 130.93042373657227,
+      "calls": [
+        {
+          "called": "C",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 129.93288040161133
+        }
+      ]
+    },
+    {
+      "traceId": "959ebab4-a203-4fb0-921b-299d820f295e",
+      "fusionGroup": "C",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 127.26688385009766,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361114828.398,
+      "endTimestamp": 1745361114955.6648,
+      "internalDuration": 127.26688385009766,
+      "calls": [
+        {
+          "called": "C",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 127.26688385009766
+        }
+      ]
+    },
+    {
+      "traceId": "f5521f4b-b9c4-4f8b-ab41-b08d2f49bbf9",
+      "fusionGroup": "C",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 119.61078643798828,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361114955.6648,
+      "endTimestamp": 1745361115075.2756,
+      "internalDuration": 119.61078643798828,
+      "calls": [
+        {
+          "called": "C",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 118.60513687133789
+        }
+      ]
+    }
+  ],
+  "D": [
+    {
+      "traceId": "e2f0abd0-f7a7-4b03-a6dc-287cd7200282",
+      "fusionGroup": "D",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1050.1024723052979,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361115075.2756,
+      "endTimestamp": 1745361116125.3782,
+      "internalDuration": 1050.1024723052979,
+      "calls": [
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1050.1024723052979
+        }
+      ]
+    },
+    {
+      "traceId": "fa605c15-323a-4238-85d3-7400737838f5",
+      "fusionGroup": "D",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1050.900936126709,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361116126.397,
+      "endTimestamp": 1745361117177.2979,
+      "internalDuration": 1050.900936126709,
+      "calls": [
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1049.900770187378
+        }
+      ]
+    },
+    {
+      "traceId": "2fa53681-2a0b-4cdd-a968-c96da578eaa9",
+      "fusionGroup": "D",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1049.4332313537598,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361117178.3047,
+      "endTimestamp": 1745361118226.7407,
+      "internalDuration": 1049.4332313537598,
+      "calls": [
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1047.4436283111572
+        }
+      ]
+    }
+  ],
+  "E": [
+    {
+      "traceId": "b532c875-f6e3-4d40-a183-dc50904fe12e",
+      "fusionGroup": "E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 533.8747501373291,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361118229.459,
+      "endTimestamp": 1745361118762.327,
+      "internalDuration": 533.8747501373291,
+      "calls": [
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 532.177209854126
+        }
+      ]
+    },
+    {
+      "traceId": "bccfbe0a-69b9-469a-b9fe-2a69683608e6",
+      "fusionGroup": "E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 522.5355625152588,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361118764.4448,
+      "endTimestamp": 1745361119286.9805,
+      "internalDuration": 522.5355625152588,
+      "calls": [
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 521.6352939605713
+        }
+      ]
+    },
+    {
+      "traceId": "dac7ebcf-b730-4cb9-bd2c-fef22d8df622",
+      "fusionGroup": "E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 515.4964923858643,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119288.0715,
+      "endTimestamp": 1745361119803.568,
+      "internalDuration": 515.4964923858643,
+      "calls": [
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 514.4741535186768
+        }
+      ]
+    }
+  ],
+  "F": [
+    {
+      "traceId": "490bf046-308f-4b31-839b-ac5611250cf6",
+      "fusionGroup": "F",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 20.68018913269043,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119805.0781,
+      "endTimestamp": 1745361119825.7583,
+      "internalDuration": 20.68018913269043,
+      "calls": [
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 20.68018913269043
+        }
+      ]
+    },
+    {
+      "traceId": "e98fe863-458a-43e4-ad21-81a08b117c26",
+      "fusionGroup": "F",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 10.525941848754883,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119826.7542,
+      "endTimestamp": 1745361119837.28,
+      "internalDuration": 10.525941848754883,
+      "calls": [
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 10.525941848754883
+        }
+      ]
+    },
+    {
+      "traceId": "aa1f456c-ddc5-4eef-bdaa-e0f2c8e4255e",
+      "fusionGroup": "F",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 14.503955841064453,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119837.28,
+      "endTimestamp": 1745361119851.784,
+      "internalDuration": 14.503955841064453,
+      "calls": [
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 14.503955841064453
+        }
+      ]
+    }
+  ],
+  "G": [
+    {
+      "traceId": "bd43a47e-8739-4880-9f9f-4f4810fc2d5b",
+      "fusionGroup": "G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 15.94996452331543,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119852.6653,
+      "endTimestamp": 1745361119868.6152,
+      "internalDuration": 15.94996452331543,
+      "calls": [
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 15.94996452331543
+        }
+      ]
+    },
+    {
+      "traceId": "57f17788-f0b9-4927-978a-c7a1dc2cf52c",
+      "fusionGroup": "G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 15.282869338989258,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119868.6152,
+      "endTimestamp": 1745361119883.898,
+      "internalDuration": 15.282869338989258,
+      "calls": [
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 15.282869338989258
+        }
+      ]
+    },
+    {
+      "traceId": "9da1dca6-b993-436f-8fb8-be982c294e3e",
+      "fusionGroup": "G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 18.522977828979492,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119883.898,
+      "endTimestamp": 1745361119902.421,
+      "internalDuration": 18.522977828979492,
+      "calls": [
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 17.01807975769043
+        }
+      ]
+    }
+  ],
+  "A.B.C.D.E.F.G": [
+    {
+      "traceId": "68aa91ea-cba1-4af1-93e8-ed11127c3f3a",
+      "fusionGroup": "A.B.C.D.E.F.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 5140.106916427612,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361119903.416,
+      "endTimestamp": 1745361125043.523,
+      "internalDuration": 5140.106916427612,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1782.0794582366943
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1578.803539276123
+        },
+        {
+          "called": "C",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 153.48100662231445
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1059.6492290496826
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 530.1182270050049
+        },
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 21.335363388061523
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 11.813163757324219
+        }
+      ]
+    },
+    {
+      "traceId": "bebb4f33-71f6-4c32-8a32-e86c744d17bc",
+      "fusionGroup": "A.B.C.D.E.F.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 5101.7165184021,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361125043.523,
+      "endTimestamp": 1745361130145.2393,
+      "internalDuration": 5101.7165184021,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1814.3928050994873
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1573.9858150482178
+        },
+        {
+          "called": "C",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 132.1702003479004
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1030.1403999328613
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 513.9460563659668
+        },
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 21.050214767456055
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 13.070344924926758
+        }
+      ]
+    },
+    {
+      "traceId": "1e347139-ffed-4f08-8f36-adf40d83672f",
+      "fusionGroup": "A.B.C.D.E.F.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 5104.081392288208,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361130146.2468,
+      "endTimestamp": 1745361135250.3284,
+      "internalDuration": 5104.081392288208,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1797.2557544708252
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1573.7311840057373
+        },
+        {
+          "called": "C",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 133.0397129058838
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1045.0303554534912
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 526.7200469970703
+        },
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 13.03863525390625
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 14.756917953491211
+        }
+      ]
+    }
+  ],
+  "A.B.D.E": [
+    {
+      "traceId": "7b23f8c6-6d31-46f2-bbb4-57fe4ed9ad8b",
+      "fusionGroup": "A.B.D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4925.2259731292725,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361135251.3167,
+      "endTimestamp": 1745361140176.5425,
+      "internalDuration": 4925.2259731292725,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1784.2259407043457
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1557.9392910003662
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1058.7551593780518
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 524.3055820465088
+        }
+      ]
+    },
+    {
+      "traceId": "c244d862-3af5-49fb-8fe6-924148d9dd42",
+      "fusionGroup": "A.B.D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4946.784257888794,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361140178.5574,
+      "endTimestamp": 1745361145125.3416,
+      "internalDuration": 4946.784257888794,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1796.7464923858643
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1571.7461109161377
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1052.9212951660156
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 525.3703594207764
+        }
+      ]
+    },
+    {
+      "traceId": "0978caf7-8a2b-4e1f-848e-47fecf4b2bb4",
+      "fusionGroup": "A.B.D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 5020.244121551514,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361145128.7578,
+      "endTimestamp": 1745361150145.5857,
+      "internalDuration": 5020.244121551514,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1845.6294536590576
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1591.313123703003
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1049.8058795928955
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 528.3315181732178
+        }
+      ]
+    }
+  ],
+  "A.B": [
+    {
+      "traceId": "36bea6cf-fd1f-4d14-8c6d-14d5c18978e8",
+      "fusionGroup": "A.B",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 3383.5530281066895,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361150148.197,
+      "endTimestamp": 1745361153530.7393,
+      "internalDuration": 3383.5530281066895,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1820.2319145202637
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1562.3104572296143
+        }
+      ]
+    },
+    {
+      "traceId": "d91a7f14-7c66-4454-9e90-39ad947b275f",
+      "fusionGroup": "A.B",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 3383.391857147217,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361153532.738,
+      "endTimestamp": 1745361156916.13,
+      "internalDuration": 3383.391857147217,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1809.7972869873047
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1573.594570159912
+        }
+      ]
+    },
+    {
+      "traceId": "ab13e3f1-e414-4ac2-898a-4d52e466658a",
+      "fusionGroup": "A.B",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 3376.6684532165527,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361156917.238,
+      "endTimestamp": 1745361160293.9065,
+      "internalDuration": 3376.6684532165527,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1791.3341522216797
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1584.3429565429688
+        }
+      ]
+    }
+  ],
+  "A.B.D": [
+    {
+      "traceId": "4c9d442d-2753-4409-91de-cca3fd73e4d5",
+      "fusionGroup": "A.B.D",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4415.07363319397,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361160295.32,
+      "endTimestamp": 1745361164710.3936,
+      "internalDuration": 4415.07363319397,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1808.5260391235352
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1556.835651397705
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1047.701120376587
+        }
+      ]
+    },
+    {
+      "traceId": "eee175a0-08f1-4bb9-a44c-51d7d02f54e2",
+      "fusionGroup": "A.B.D",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4437.665939331055,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361164711.3208,
+      "endTimestamp": 1745361169148.9868,
+      "internalDuration": 4437.665939331055,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1817.8458213806152
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1591.6633605957031
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1026.7844200134277
+        }
+      ]
+    },
+    {
+      "traceId": "70c89be5-8f1c-490e-8c36-2b71eab68c3f",
+      "fusionGroup": "A.B.D",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4435.394048690796,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361169150.0996,
+      "endTimestamp": 1745361173583.9917,
+      "internalDuration": 4435.394048690796,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1805.8278560638428
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1572.3395347595215
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1052.6807308197021
+        }
+      ]
+    }
+  ],
+  "A.B.D.E.F.G": [
+    {
+      "traceId": "dbb340ed-f1fb-4832-82e0-05a02c261dba",
+      "fusionGroup": "A.B.D.E.F.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4962.3541831970215,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361173586.5068,
+      "endTimestamp": 1745361178548.861,
+      "internalDuration": 4962.3541831970215,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1800.9204864501953
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1557.6820373535156
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1050.177812576294
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 507.92717933654785
+        },
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 19.06609535217285
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 23.192882537841797
+        }
+      ]
+    },
+    {
+      "traceId": "50679a8d-876a-40d6-9391-af3768ee6431",
+      "fusionGroup": "A.B.D.E.F.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4947.804689407349,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361178548.861,
+      "endTimestamp": 1745361183494.6526,
+      "internalDuration": 4947.804689407349,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1794.08860206604
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1569.9043273925781
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1037.1432304382324
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 509.8226070404053
+        },
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 21.785974502563477
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 11.051416397094727
+        }
+      ]
+    },
+    {
+      "traceId": "c5688607-7fda-40b4-a022-f8c5dea15f1d",
+      "fusionGroup": "A.B.D.E.F.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4966.970920562744,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361183496.6658,
+      "endTimestamp": 1745361188463.6367,
+      "internalDuration": 4966.970920562744,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1790.5299663543701
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1590.1782512664795
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1037.379503250122
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 513.740062713623
+        },
+        {
+          "called": "F",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 21.319866180419922
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 12.78996467590332
+        }
+      ]
+    }
+  ],
+  "A.B.D.E.G": [
+    {
+      "traceId": "7cb75422-d07e-4180-97a6-e96a0cf496c8",
+      "fusionGroup": "A.B.D.E.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4936.158895492554,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361188465.147,
+      "endTimestamp": 1745361193401.306,
+      "internalDuration": 4936.158895492554,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1791.9039726257324
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1554.9254417419434
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1048.9392280578613
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 515.0113105773926
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 23.441553115844727
+        }
+      ]
+    },
+    {
+      "traceId": "8643c09d-1ac9-4b7e-88c0-cb3164c6272a",
+      "fusionGroup": "A.B.D.E.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4951.2388706207275,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361193402.328,
+      "endTimestamp": 1745361198353.5667,
+      "internalDuration": 4951.2388706207275,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1785.1204872131348
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1563.5318756103516
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1058.1681728363037
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 518.7146663665771
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 24.291038513183594
+        }
+      ]
+    },
+    {
+      "traceId": "88add086-1f64-4239-8579-89693e19cefc",
+      "fusionGroup": "A.B.D.E.G",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 4972.43595123291,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361198353.5667,
+      "endTimestamp": 1745361203324.8708,
+      "internalDuration": 4972.43595123291,
+      "calls": [
+        {
+          "called": "A",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1804.4061660766602
+        },
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1579.1571140289307
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1056.5426349639893
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 517.9634094238281
+        },
+        {
+          "called": "G",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 11.286497116088867
+        }
+      ]
+    }
+  ],
+  "B.D.E": [
+    {
+      "traceId": "26ae4dc2-4893-4d3b-9a41-6eec23b3ac77",
+      "fusionGroup": "B.D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 3133.5155963897705,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361203326.8784,
+      "endTimestamp": 1745361206459.5022,
+      "internalDuration": 3133.5155963897705,
+      "calls": [
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1549.9424934387207
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1055.6025505065918
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 527.0788669586182
+        }
+      ]
+    },
+    {
+      "traceId": "27eaaa16-6f80-4e13-8ada-5a9c296e17a1",
+      "fusionGroup": "B.D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 3160.712718963623,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361206461.3853,
+      "endTimestamp": 1745361209622.098,
+      "internalDuration": 3160.712718963623,
+      "calls": [
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1568.777322769165
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1066.5836334228516
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 525.3517627716064
+        }
+      ]
+    },
+    {
+      "traceId": "bdaa7c07-9675-4baa-81e2-034858b34731",
+      "fusionGroup": "B.D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 3169.222354888916,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361209624.8906,
+      "endTimestamp": 1745361212794.113,
+      "internalDuration": 3169.222354888916,
+      "calls": [
+        {
+          "called": "B",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1597.4466800689697
+        },
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1037.9807949066162
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 533.7948799133301
+        }
+      ]
+    }
+  ],
+  "D.E": [
+    {
+      "traceId": "08e4982f-bf10-48a0-826b-40196c5e7e64",
+      "fusionGroup": "D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1561.8932247161865,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361212796.3218,
+      "endTimestamp": 1745361214357.0127,
+      "internalDuration": 1561.8932247161865,
+      "calls": [
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1035.5262756347656
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 525.1646041870117
+        }
+      ]
+    },
+    {
+      "traceId": "58a2002a-41f4-4c6b-8c56-9e10184fb2b9",
+      "fusionGroup": "D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1570.0299739837646,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361214358.0134,
+      "endTimestamp": 1745361215927.1638,
+      "internalDuration": 1570.0299739837646,
+      "calls": [
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1051.2964725494385
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 516.8540477752686
+        }
+      ]
+    },
+    {
+      "traceId": "80fc54da-8a21-476c-8383-36c312da7824",
+      "fusionGroup": "D.E",
+      "source": "A",
+      "currentFunction": "A",
+      "billedDuration": 1563.0874633789062,
+      "maxMemoryUsed": 128,
+      "isRootInvocation": true,
+      "startTimestamp": 1745361215928.0435,
+      "endTimestamp": 1745361217491.1309,
+      "internalDuration": 1563.0874633789062,
+      "calls": [
+        {
+          "called": "D",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 1043.0474281311035
+        },
+        {
+          "called": "E",
+          "caller": null,
+          "local": true,
+          "sync": true,
+          "time": 516.1285400390625
+        }
+      ]
+    }
+  ]
+}

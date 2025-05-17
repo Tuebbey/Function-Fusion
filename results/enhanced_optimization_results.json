@@ -1,0 +1,21 @@
+{
+  "path_groups": [
+    [
+      "G",
+      "B",
+      "C",
+      "D",
+      "F",
+      "E",
+      "A"
+    ]
+  ],
+  "memory_configurations": {
+    "A.B.C.D.E.F.G": 6144
+  },
+  "optimization_weights": {
+    "latency": 0.7,
+    "cost": 0.3
+  },
+  "setup_string": "A.B.C.D.E.F.G"
+}

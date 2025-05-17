@@ -1,0 +1,24 @@
+{
+    "1234567890": {
+      "traceName": 1234567890,
+      "rules": {
+        "A": {
+          "A": {
+            "sync": {"strategy": "local"},
+            "async": {"strategy": "local"}
+          },
+          "B": {
+            "sync": {"strategy": "local"},
+            "async": {"strategy": "remote", "url": "B"}
+          }
+        },
+        "B": {
+          "C": {
+            "sync": {"strategy": "remote", "url": "C"},
+            "async": {"strategy": "remote", "url": "C"}
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,751 @@
+{
+  "test_configurations": {
+    "functions": [
+      "add_to_cart",
+      "calculate_shipping",
+      "process_payment"
+    ],
+    "strategy_space": [
+      "local",
+      "remote"
+    ],
+    "repetitions": 3,
+    "modes": [
+      "sync"
+    ],
+    "test_event": {
+      "userId": "user123",
+      "productId": "prod456",
+      "quantity": 2
+    }
+  },
+  "results": {
+    "config_local_local_sync": {
+      "fusion_id": "config_local_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 43.922099351882935,
+          "trace_id": "7492a6d7-bf06-494f-8318-3435692cd750",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "7492a6d7-bf06-494f-8318-3435692cd750",
+            "start_time": 1745076380.537558,
+            "end_time": 1745076424.4596574,
+            "duration": 43.922099351882935,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "7492a6d7-bf06-494f-8318-3435692cd750",
+                "parent_id": null,
+                "start_time": 1745076380.537558,
+                "end_time": 1745076423.4416826,
+                "duration": 42.90412449836731,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "7492a6d7-bf06-494f-8318-3435692cd750",
+                "parent_id": null,
+                "start_time": 1745076423.4416826,
+                "end_time": 1745076423.8585858,
+                "duration": 0.4169032573699951,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "7492a6d7-bf06-494f-8318-3435692cd750",
+                "parent_id": null,
+                "start_time": 1745076423.8585858,
+                "end_time": 1745076424.4596574,
+                "duration": 0.6010715961456299,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 40.63552975654602,
+          "trace_id": "241d1d25-7ddc-434d-bda4-a08f0834f890",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "241d1d25-7ddc-434d-bda4-a08f0834f890",
+            "start_time": 1745076424.4596574,
+            "end_time": 1745076465.0951872,
+            "duration": 40.63552975654602,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "241d1d25-7ddc-434d-bda4-a08f0834f890",
+                "parent_id": null,
+                "start_time": 1745076424.4596574,
+                "end_time": 1745076464.070262,
+                "duration": 39.61060452461243,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "241d1d25-7ddc-434d-bda4-a08f0834f890",
+                "parent_id": null,
+                "start_time": 1745076464.070262,
+                "end_time": 1745076464.4871993,
+                "duration": 0.41693735122680664,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "241d1d25-7ddc-434d-bda4-a08f0834f890",
+                "parent_id": null,
+                "start_time": 1745076464.4871993,
+                "end_time": 1745076465.0951872,
+                "duration": 0.6079878807067871,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 40.74421167373657,
+          "trace_id": "e277714f-f2db-408f-92fa-64cde6b594b7",
+          "trace_data": {
+            "fusion_id": "config_local_local",
+            "trace_id": "e277714f-f2db-408f-92fa-64cde6b594b7",
+            "start_time": 1745076465.0951872,
+            "end_time": 1745076505.8393989,
+            "duration": 40.74421167373657,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "e277714f-f2db-408f-92fa-64cde6b594b7",
+                "parent_id": null,
+                "start_time": 1745076465.0951872,
+                "end_time": 1745076504.8313985,
+                "duration": 39.73621129989624,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "e277714f-f2db-408f-92fa-64cde6b594b7",
+                "parent_id": null,
+                "start_time": 1745076504.8313985,
+                "end_time": 1745076505.237888,
+                "duration": 0.40648961067199707,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "e277714f-f2db-408f-92fa-64cde6b594b7",
+                "parent_id": null,
+                "start_time": 1745076505.237888,
+                "end_time": 1745076505.8393989,
+                "duration": 0.601510763168335,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        }
+      ],
+      "avg_execution_time": 41.76728026072184,
+      "success_rate": 1.0
+    },
+    "config_local_remote_sync": {
+      "fusion_id": "config_local_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 43.249619007110596,
+          "trace_id": "d933cfde-5257-4d06-86de-aab809b90491",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "d933cfde-5257-4d06-86de-aab809b90491",
+            "start_time": 1745076505.8402355,
+            "end_time": 1745076549.0898545,
+            "duration": 43.249619007110596,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "d933cfde-5257-4d06-86de-aab809b90491",
+                "parent_id": null,
+                "start_time": 1745076505.8402355,
+                "end_time": 1745076548.0229204,
+                "duration": 42.182684898376465,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "d933cfde-5257-4d06-86de-aab809b90491",
+                "parent_id": null,
+                "start_time": 1745076548.0229204,
+                "end_time": 1745076548.4864886,
+                "duration": 0.46356821060180664,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "d933cfde-5257-4d06-86de-aab809b90491",
+                "parent_id": null,
+                "start_time": 1745076548.4864886,
+                "end_time": 1745076549.0898545,
+                "duration": 0.6033658981323242,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 46.63210678100586,
+          "trace_id": "5c58d16f-c051-42b2-8daf-306e2f0ca8d1",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "5c58d16f-c051-42b2-8daf-306e2f0ca8d1",
+            "start_time": 1745076549.0898545,
+            "end_time": 1745076595.7219613,
+            "duration": 46.63210678100586,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "5c58d16f-c051-42b2-8daf-306e2f0ca8d1",
+                "parent_id": null,
+                "start_time": 1745076549.0898545,
+                "end_time": 1745076594.6445045,
+                "duration": 45.55465006828308,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "5c58d16f-c051-42b2-8daf-306e2f0ca8d1",
+                "parent_id": null,
+                "start_time": 1745076594.6445045,
+                "end_time": 1745076595.1136997,
+                "duration": 0.4691951274871826,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "5c58d16f-c051-42b2-8daf-306e2f0ca8d1",
+                "parent_id": null,
+                "start_time": 1745076595.1136997,
+                "end_time": 1745076595.7219613,
+                "duration": 0.6082615852355957,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 48.14972186088562,
+          "trace_id": "22614914-327e-4a79-971a-a8c6f32bbd93",
+          "trace_data": {
+            "fusion_id": "config_local_remote",
+            "trace_id": "22614914-327e-4a79-971a-a8c6f32bbd93",
+            "start_time": 1745076595.7219613,
+            "end_time": 1745076643.8716831,
+            "duration": 48.14972186088562,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "22614914-327e-4a79-971a-a8c6f32bbd93",
+                "parent_id": null,
+                "start_time": 1745076595.7219613,
+                "end_time": 1745076642.779808,
+                "duration": 47.057846784591675,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "22614914-327e-4a79-971a-a8c6f32bbd93",
+                "parent_id": null,
+                "start_time": 1745076642.779808,
+                "end_time": 1745076643.2543561,
+                "duration": 0.4745481014251709,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "22614914-327e-4a79-971a-a8c6f32bbd93",
+                "parent_id": null,
+                "start_time": 1745076643.2551668,
+                "end_time": 1745076643.8716831,
+                "duration": 0.6165163516998291,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        }
+      ],
+      "avg_execution_time": 46.01048254966736,
+      "success_rate": 1.0
+    },
+    "config_remote_local_sync": {
+      "fusion_id": "config_remote_local",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 43.41502785682678,
+          "trace_id": "0eadde7d-7055-4b22-8649-407aadba6ff6",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "0eadde7d-7055-4b22-8649-407aadba6ff6",
+            "start_time": 1745076643.8716831,
+            "end_time": 1745076687.286711,
+            "duration": 43.41502785682678,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "0eadde7d-7055-4b22-8649-407aadba6ff6",
+                "parent_id": null,
+                "start_time": 1745076643.8716831,
+                "end_time": 1745076686.2709608,
+                "duration": 42.399277687072754,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "0eadde7d-7055-4b22-8649-407aadba6ff6",
+                "parent_id": null,
+                "start_time": 1745076686.2709608,
+                "end_time": 1745076686.6818054,
+                "duration": 0.4108445644378662,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "0eadde7d-7055-4b22-8649-407aadba6ff6",
+                "parent_id": null,
+                "start_time": 1745076686.6818054,
+                "end_time": 1745076687.286711,
+                "duration": 0.6049056053161621,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 46.6082022190094,
+          "trace_id": "ea175a0a-0c13-4bc8-8570-7af1de814e7a",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "ea175a0a-0c13-4bc8-8570-7af1de814e7a",
+            "start_time": 1745076687.286711,
+            "end_time": 1745076733.8949132,
+            "duration": 46.6082022190094,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "ea175a0a-0c13-4bc8-8570-7af1de814e7a",
+                "parent_id": null,
+                "start_time": 1745076687.286711,
+                "end_time": 1745076732.8814733,
+                "duration": 45.594762325286865,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "ea175a0a-0c13-4bc8-8570-7af1de814e7a",
+                "parent_id": null,
+                "start_time": 1745076732.8814733,
+                "end_time": 1745076733.2848065,
+                "duration": 0.4033331871032715,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "ea175a0a-0c13-4bc8-8570-7af1de814e7a",
+                "parent_id": null,
+                "start_time": 1745076733.2848065,
+                "end_time": 1745076733.8949132,
+                "duration": 0.6101067066192627,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 48.0873589515686,
+          "trace_id": "202539cf-9221-46ab-a1f5-925a78f92c6a",
+          "trace_data": {
+            "fusion_id": "config_remote_local",
+            "trace_id": "202539cf-9221-46ab-a1f5-925a78f92c6a",
+            "start_time": 1745076733.8959,
+            "end_time": 1745076781.983259,
+            "duration": 48.0873589515686,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "202539cf-9221-46ab-a1f5-925a78f92c6a",
+                "parent_id": null,
+                "start_time": 1745076733.8969004,
+                "end_time": 1745076780.9639628,
+                "duration": 47.06706237792969,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "202539cf-9221-46ab-a1f5-925a78f92c6a",
+                "parent_id": null,
+                "start_time": 1745076780.9639628,
+                "end_time": 1745076781.3806322,
+                "duration": 0.4166693687438965,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "202539cf-9221-46ab-a1f5-925a78f92c6a",
+                "parent_id": null,
+                "start_time": 1745076781.3806322,
+                "end_time": 1745076781.983259,
+                "duration": 0.6026268005371094,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        }
+      ],
+      "avg_execution_time": 46.036863009134926,
+      "success_rate": 1.0
+    },
+    "config_remote_remote_sync": {
+      "fusion_id": "config_remote_remote",
+      "test_event": {
+        "userId": "user123",
+        "productId": "prod456",
+        "quantity": 2
+      },
+      "repetitions": 3,
+      "mode": "sync",
+      "results": [
+        {
+          "status": "success",
+          "execution_time": 44.48354244232178,
+          "trace_id": "6f7e66e8-e05d-4f08-969c-3895cd714038",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "6f7e66e8-e05d-4f08-969c-3895cd714038",
+            "start_time": 1745076781.983259,
+            "end_time": 1745076826.4668014,
+            "duration": 44.48354244232178,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "6f7e66e8-e05d-4f08-969c-3895cd714038",
+                "parent_id": null,
+                "start_time": 1745076781.983259,
+                "end_time": 1745076825.3977904,
+                "duration": 43.41453146934509,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "6f7e66e8-e05d-4f08-969c-3895cd714038",
+                "parent_id": null,
+                "start_time": 1745076825.3977904,
+                "end_time": 1745076825.8525803,
+                "duration": 0.4547898769378662,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "6f7e66e8-e05d-4f08-969c-3895cd714038",
+                "parent_id": null,
+                "start_time": 1745076825.8525803,
+                "end_time": 1745076826.4668014,
+                "duration": 0.6142210960388184,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 43.73292851448059,
+          "trace_id": "540fdc91-05fd-4495-9199-e68ed884d1d4",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "540fdc91-05fd-4495-9199-e68ed884d1d4",
+            "start_time": 1745076826.4668014,
+            "end_time": 1745076870.19973,
+            "duration": 43.73292851448059,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "540fdc91-05fd-4495-9199-e68ed884d1d4",
+                "parent_id": null,
+                "start_time": 1745076826.4668014,
+                "end_time": 1745076869.1279745,
+                "duration": 42.66117310523987,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "540fdc91-05fd-4495-9199-e68ed884d1d4",
+                "parent_id": null,
+                "start_time": 1745076869.1279745,
+                "end_time": 1745076869.591894,
+                "duration": 0.46391940116882324,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "540fdc91-05fd-4495-9199-e68ed884d1d4",
+                "parent_id": null,
+                "start_time": 1745076869.591894,
+                "end_time": 1745076870.19973,
+                "duration": 0.6078360080718994,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        },
+        {
+          "status": "success",
+          "execution_time": 41.76571464538574,
+          "trace_id": "38411300-ef03-4c79-80cb-c064f048789c",
+          "trace_data": {
+            "fusion_id": "config_remote_remote",
+            "trace_id": "38411300-ef03-4c79-80cb-c064f048789c",
+            "start_time": 1745076870.19973,
+            "end_time": 1745076911.9654446,
+            "duration": 41.76571464538574,
+            "status": "completed",
+            "nodes": {
+              "add_to_cart": {
+                "function_id": "add_to_cart",
+                "trace_id": "38411300-ef03-4c79-80cb-c064f048789c",
+                "parent_id": null,
+                "start_time": 1745076870.19973,
+                "end_time": 1745076910.884271,
+                "duration": 40.68454098701477,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "calculate_shipping": {
+                "function_id": "calculate_shipping",
+                "trace_id": "38411300-ef03-4c79-80cb-c064f048789c",
+                "parent_id": null,
+                "start_time": 1745076910.884271,
+                "end_time": 1745076911.3564818,
+                "duration": 0.4722108840942383,
+                "status": "completed",
+                "strategy": "remote",
+                "mode": "sync",
+                "error": null
+              },
+              "process_payment": {
+                "function_id": "process_payment",
+                "trace_id": "38411300-ef03-4c79-80cb-c064f048789c",
+                "parent_id": null,
+                "start_time": 1745076911.3564818,
+                "end_time": 1745076911.9654446,
+                "duration": 0.6089627742767334,
+                "status": "completed",
+                "strategy": "local",
+                "mode": "sync",
+                "error": null
+              }
+            }
+          },
+          "result": {
+            "warning": "listrecommendations ist ein Dummy"
+          },
+          "error": null
+        }
+      ],
+      "avg_execution_time": 43.32739520072937,
+      "success_rate": 1.0
+    }
+  },
+  "analysis": {
+    "fastest_configuration": {
+      "name": "config_local_local_sync",
+      "avg_execution_time": 41.76728026072184
+    },
+    "most_reliable_configuration": {
+      "name": "config_local_local_sync",
+      "success_rate": 1.0
+    },
+    "cost_analysis": null
+  }
+}
