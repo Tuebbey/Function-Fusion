@@ -1,0 +1,14 @@
+[global]
+ioengine=libaio
+direct=1
+time_based=1
+runtime=30
+group_reporting=1
+size=10M
+
+[lambda_tmp_mixed]
+bs=4k
+rw=randrw
+rwmixread=70
+numjobs=1
+directory=/tmp

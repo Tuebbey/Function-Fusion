@@ -3,6 +3,7 @@ import math
 import time
 import asyncio
 from typing import Dict, Any, List, Optional, Tuple
+from app.io.fio_simulator import FIOSimulator
 
 class PerformanceModel:
     """Modelliert die Leistungscharakteristika einer Lambda-Funktion."""
@@ -33,7 +34,10 @@ class PerformanceModel:
                 "io_intensive": 0.3  # I/O-intensive Funktionen profitieren weniger von höherem Memory
             }
         }
-        
+
+        # FIO-Simulator initialisieren
+        self.fio_simulator = FIOSimulator()
+
         if config:
             self.config.update(config)
     
@@ -95,30 +99,6 @@ class PerformanceModel:
         jitter = random.uniform(-0.05, 0.1)  # -50ms bis +100ms
         
         return self.config["cold_start_base"] * (1 + memory_effect) + jitter
-    
-    def simulate_io_operation(self, operation_type: str, data_size_kb: float = 1.0) -> float:
-        """Simuliert eine I/O-Operation mit realistischer Verzögerung."""
-        # Basis-Latenz für verschiedene Operationstypen
-        base_latencies = {
-            "read": self.config["io_latency_base"],
-            "write": self.config["io_latency_base"] * 2,
-            "query": self.config["io_latency_base"] * 4,
-            "scan": self.config["io_latency_base"] * 8
-        }
-        
-        # Standardwert, falls Operationstyp unbekannt
-        base_latency = base_latencies.get(operation_type, self.config["io_latency_base"])
-        
-        # Datengröße-Faktor (größere Datenmengen = mehr Zeit, aber nicht linear)
-        size_factor = math.log1p(data_size_kb) * 0.1
-        
-        # Jitter hinzufügen
-        jitter = random.uniform(
-            -self.config["io_latency_jitter"],
-            self.config["io_latency_jitter"]
-        )
-        
-        return (base_latency + size_factor + jitter) / 1000  # Umrechnung in Sekunden
         
     async def apply_execution_delay(self,
                                base_execution_time: float,
@@ -164,6 +144,63 @@ class PerformanceModel:
         # Rückgabewert erweitern
         details["applied_delay"] = delay
         return details
+    
+    def simulate_io_operation(self, 
+                            operation_type: str,
+                            data_size_kb: float = 1.0,
+                            storage_type: str = "dynamodb",
+                            region: str = "us-east-1",
+                            time_of_day: float = None,
+                            use_real_io: bool = True) -> Dict[str, Any]:
+        """
+        Simuliert verschiedene I/O-Operationen und gibt Ausführungszeit und Kosten zurück.
+        
+        Args:
+            operation_type: Art der Operation (read, write, query, scan)
+            data_size_kb: Datengröße in KB
+            storage_type: Speichertyp (dynamodb, s3, rds, efs, tmp, etc.)
+            region: AWS-Region
+            time_of_day: Tageszeit als Stunde (0-23)
+            use_real_io: Ob echte I/O-Tests mit FIO durchgeführt werden sollen
+            
+        Returns:
+            Dict mit Latenz und Kosten der Operation
+        """
+        # Wenn es sich um lokale Datei-I/O handelt und real I/O aktiviert ist
+        if storage_type == "tmp" and use_real_io:
+            # Umrechnung in MB mit Mindestwert von 1 MB
+            size_mb = max(1, data_size_kb / 1024)
+            
+            # Passenden FIO-Test bestimmen
+            if operation_type == "read":
+                pattern = "random_read"
+            elif operation_type == "write":
+                pattern = "random_write"
+            else:
+                pattern = "mixed"
+            
+            # FIO-Test durchführen
+            io_stats = self.fio_simulator.run_io_pattern(
+                pattern_name=pattern,
+                size_mb=int(size_mb),
+                duration_sec=2  # Kurzer Test für schnellere Simulationen
+            )
+            
+            # Latenz berechnen basierend auf den Ergebnissen
+            if "error" not in io_stats:
+                latency_type = "read" if operation_type == "read" else "write"
+                latency_ns = io_stats.get("latency_ns", {}).get(latency_type, {}).get("mean", 0)
+                latency = latency_ns / 1_000_000_000  # Umrechnung in Sekunden
+                
+                return {
+                    "success": True,
+                    "latency": latency,
+                    "cost": 0,  # Lokales I/O hat keine direkten Kosten
+                    "storage_type": storage_type,
+                    "operation_type": operation_type,
+                    "data_size_kb": data_size_kb,
+                    "io_stats": io_stats
+                }
     
     def simulate_execution_time_detailed(self,
                                  base_execution_time: float,
@@ -243,3 +280,5 @@ class PerformanceModel:
         
         details["total_execution_time"] = total_execution_time
         return total_execution_time, details
+    
+    
