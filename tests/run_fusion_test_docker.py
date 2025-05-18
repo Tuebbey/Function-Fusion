@@ -10,6 +10,7 @@ import logging
 import os
 import sys
 import time
+import random
 import httpx
 from datetime import datetime
 from typing import Dict, List, Any, Optional
@@ -34,27 +35,27 @@ class DockerFusionTester:
         # Function Service Mappings (Port zu Service)
         self.service_ports = {
             "frontend": 8001,
-            "add-cart-item": 8002,
-            "cart-kv-storage": 8003,
-            "get-cart": 8004,
-            "empty-cart": 8005,
-            "list-products": 8006,
-            "get-product": 8007,
-            "search-products": 8008,
-            "list-recommendations": 8009,
-            "shipment-quote": 8010,
-            "ship-order": 8011,
+            "addcartitem": 8002,
+            "cartkvstorage": 8003,
+            "getcart": 8004,
+            "emptycart": 8005,
+            "listproducts": 8006,
+            "getproduct": 8007,
+            "searchproducts": 8008,
+            "listrecommendations": 8009,
+            "shipmentquote": 8010,
+            "shiporder": 8011,
             "checkout": 8012,
             "payment": 8013,
             "currency": 8014,
-            "supported-currencies": 8015,
-            "get-ads": 8016,
+            "supportedcurrencies": 8015,
+            "getads": 8016,
             "email": 8017
         }
     
     async def setup(self):
         """Setup HTTP Client"""
-        self.client = httpx.AsyncClient(timeout=30.0)
+        self.client = httpx.AsyncClient(timeout=120.0)
         logger.info("HTTP Client initialisiert")
     
     async def cleanup(self):
@@ -109,7 +110,7 @@ class DockerFusionTester:
         start_time = time.time()
         
         # Schritt 1: Add Cart Item
-        add_result = await self.invoke_function("add-cart-item", test_event)
+        add_result = await self.invoke_function("addcartitem", test_event)
         logger.info(f"Add to Cart: {add_result.get('execution_time_ms', 0):.2f}ms")
         
         # Schritt 2: Cart Storage (separater Aufruf)
@@ -121,7 +122,7 @@ class DockerFusionTester:
                 "quantity": test_event["quantity"]
             }
         }
-        storage_result = await self.invoke_function("cart-kv-storage", storage_event)
+        storage_result = await self.invoke_function("cartkvstorage", storage_event)
         logger.info(f"Cart Storage: {storage_result.get('execution_time_ms', 0):.2f}ms")
         
         total_time = time.time() - start_time
@@ -140,7 +141,7 @@ class DockerFusionTester:
     async def test_fusion_simulation(self) -> Dict[str, Any]:
         """
         Test 2: Simulierte Function Fusion
-        Ruft add-cart-item auf, welches intern cart-kv-storage aufruft
+        Ruft addcartitem auf, welches intern cartkvstorage aufruft
         """
         logger.info("=== Test 2: Simulierte Function Fusion ===")
         
@@ -152,8 +153,8 @@ class DockerFusionTester:
         
         start_time = time.time()
         
-        # Add Cart Item ruft intern cart-kv-storage auf
-        fusion_result = await self.invoke_function("add-cart-item", test_event)
+        # Add Cart Item ruft intern cartkvstorage auf
+        fusion_result = await self.invoke_function("addcartitem", test_event)
         
         total_time = time.time() - start_time
         
@@ -181,11 +182,11 @@ class DockerFusionTester:
         
         # 1. Add to Cart
         add_event = {"userId": "user789", "productId": "prod101", "quantity": 1}
-        await self.invoke_function("add-cart-item", add_event)
+        await self.invoke_function("addcartitem", add_event)
         
         # 2. Calculate Shipping  
         shipping_event = {"userId": "user789", "items": [{"productId": "prod101", "quantity": 1}]}
-        await self.invoke_function("shipment-quote", shipping_event)
+        await self.invoke_function("shipmentquote", shipping_event)
         
         # 3. Process Payment
         payment_event = {"amount": 100, "currency": "USD"}
@@ -248,7 +249,7 @@ class DockerFusionTester:
         
         for i in range(repetitions):
             start_time = time.time()
-            await self.invoke_function("get-cart", {"userId": "test"})
+            await self.invoke_function("getcart", {"userId": "test"})
             latency = (time.time() - start_time) * 1000
             latencies.append(latency)
             logger.info(f"Durchlauf {i+1}: {latency:.2f}ms")
@@ -270,7 +271,7 @@ class DockerFusionTester:
         logger.info(f"Min: {min_latency:.2f}ms, Max: {max_latency:.2f}ms")
         
         return results
-    
+        
     async def test_different_regions(self) -> Dict[str, Any]:
         """
         Test 5: Regionseffekte testen
@@ -282,8 +283,8 @@ class DockerFusionTester:
         
         # Services in verschiedenen Regionen
         region_tests = [
-            ("cart-kv-storage", "us-east-1", {"operation": "get", "userId": "test-user"}),
-            ("shipment-quote", "us-west-2", {"userId": "test-user", "items": []}),
+            ("cartkvstorage", "us-east-1", {"operation": "get", "userId": "test-user"}),
+            ("shipmentquote", "us-west-2", {"userId": "test-user", "items": []}),
             ("payment", "us-west-2", {"orderId": "xyz", "amount": 42.0}),
             ("currency", "eu-west-1", {"from": 1.0, "toCode": "EUR"})
         ]
@@ -308,6 +309,146 @@ class DockerFusionTester:
         
         return results
     
+    async def test_io_performance_sampling(self, sampling_rate=0.01) -> Dict[str, Any]:
+        """
+        Test 6: I/O-Performance mit Sampling-Ansatz
+        Führt reguläre Tests mit leichtgewichtigen I/O durch und verwendet FIO nur für eine Teilmenge
+        
+        Args:
+            sampling_rate: Anteil der Tests, die FIO verwenden sollen (0.0-1.0)
+        """
+        logger.info(f"=== Test 6: I/O-Performance mit Sampling (Rate: {sampling_rate:.1%}) ===")
+        
+        results = {}
+        runs = 10  # Anzahl der Testläufe
+        
+        # I/O-Konfigurationen für verschiedene Intensitäten
+        io_configs = [
+            {"iterations": 1, "file_size_kb": 10, "enable_fsync": False},  # Leicht
+            {"iterations": 5, "file_size_kb": 50, "enable_fsync": True},   # Mittel
+            {"iterations": 10, "file_size_kb": 100, "enable_fsync": True}  # Schwer
+        ]
+        
+        # Tests für jede I/O-Konfiguration
+        for config_index, io_config in enumerate(io_configs):
+            config_name = f"io_intensity_{config_index}"
+            results[config_name] = {
+                "config": io_config,
+                "direct_calls": [],
+                "fusion_calls": [],
+                "fio_samples": []
+            }
+            
+            logger.info(f"Teste I/O-Konfiguration {config_index+1}/{len(io_configs)}: {io_config}")
+            
+            for i in range(runs):
+                # Bestimme, ob dieser Test FIO verwenden soll
+                use_fio = random.random() < sampling_rate
+                
+                # Erstelle die Parameter für den Test
+                test_id = f"io_test_{config_index}_{i}_{int(time.time())}"
+                params = {
+                    "io_params": {
+                        **io_config,
+                        "enable_fio": use_fio
+                    }
+                }
+                
+                # Test 1: Direkte I/O-Operationen
+                start_time = time.time()
+                direct_result = await self.invoke_function("cartkvstorage", {
+                    "operation": "add",
+                    "userId": f"{test_id}_direct",
+                    "item": {"productId": "perf_test", "quantity": 1},
+                    **params
+                })
+                direct_time = (time.time() - start_time) * 1000
+                
+                # Extrahiere Performance-Daten
+                direct_perf = self._extract_performance_data(direct_result)
+                direct_perf["total_time_ms"] = direct_time
+                results[config_name]["direct_calls"].append(direct_perf)
+                
+                # Test 2: Function Fusion
+                start_time = time.time()
+                fusion_result = await self.invoke_function("addcartitem", {
+                    "userId": f"{test_id}_fusion",
+                    "productId": "perf_test",
+                    "quantity": 1,
+                    **params
+                })
+                fusion_time = (time.time() - start_time) * 1000
+                
+                # Extrahiere Performance-Daten
+                fusion_perf = self._extract_fusion_performance_data(fusion_result)
+                fusion_perf["total_time_ms"] = fusion_time
+                results[config_name]["fusion_calls"].append(fusion_perf)
+                
+                # Speichere FIO-Ergebnisse, falls vorhanden
+                if use_fio and "fio_stats" in direct_perf:
+                    results[config_name]["fio_samples"].append(direct_perf["fio_stats"])
+                
+                # Logge Fortschritt
+                logger.info(f"  Lauf {i+1}/{runs}: " + 
+                             f"Direkt {direct_time:.1f}ms, Fusion {fusion_time:.1f}ms " +
+                             f"(FIO: {'Ja' if use_fio else 'Nein'})")
+            
+            # Berechne Durchschnittswerte für diese Konfiguration
+            avg_direct = self._calculate_average_metrics(results[config_name]["direct_calls"])
+            avg_fusion = self._calculate_average_metrics(results[config_name]["fusion_calls"])
+            
+            speedup = avg_direct["total_time_ms"] / avg_fusion["total_time_ms"] if avg_fusion["total_time_ms"] > 0 else 0
+            
+            results[config_name]["summary"] = {
+                "avg_direct_time_ms": avg_direct["total_time_ms"],
+                "avg_fusion_time_ms": avg_fusion["total_time_ms"],
+                "speedup_factor": speedup,
+                "fio_sample_count": len(results[config_name]["fio_samples"])
+            }
+            
+            logger.info(f"Zusammenfassung für I/O-Konfiguration {config_index+1}:")
+            logger.info(f"  Direkt: {avg_direct['total_time_ms']:.1f}ms")
+            logger.info(f"  Fusion: {avg_fusion['total_time_ms']:.1f}ms")
+            logger.info(f"  Speedup: {speedup:.2f}x")
+        
+        return results
+    
+    def _extract_performance_data(self, result):
+        """Extrahiert Performance-Daten aus dem Ergebnis."""
+        if isinstance(result, dict) and "body" in result:
+            body = result["body"]
+            if isinstance(body, dict) and "performance" in body:
+                return body["performance"]
+        return {}
+    
+    def _extract_fusion_performance_data(self, result):
+        """Extrahiert Performance-Daten aus dem Fusion-Ergebnis."""
+        if isinstance(result, dict) and "body" in result:
+            body = result["body"]
+            if isinstance(body, dict) and "response" in body:
+                response = body["response"]
+                if isinstance(response, dict) and "body" in response:
+                    resp_body = response["body"]
+                    if isinstance(resp_body, dict) and "performance" in resp_body:
+                        return resp_body["performance"]
+        return {}
+    
+    def _calculate_average_metrics(self, metrics_list):
+        """Berechnet Durchschnittswerte für eine Liste von Metriken."""
+        if not metrics_list:
+            return {"total_time_ms": 0}
+        
+        result = {"total_time_ms": 0}
+        for metrics in metrics_list:
+            for key, value in metrics.items():
+                if isinstance(value, (int, float)):
+                    result[key] = result.get(key, 0) + value
+        
+        for key in result:
+            result[key] /= len(metrics_list)
+        
+        return result
+        
     async def run_all_tests(self) -> Dict[str, Any]:
         """
         Führt alle Tests aus und sammelt die Ergebnisse
@@ -329,7 +470,8 @@ class DockerFusionTester:
             ("fusion_simulation", self.test_fusion_simulation), 
             ("complex_workflow", self.test_complex_workflow),
             ("network_effects", self.test_network_effects),
-            ("region_effects", self.test_different_regions)
+            ("region_effects", self.test_different_regions),
+            ("io_performance", lambda: self.test_io_performance_sampling(0.2))  # 20% FIO-Sampling für Demo
         ]
         
         for test_name, test_method in test_methods:
@@ -367,8 +509,8 @@ class DockerFusionTester:
         
         # Function Fusion Vergleich
         if "individual_functions" in results and "fusion_simulation" in results:
-            individual_time = results["individual_functions"].get("total_time_ms", 0)
-            fusion_time = results["fusion_simulation"]["fusion_call"].get("total_time_ms", 0)
+            individual_time = results["individual_functions"].get("individual_calls", {}).get("total_time_ms", 0)
+            fusion_time = results["fusion_simulation"].get("fusion_call", {}).get("total_time_ms", 0)
             
             if fusion_time > 0:
                 speedup = individual_time / fusion_time
@@ -395,6 +537,18 @@ class DockerFusionTester:
             logger.info(f"\nNetzwerkeffekte:")
             logger.info(f"  Durchschnittliche Latenz: {net['average_latency_ms']:.2f}ms")
             logger.info(f"  Konfigurierte Latenz: {net['configured_base_latency_ms']}ms ± {net['configured_jitter_ms']}ms")
+        
+        # I/O-Performance (neu)
+        if "io_performance" in results:
+            logger.info("\nI/O-Performance Tests:")
+            for config_name, config_data in results["io_performance"].items():
+                if "summary" in config_data:
+                    summary = config_data["summary"]
+                    logger.info(f"  {config_name}:")
+                    logger.info(f"    Direkt: {summary['avg_direct_time_ms']:.1f}ms")
+                    logger.info(f"    Fusion: {summary['avg_fusion_time_ms']:.1f}ms")
+                    logger.info(f"    Speedup: {summary['speedup_factor']:.2f}x")
+                    logger.info(f"    FIO-Samples: {summary['fio_sample_count']}")
         
         logger.info("="*50)
 

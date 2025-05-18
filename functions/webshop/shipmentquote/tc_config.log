@@ -1,6 +1,6 @@
 ==== Netzwerkkonfiguration für shipmentquote ====
-Timestamp: Tue May 13 21:23:47 UTC 2025
-[entrypoint] Setze netem-Regeln:  delay 100ms 10ms loss 0.5% corrupt 0.1% reorder 0.2%
+Timestamp: Sun May 18 12:34:28 UTC 2025
+[entrypoint] Setze netem-Regeln:  delay 20ms 5ms loss 0.01%
 Error: Specified qdisc kind is unknown.
 ⚠️ Netem konnte nicht gesetzt werden
 [entrypoint] Setze TBF-Regel: 512kbit

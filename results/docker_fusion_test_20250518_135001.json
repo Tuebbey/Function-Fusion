@@ -1,0 +1,196 @@
+{
+  "timestamp": "2025-05-18T13:49:56.031578",
+  "test_type": "docker_fusion_test",
+  "individual_functions": {
+    "individual_calls": {
+      "total_time_ms": 63.814401626586914,
+      "add_cart_time_ms": 45.061588287353516,
+      "storage_time_ms": 18.464088439941406,
+      "overhead_ms": 0.2887248992919922,
+      "steps": [
+        {
+          "statusCode": 200,
+          "body": {
+            "status": "added",
+            "response": {
+              "statusCode": 200,
+              "body": {
+                "status": "added",
+                "userId": "user123",
+                "item": {
+                  "productId": "prod456",
+                  "quantity": 2
+                }
+              },
+              "executionTime": 16.69018199754646,
+              "metadata": {
+                "function": "cartkvstorage",
+                "timestamp": "2025-05-18T11:50:01.077311",
+                "duration_ms": 16.69018199754646
+              }
+            }
+          },
+          "executionTime": 26.985026001057122,
+          "metadata": {
+            "function": "add_cart_item",
+            "timestamp": "2025-05-18T11:50:01.079238",
+            "duration_ms": 26.985026001057122
+          },
+          "execution_time_ms": 45.061588287353516,
+          "service": "addcartitem"
+        },
+        {
+          "statusCode": 200,
+          "body": {
+            "status": "added",
+            "userId": "user123",
+            "item": {
+              "productId": "prod456",
+              "quantity": 2
+            }
+          },
+          "executionTime": 15.024055006506387,
+          "metadata": {
+            "function": "cartkvstorage",
+            "timestamp": "2025-05-18T11:50:01.098136",
+            "duration_ms": 15.024055006506387
+          },
+          "execution_time_ms": 18.464088439941406,
+          "service": "cartkvstorage"
+        }
+      ]
+    }
+  },
+  "fusion_simulation": {
+    "fusion_call": {
+      "total_time_ms": 21.062135696411133,
+      "result": {
+        "statusCode": 200,
+        "body": {
+          "status": "added",
+          "response": {
+            "statusCode": 200,
+            "body": {
+              "status": "added",
+              "userId": "user123",
+              "item": {
+                "productId": "prod456",
+                "quantity": 2
+              }
+            },
+            "executionTime": 16.007173995603807,
+            "metadata": {
+              "function": "cartkvstorage",
+              "timestamp": "2025-05-18T11:50:01.118083",
+              "duration_ms": 16.007173995603807
+            }
+          }
+        },
+        "executionTime": 18.70951800083276,
+        "metadata": {
+          "function": "add_cart_item",
+          "timestamp": "2025-05-18T11:50:01.119568",
+          "duration_ms": 18.70951800083276
+        },
+        "execution_time_ms": 21.03114128112793,
+        "service": "addcartitem"
+      }
+    }
+  },
+  "complex_workflow": {
+    "complex_individual": {
+      "total_time_ms": 89.27631378173828
+    },
+    "complex_fusion": {
+      "total_time_ms": 356.51612281799316,
+      "result": {
+        "statusCode": 200,
+        "body": [
+          [],
+          {
+            "statusCode": 200,
+            "body": {
+              "units": 0,
+              "nanos": 0,
+              "currencyCode": "USD"
+            },
+            "executionTime": 0.024289001885335892,
+            "metadata": {
+              "function": "currency",
+              "timestamp": "2025-05-18T11:50:01.406167",
+              "duration_ms": 0.024289001885335892
+            }
+          }
+        ],
+        "executionTime": 352.77300199959427,
+        "metadata": {
+          "function": "checkout",
+          "timestamp": "2025-05-18T11:50:01.565350",
+          "duration_ms": 352.77300199959427
+        },
+        "execution_time_ms": 356.487512588501,
+        "service": "checkout"
+      }
+    },
+    "comparison": {
+      "individual_time_ms": 89.27631378173828,
+      "fusion_time_ms": 356.51612281799316,
+      "speedup_factor": 0.250413117578178,
+      "time_saved_ms": -267.2398090362549
+    }
+  },
+  "network_effects": {
+    "network_effects": {
+      "average_latency_ms": 9.167766571044922,
+      "min_latency_ms": 7.571697235107422,
+      "max_latency_ms": 10.02359390258789,
+      "latencies": [
+        10.02359390258789,
+        9.902000427246094,
+        9.546756744384766,
+        7.571697235107422,
+        8.794784545898438
+      ],
+      "configured_base_latency_ms": 100,
+      "configured_jitter_ms": 10
+    }
+  },
+  "region_effects": {
+    "cartkvstorage_us-east-1": {
+      "average_latency_ms": 1.7933050791422527,
+      "region": "us-east-1",
+      "latencies": [
+        2.157449722290039,
+        1.638174057006836,
+        1.5842914581298828
+      ]
+    },
+    "shipmentquote_us-west-2": {
+      "average_latency_ms": 2.0128885904947915,
+      "region": "us-west-2",
+      "latencies": [
+        1.981973648071289,
+        1.7125606536865234,
+        2.3441314697265625
+      ]
+    },
+    "payment_us-west-2": {
+      "average_latency_ms": 64.209779103597,
+      "region": "us-west-2",
+      "latencies": [
+        66.1323070526123,
+        62.36410140991211,
+        64.1329288482666
+      ]
+    },
+    "currency_eu-west-1": {
+      "average_latency_ms": 8.373339970906576,
+      "region": "eu-west-1",
+      "latencies": [
+        12.271404266357422,
+        6.567716598510742,
+        6.2808990478515625
+      ]
+    }
+  }
+}

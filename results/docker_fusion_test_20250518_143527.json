@@ -1,0 +1,1416 @@
+{
+  "timestamp": "2025-05-18T14:35:06.054645",
+  "test_type": "docker_fusion_test",
+  "individual_functions": {
+    "individual_calls": {
+      "total_time_ms": 72.64995574951172,
+      "add_cart_time_ms": 54.3365478515625,
+      "storage_time_ms": 18.08333396911621,
+      "overhead_ms": 0.2300739288330078,
+      "steps": [
+        {
+          "statusCode": 200,
+          "body": {
+            "status": "added",
+            "response": {
+              "statusCode": 200,
+              "body": {
+                "status": "added",
+                "userId": "user123",
+                "item": {
+                  "productId": "prod456",
+                  "quantity": 2
+                },
+                "performance": {
+                  "total_time_ms": 19.212722778320312,
+                  "cpu_time_ms": 17.738819122314453,
+                  "io_time_ms": 0.209808349609375,
+                  "io_stats": {
+                    "iterations": 1,
+                    "file_size_kb": 10,
+                    "fsync_enabled": false,
+                    "time_ms": 0.209808349609375
+                  },
+                  "fio_stats": {
+                    "enabled": false
+                  }
+                }
+              },
+              "executionTime": 19.23227499355562,
+              "metadata": {
+                "function": "cartkvstorage",
+                "timestamp": "2025-05-18T12:35:11.111031",
+                "duration_ms": 19.23227499355562
+              }
+            }
+          },
+          "executionTime": 30.891357993823476,
+          "metadata": {
+            "function": "add_cart_item",
+            "timestamp": "2025-05-18T12:35:11.112650",
+            "duration_ms": 30.891357993823476
+          },
+          "execution_time_ms": 54.3365478515625,
+          "service": "addcartitem"
+        },
+        {
+          "statusCode": 200,
+          "body": {
+            "status": "added",
+            "userId": "user123",
+            "item": {
+              "productId": "prod456",
+              "quantity": 2
+            },
+            "performance": {
+              "total_time_ms": 15.267372131347656,
+              "cpu_time_ms": 15.019893646240234,
+              "io_time_ms": 0.2167224884033203,
+              "io_stats": {
+                "iterations": 1,
+                "file_size_kb": 10,
+                "fsync_enabled": false,
+                "time_ms": 0.2167224884033203
+              },
+              "fio_stats": {
+                "enabled": false
+              }
+            }
+          },
+          "executionTime": 15.281598010915332,
+          "metadata": {
+            "function": "cartkvstorage",
+            "timestamp": "2025-05-18T12:35:11.131170",
+            "duration_ms": 15.281598010915332
+          },
+          "execution_time_ms": 18.08333396911621,
+          "service": "cartkvstorage"
+        }
+      ]
+    }
+  },
+  "fusion_simulation": {
+    "fusion_call": {
+      "total_time_ms": 20.251989364624023,
+      "result": {
+        "statusCode": 200,
+        "body": {
+          "status": "added",
+          "response": {
+            "statusCode": 200,
+            "body": {
+              "status": "added",
+              "userId": "user123",
+              "item": {
+                "productId": "prod456",
+                "quantity": 2
+              },
+              "performance": {
+                "total_time_ms": 15.331745147705078,
+                "cpu_time_ms": 15.063762664794922,
+                "io_time_ms": 0.23674964904785156,
+                "io_stats": {
+                  "iterations": 1,
+                  "file_size_kb": 10,
+                  "fsync_enabled": false,
+                  "time_ms": 0.23674964904785156
+                },
+                "fio_stats": {
+                  "enabled": false
+                }
+              }
+            },
+            "executionTime": 15.347027001553215,
+            "metadata": {
+              "function": "cartkvstorage",
+              "timestamp": "2025-05-18T12:35:11.150359",
+              "duration_ms": 15.347027001553215
+            }
+          }
+        },
+        "executionTime": 17.73109300120268,
+        "metadata": {
+          "function": "add_cart_item",
+          "timestamp": "2025-05-18T12:35:11.151641",
+          "duration_ms": 17.73109300120268
+        },
+        "execution_time_ms": 20.21932601928711,
+        "service": "addcartitem"
+      }
+    }
+  },
+  "complex_workflow": {
+    "complex_individual": {
+      "total_time_ms": 95.52502632141113
+    },
+    "complex_fusion": {
+      "total_time_ms": 329.8969268798828,
+      "result": {
+        "statusCode": 200,
+        "body": [
+          [],
+          {
+            "statusCode": 200,
+            "body": {
+              "units": 0,
+              "nanos": 0,
+              "currencyCode": "USD"
+            },
+            "executionTime": 0.02101800055243075,
+            "metadata": {
+              "function": "currency",
+              "timestamp": "2025-05-18T12:35:11.419857",
+              "duration_ms": 0.02101800055243075
+            }
+          }
+        ],
+        "executionTime": 325.99474499875214,
+        "metadata": {
+          "function": "checkout",
+          "timestamp": "2025-05-18T12:35:11.576627",
+          "duration_ms": 325.99474499875214
+        },
+        "execution_time_ms": 329.8633098602295,
+        "service": "checkout"
+      }
+    },
+    "comparison": {
+      "individual_time_ms": 95.52502632141113,
+      "fusion_time_ms": 329.8969268798828,
+      "speedup_factor": 0.28956021877764354,
+      "time_saved_ms": -234.37190055847168
+    }
+  },
+  "network_effects": {
+    "network_effects": {
+      "average_latency_ms": 8.760643005371094,
+      "min_latency_ms": 8.432388305664062,
+      "max_latency_ms": 9.356260299682617,
+      "latencies": [
+        9.356260299682617,
+        8.434057235717773,
+        8.633136749267578,
+        8.432388305664062,
+        8.947372436523438
+      ],
+      "configured_base_latency_ms": 100,
+      "configured_jitter_ms": 10
+    }
+  },
+  "region_effects": {
+    "cartkvstorage_us-east-1": {
+      "average_latency_ms": 2.7125676472981772,
+      "region": "us-east-1",
+      "latencies": [
+        3.882169723510742,
+        2.000093460083008,
+        2.2554397583007812
+      ]
+    },
+    "shipmentquote_us-west-2": {
+      "average_latency_ms": 2.9791990915934243,
+      "region": "us-west-2",
+      "latencies": [
+        2.840757369995117,
+        2.6710033416748047,
+        3.4258365631103516
+      ]
+    },
+    "payment_us-west-2": {
+      "average_latency_ms": 67.33838717142741,
+      "region": "us-west-2",
+      "latencies": [
+        70.47748565673828,
+        66.94698333740234,
+        64.5906925201416
+      ]
+    },
+    "currency_eu-west-1": {
+      "average_latency_ms": 8.629957834879557,
+      "region": "eu-west-1",
+      "latencies": [
+        12.412309646606445,
+        6.686687469482422,
+        6.790876388549805
+      ]
+    }
+  },
+  "io_performance": {
+    "io_intensity_0": {
+      "config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": false
+      },
+      "direct_calls": [
+        {
+          "total_time_ms": 1511.0652446746826,
+          "cpu_time_ms": 18.661975860595703,
+          "io_time_ms": 0.14781951904296875,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.14781951904296875
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 12576.423576
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 49.1259765625
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.078924053936
+            },
+            "time_ms": 1489.2172813415527
+          }
+        },
+        {
+          "total_time_ms": 19.284486770629883,
+          "cpu_time_ms": 16.031265258789062,
+          "io_time_ms": 0.15664100646972656,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15664100646972656
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 17.771482467651367,
+          "cpu_time_ms": 15.024900436401367,
+          "io_time_ms": 0.15044212341308594,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15044212341308594
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 1363.0707263946533,
+          "cpu_time_ms": 16.41678810119629,
+          "io_time_ms": 0.5159378051757812,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.5159378051757812
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 12536.463536
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 48.9697265625
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.07915791537200001
+            },
+            "time_ms": 1342.949390411377
+          }
+        },
+        {
+          "total_time_ms": 17.702579498291016,
+          "cpu_time_ms": 15.154361724853516,
+          "io_time_ms": 0.14495849609375,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.14495849609375
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 18.3258056640625,
+          "cpu_time_ms": 15.575408935546875,
+          "io_time_ms": 0.15425682067871094,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15425682067871094
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 17.696857452392578,
+          "cpu_time_ms": 15.011310577392578,
+          "io_time_ms": 0.15282630920410156,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15282630920410156
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 17.99178123474121,
+          "cpu_time_ms": 14.76430892944336,
+          "io_time_ms": 0.2593994140625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.2593994140625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 17.56882667541504,
+          "cpu_time_ms": 14.789342880249023,
+          "io_time_ms": 0.1423358917236328,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1423358917236328
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 18.207788467407227,
+          "cpu_time_ms": 15.200614929199219,
+          "io_time_ms": 0.2167224884033203,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.2167224884033203
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        }
+      ],
+      "fusion_calls": [
+        {
+          "total_time_ms": 20.86663246154785,
+          "cpu_time_ms": 15.291929244995117,
+          "io_time_ms": 0.18072128295898438,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.18072128295898438
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.844459533691406,
+          "cpu_time_ms": 15.409708023071289,
+          "io_time_ms": 0.156402587890625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.156402587890625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.016359329223633,
+          "cpu_time_ms": 15.882253646850586,
+          "io_time_ms": 0.15878677368164062,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15878677368164062
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 18.723487854003906,
+          "cpu_time_ms": 14.152765274047852,
+          "io_time_ms": 0.1323223114013672,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1323223114013672
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.485567092895508,
+          "cpu_time_ms": 14.80555534362793,
+          "io_time_ms": 0.2982616424560547,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.2982616424560547
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 19.433259963989258,
+          "cpu_time_ms": 14.381647109985352,
+          "io_time_ms": 0.2353191375732422,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.2353191375732422
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.60866355895996,
+          "cpu_time_ms": 15.04659652709961,
+          "io_time_ms": 0.15473365783691406,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15473365783691406
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 19.583702087402344,
+          "cpu_time_ms": 14.412164688110352,
+          "io_time_ms": 0.18453598022460938,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.18453598022460938
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.35665512084961,
+          "cpu_time_ms": 15.295743942260742,
+          "io_time_ms": 0.14829635620117188,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.14829635620117188
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.772933959960938,
+          "cpu_time_ms": 14.716386795043945,
+          "io_time_ms": 0.22339820861816406,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.22339820861816406
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        }
+      ],
+      "fio_samples": [
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 12576.423576
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 49.1259765625
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.078924053936
+          },
+          "time_ms": 1489.2172813415527
+        },
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 12536.463536
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 48.9697265625
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.07915791537200001
+          },
+          "time_ms": 1342.949390411377
+        }
+      ],
+      "summary": {
+        "avg_direct_time_ms": 301.8685579299927,
+        "avg_fusion_time_ms": 20.36917209625244,
+        "speedup_factor": 14.819873704416834,
+        "fio_sample_count": 2
+      }
+    },
+    "io_intensity_1": {
+      "config": {
+        "iterations": 5,
+        "file_size_kb": 50,
+        "enable_fsync": true
+      },
+      "direct_calls": [
+        {
+          "total_time_ms": 45.39752006530762,
+          "cpu_time_ms": 15.093564987182617,
+          "io_time_ms": 27.68874168395996,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 27.68874168395996
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 1398.428201675415,
+          "cpu_time_ms": 14.191389083862305,
+          "io_time_ms": 19.809961318969727,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 19.809961318969727
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 13070.929071
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 51.0576171875
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.075937566035
+            },
+            "time_ms": 1360.9497547149658
+          }
+        },
+        {
+          "total_time_ms": 39.130449295043945,
+          "cpu_time_ms": 15.433788299560547,
+          "io_time_ms": 21.091461181640625,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 21.091461181640625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 37.784576416015625,
+          "cpu_time_ms": 15.661239624023438,
+          "io_time_ms": 19.38486099243164,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 19.38486099243164
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 1376.265525817871,
+          "cpu_time_ms": 15.476703643798828,
+          "io_time_ms": 16.88361167907715,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 16.88361167907715
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 12794.205794
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 49.9765625
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.077573400172
+            },
+            "time_ms": 1340.3775691986084
+          }
+        },
+        {
+          "total_time_ms": 41.1677360534668,
+          "cpu_time_ms": 16.021728515625,
+          "io_time_ms": 22.5217342376709,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 22.5217342376709
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 36.99779510498047,
+          "cpu_time_ms": 16.721248626708984,
+          "io_time_ms": 17.397403717041016,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 17.397403717041016
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 38.637399673461914,
+          "cpu_time_ms": 16.797780990600586,
+          "io_time_ms": 18.77617835998535,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 18.77617835998535
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 38.953542709350586,
+          "cpu_time_ms": 16.463518142700195,
+          "io_time_ms": 19.302845001220703,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 19.302845001220703
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 50.957679748535156,
+          "cpu_time_ms": 16.477584838867188,
+          "io_time_ms": 31.879901885986328,
+          "io_stats": {
+            "iterations": 5,
+            "file_size_kb": 50,
+            "fsync_enabled": true,
+            "time_ms": 31.879901885986328
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        }
+      ],
+      "fusion_calls": [
+        {
+          "total_time_ms": 19.93393898010254,
+          "cpu_time_ms": 15.041112899780273,
+          "io_time_ms": 0.1373291015625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1373291015625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 22.037267684936523,
+          "cpu_time_ms": 15.765905380249023,
+          "io_time_ms": 0.2129077911376953,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.2129077911376953
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.006107330322266,
+          "cpu_time_ms": 15.711545944213867,
+          "io_time_ms": 0.1533031463623047,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1533031463623047
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.135330200195312,
+          "cpu_time_ms": 15.654325485229492,
+          "io_time_ms": 0.15354156494140625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15354156494140625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.699262619018555,
+          "cpu_time_ms": 14.614343643188477,
+          "io_time_ms": 0.1881122589111328,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1881122589111328
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.891117095947266,
+          "cpu_time_ms": 16.179323196411133,
+          "io_time_ms": 0.22673606872558594,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.22673606872558594
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 34.832000732421875,
+          "cpu_time_ms": 16.530990600585938,
+          "io_time_ms": 0.1876354217529297,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1876354217529297
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 22.97353744506836,
+          "cpu_time_ms": 17.164945602416992,
+          "io_time_ms": 0.22125244140625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.22125244140625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 22.45807647705078,
+          "cpu_time_ms": 16.962528228759766,
+          "io_time_ms": 0.15997886657714844,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.15997886657714844
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 22.729873657226562,
+          "cpu_time_ms": 16.475439071655273,
+          "io_time_ms": 0.34427642822265625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.34427642822265625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        }
+      ],
+      "fio_samples": [
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 13070.929071
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 51.0576171875
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.075937566035
+          },
+          "time_ms": 1360.9497547149658
+        },
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 12794.205794
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 49.9765625
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.077573400172
+          },
+          "time_ms": 1340.3775691986084
+        }
+      ],
+      "summary": {
+        "avg_direct_time_ms": 310.3720426559448,
+        "avg_fusion_time_ms": 22.969651222229004,
+        "speedup_factor": 13.512266235700636,
+        "fio_sample_count": 2
+      }
+    },
+    "io_intensity_2": {
+      "config": {
+        "iterations": 10,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "direct_calls": [
+        {
+          "total_time_ms": 58.87293815612793,
+          "cpu_time_ms": 17.293214797973633,
+          "io_time_ms": 38.164615631103516,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 38.164615631103516
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 58.88652801513672,
+          "cpu_time_ms": 16.85619354248047,
+          "io_time_ms": 39.36433792114258,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 39.36433792114258
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 2839.221477508545,
+          "cpu_time_ms": 15.892505645751953,
+          "io_time_ms": 34.98029708862305,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 34.98029708862305
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 13270.729271
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 51.837890625
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.074812183002
+            },
+            "time_ms": 2784.2133045196533
+          }
+        },
+        {
+          "total_time_ms": 56.371450424194336,
+          "cpu_time_ms": 15.280961990356445,
+          "io_time_ms": 38.62738609313965,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 38.62738609313965
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 1396.5134620666504,
+          "cpu_time_ms": 16.15166664123535,
+          "io_time_ms": 38.459062576293945,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 38.459062576293945
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 12821.178821
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 50.08203125
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.077449087424
+            },
+            "time_ms": 1338.5438919067383
+          }
+        },
+        {
+          "total_time_ms": 63.573598861694336,
+          "cpu_time_ms": 15.152692794799805,
+          "io_time_ms": 45.30644416809082,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 45.30644416809082
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 1444.0324306488037,
+          "cpu_time_ms": 15.210866928100586,
+          "io_time_ms": 54.550886154174805,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 54.550886154174805
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 12943.056943
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 50.55859375
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.076715764433
+            },
+            "time_ms": 1371.6585636138916
+          }
+        },
+        {
+          "total_time_ms": 1452.758550643921,
+          "cpu_time_ms": 14.74308967590332,
+          "io_time_ms": 85.8147144317627,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 85.8147144317627
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 13641.358641
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 53.2861328125
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.07276685492500001
+            },
+            "time_ms": 1348.9575386047363
+          }
+        },
+        {
+          "total_time_ms": 57.83247947692871,
+          "cpu_time_ms": 15.105009078979492,
+          "io_time_ms": 39.36147689819336,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 39.36147689819336
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 1411.8952751159668,
+          "cpu_time_ms": 16.658306121826172,
+          "io_time_ms": 42.49095916748047,
+          "io_stats": {
+            "iterations": 10,
+            "file_size_kb": 100,
+            "fsync_enabled": true,
+            "time_ms": 42.49095916748047
+          },
+          "fio_stats": {
+            "pattern": "random_write",
+            "size_mb": 10,
+            "iops": {
+              "read": 0.0,
+              "write": 12857.142857
+            },
+            "bandwidth_kb": {
+              "read": 0.0,
+              "write": 50.22265625
+            },
+            "latency_ms": {
+              "read": 0.0,
+              "write": 0.077165718959
+            },
+            "time_ms": 1348.91939163208
+          }
+        }
+      ],
+      "fusion_calls": [
+        {
+          "total_time_ms": 21.532058715820312,
+          "cpu_time_ms": 16.074657440185547,
+          "io_time_ms": 0.1590251922607422,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.1590251922607422
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.679401397705078,
+          "cpu_time_ms": 16.21246337890625,
+          "io_time_ms": 0.28324127197265625,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.28324127197265625
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 23.787975311279297,
+          "cpu_time_ms": 16.355037689208984,
+          "io_time_ms": 0.2143383026123047,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.2143383026123047
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 19.77396011352539,
+          "cpu_time_ms": 14.890670776367188,
+          "io_time_ms": 0.13256072998046875,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.13256072998046875
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.009445190429688,
+          "cpu_time_ms": 15.633821487426758,
+          "io_time_ms": 0.20170211791992188,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.20170211791992188
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.78866958618164,
+          "cpu_time_ms": 15.199661254882812,
+          "io_time_ms": 0.4220008850097656,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.4220008850097656
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.129846572875977,
+          "cpu_time_ms": 15.771150588989258,
+          "io_time_ms": 0.21386146545410156,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.21386146545410156
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.039962768554688,
+          "cpu_time_ms": 15.207052230834961,
+          "io_time_ms": 0.17404556274414062,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.17404556274414062
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 20.456314086914062,
+          "cpu_time_ms": 14.934539794921875,
+          "io_time_ms": 0.12493133544921875,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.12493133544921875
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        },
+        {
+          "total_time_ms": 21.42500877380371,
+          "cpu_time_ms": 15.388727188110352,
+          "io_time_ms": 0.22172927856445312,
+          "io_stats": {
+            "iterations": 1,
+            "file_size_kb": 10,
+            "fsync_enabled": false,
+            "time_ms": 0.22172927856445312
+          },
+          "fio_stats": {
+            "enabled": false
+          }
+        }
+      ],
+      "fio_samples": [
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 13270.729271
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 51.837890625
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.074812183002
+          },
+          "time_ms": 2784.2133045196533
+        },
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 12821.178821
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 50.08203125
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.077449087424
+          },
+          "time_ms": 1338.5438919067383
+        },
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 12943.056943
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 50.55859375
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.076715764433
+          },
+          "time_ms": 1371.6585636138916
+        },
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 13641.358641
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 53.2861328125
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.07276685492500001
+          },
+          "time_ms": 1348.9575386047363
+        },
+        {
+          "pattern": "random_write",
+          "size_mb": 10,
+          "iops": {
+            "read": 0.0,
+            "write": 12857.142857
+          },
+          "bandwidth_kb": {
+            "read": 0.0,
+            "write": 50.22265625
+          },
+          "latency_ms": {
+            "read": 0.0,
+            "write": 0.077165718959
+          },
+          "time_ms": 1348.91939163208
+        }
+      ],
+      "summary": {
+        "avg_direct_time_ms": 883.9958190917969,
+        "avg_fusion_time_ms": 21.262264251708984,
+        "speedup_factor": 41.575808137214004,
+        "fio_sample_count": 5
+      }
+    }
+  }
+}
