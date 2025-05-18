@@ -5,202 +5,259 @@ import time
 import random
 import itertools
 import os
-import multiprocessing
-import numpy as np
 import httpx
-from typing import Dict, List, Any, Tuple, Set, Optional
+import logging
+import traceback
+from typing import Dict, List, Any, Optional, Set, Tuple
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
 
-class FunctionSignature:
-    """Repräsentiert die Signatur einer Funktion mit Ein- und Ausgabetypen."""
-    def __init__(self, name: str):
-        self.name = name
-        self.input_schema = {"type": "object"}
-        self.output_schema = {"type": "object"}
-        self.description = ""
-        
-    def __str__(self):
-        return f"{self.name}: {self.input_schema['type']} -> {self.output_schema['type']}"
+# Konfiguriere Logging mit detaillierterem Format
+logging.basicConfig(level=logging.INFO, 
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("fusion_optimizer")
 
+# Füge einen Stream-Handler für die Konsolenausgabe hinzu
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+logger.addHandler(console_handler)
 
-class FusionDiscovery:
-    """Entdeckt kompatible Funktionen für Fusionen basierend auf Signatur-Analyse."""
-    def __init__(self, runtime=None):
-        self.runtime = runtime
-        self.function_signatures = {}
-        
-    async def discover_all_function_signatures(self, functions=None):
-        """Entdeckt die Signatur (Ein-/Ausgabe) aller angegebenen Funktionen."""
-        if functions is None and self.runtime:
-            functions = list(self.runtime.functions.keys())
-        elif functions is None:
-            functions = []
-            
-        for func_name in functions:
-            await self.discover_function_signature(func_name)
-            
-    async def discover_function_signature(self, func_name):
-        """
-        Entdeckt die Signatur einer Funktion durch Testaufrufe oder Metadaten-Analyse.
-        
-        Dies würde in der Praxis durch Analyse von OpenAPI-Spezifikationen,
-        JSON-Schema-Definitionen oder automatisierten Tests erfolgen.
-        """
-        # Beispiel-Implementierung basierend auf Testaufrufen oder Metadaten
-        test_input = {"test": True}
-        
-        try:
-            # Testaufruf, um die Ausgabe zu analysieren, falls Runtime verfügbar
-            if self.runtime:
-                test_output = await self.runtime.invoke(func_name, test_input)
-                self.function_signatures[func_name] = {
-                    "input_schema": self._infer_schema(test_input),
-                    "output_schema": self._infer_schema(test_output)
-                }
-            else:
-                # Statischer Fallback ohne Runtime
-                self.function_signatures[func_name] = {
-                    "input_schema": {"type": "object"},
-                    "output_schema": {"type": "object"}
-                }
-            
-        except Exception as e:
-            print(f"Fehler bei der Analyse von {func_name}: {e}")
-            # Fallback-Signatur
-            self.function_signatures[func_name] = {
-                "input_schema": {"type": "object"},
-                "output_schema": {"type": "object"}
-            }
-            
-    def _infer_schema(self, data):
-        """Leitet ein JSON-Schema aus Beispieldaten ab."""
-        schema = {"type": "object", "properties": {}}
-        
-        if isinstance(data, dict):
-            for key, value in data.items():
-                if isinstance(value, str):
-                    schema["properties"][key] = {"type": "string"}
-                elif isinstance(value, (int, float)):
-                    schema["properties"][key] = {"type": "number"}
-                elif isinstance(value, bool):
-                    schema["properties"][key] = {"type": "boolean"}
-                elif isinstance(value, list):
-                    schema["properties"][key] = {"type": "array"}
-                elif isinstance(value, dict):
-                    schema["properties"][key] = self._infer_schema(value)
-                    
-        return schema
+# Aktiviere DEBUG-Level für detailliertere Logging-Informationen
+# Auskommentieren, um mehr Details zu sehen
+# logger.setLevel(logging.DEBUG)
+
+class FunctionCallGraph:
+    """
+    Repräsentiert einen gerichteten Graphen aller möglichen Funktionsaufrufe
+    und deren semantische Zusammenhänge.
+    """
     
-    def find_compatible_functions(self, source_function):
-        """Findet alle Funktionen, die mit der Ausgabe der Quellfunktion kompatibel sind."""
-        if source_function not in self.function_signatures:
+    def __init__(self):
+        logger.info("Initialisiere FunctionCallGraph")
+        # Adjazenzliste: function_name -> [possible_next_functions]
+        self.call_edges = {}
+        # Semantische Verträglichkeit: (from_func, to_func) -> bool
+        self.compatibility = {}
+        # Explizite Blacklist: Paare von Funktionen, die niemals aufgerufen werden sollten
+        self.blacklist = set()
+        
+    def add_function(self, func_name: str):
+        """Fügt eine neue Funktion zum Graphen hinzu."""
+        if func_name not in self.call_edges:
+            logger.debug(f"Füge Funktion zum Graph hinzu: {func_name}")
+            self.call_edges[func_name] = []
+    
+    def add_edge(self, from_func: str, to_func: str, compatible: bool = True):
+        """
+        Fügt eine gerichtete Kante zwischen zwei Funktionen hinzu.
+        
+        Args:
+            from_func: Name der aufrufenden Funktion
+            to_func: Name der aufgerufenen Funktion
+            compatible: Ob die Funktionen semantisch kompatibel sind
+        """
+        # Stelle sicher, dass beide Funktionen im Graphen sind
+        self.add_function(from_func)
+        self.add_function(to_func)
+        
+        # Füge Kante hinzu, falls sie noch nicht existiert
+        if to_func not in self.call_edges[from_func]:
+            logger.debug(f"Füge Kante hinzu: {from_func} -> {to_func} (kompatibel: {compatible})")
+            self.call_edges[from_func].append(to_func)
+        
+        # Setze Kompatibilität
+        self.compatibility[(from_func, to_func)] = compatible
+    
+    def add_blacklist_pair(self, func1: str, func2: str):
+        """Fügt ein Funktionspaar zur Blacklist hinzu."""
+        logger.debug(f"Füge Blacklist-Paar hinzu: {func1} <-> {func2}")
+        self.blacklist.add((func1, func2))
+        self.blacklist.add((func2, func1))  # Symmetrisch
+        
+        # Auch als inkompatibel markieren
+        self.compatibility[(func1, func2)] = False
+        self.compatibility[(func2, func1)] = False
+    
+    def get_possible_next_functions(self, func_name: str) -> List[str]:
+        """Gibt alle möglichen Folgefunktionen für eine gegebene Funktion zurück."""
+        if func_name not in self.call_edges:
             return []
-            
-        source_output = self.function_signatures[source_function]["output_schema"]
-        compatible_functions = []
-        
-        for target_function, signature in self.function_signatures.items():
-            if target_function == source_function:
-                continue  # Selbstaufrufe ignorieren
-                
-            target_input = signature["input_schema"]
-            
-            # Prüfen, ob die Ausgabe der Quellfunktion mit der Eingabe der Zielfunktion kompatibel ist
-            if self._is_schema_compatible(source_output, target_input):
-                compatible_functions.append(target_function)
-                
-        return compatible_functions
+        return self.call_edges[func_name]
     
-    def _is_schema_compatible(self, output_schema, input_schema):
-        """Prüft, ob zwei Schemas kompatibel sind (ob die Ausgabe als Eingabe verwendet werden kann)."""
-        # In der Praxis würde hier eine tiefe JSON-Schema-Validierung stattfinden
-        # Vereinfachte Implementierung:
+    def is_valid_chain(self, chain: List[str]) -> bool:
+        """Prüft, ob eine Funktionskette valide ist (keine blacklisted Paare enthält)."""
+        if not chain or len(chain) < 2:
+            return True
         
-        # Wenn die Ausgabe ein Objekt ist, prüfen wir, ob sie mindestens alle erforderlichen Eingabefelder enthält
-        if output_schema["type"] == "object" and input_schema["type"] == "object":
-            if "required" in input_schema:
-                # Prüfen, ob alle erforderlichen Eingabefelder in der Ausgabe vorhanden sind
-                required_fields = input_schema["required"]
-                output_fields = output_schema.get("properties", {}).keys()
-                
-                return all(field in output_fields for field in required_fields)
+        # Prüfe alle benachbarten Paare in der Kette
+        for i in range(len(chain) - 1):
+            from_func, to_func = chain[i], chain[i+1]
+            
+            # Überprüfe Blacklist
+            if (from_func, to_func) in self.blacklist:
+                logger.debug(f"Kette enthält Blacklist-Paar: {from_func} -> {to_func}")
+                return False
+            
+            # Überprüfe, ob die Kante existiert und kompatibel ist
+            if (from_func, to_func) in self.compatibility:
+                if not self.compatibility[(from_func, to_func)]:
+                    logger.debug(f"Kette enthält inkompatibles Paar: {from_func} -> {to_func}")
+                    return False
             else:
-                # Wenn keine Felder explizit erforderlich sind, gehen wir von Kompatibilität aus
-                return True
+                # Wenn keine Kante definiert ist, nehmen wir an, dass sie nicht kompatibel sind
+                logger.debug(f"Kette enthält undefinierte Kante: {from_func} -> {to_func}")
+                return False
                 
-        # Für andere Typen prüfen wir einfach, ob sie gleich sind
-        return output_schema["type"] == input_schema["type"]
+        return True
     
-    def generate_all_fusion_chains(self, functions, max_length=5):
-        """Generiert alle möglichen Fusionsketten basierend auf Kompatibilität."""
+    def generate_all_valid_chains(self, min_length: int = 4, max_length: int = 5) -> List[List[str]]:
+        """
+        Generiert alle validen Funktionsketten ohne Berücksichtigung von Wahrscheinlichkeiten.
+        Berücksichtigt nur die Kompatibilität zwischen Funktionen.
+        
+        Args:
+            min_length: Minimale Kettenlänge
+            max_length: Maximale Kettenlänge
+            
+        Returns:
+            Liste aller validen Funktionsketten
+        """
+        logger.info(f"Generiere alle validen Ketten (Länge {min_length} bis {max_length})")
+        
         all_chains = []
+        all_functions = list(self.call_edges.keys())
         
-        # Alle Funktionen als mögliche Startpunkte betrachten
-        for start_function in functions:
-            chains = self._generate_chains_from(start_function, [], max_length)
-            all_chains.extend(chains)
+        logger.info(f"Arbeitsfunktionen: {len(all_functions)} Funktionen gefunden")
+        
+        # Für jede Länge zwischen min_length und max_length
+        for length in range(min_length, max_length + 1):
+            logger.info(f"Generiere Ketten der Länge {length}...")
+            chains_for_length = []
             
+            # Fortschrittsanzeige für die Startfunktionen
+            all_functions_progress = tqdm(all_functions, desc=f"Startfunktionen (Länge {length})")
+            
+            # Starte mit jeder Funktion
+            for start_func in all_functions_progress:
+                # Verwende DFS, um alle möglichen Pfade zu finden
+                def dfs(current_chain):
+                    # Base case: Wenn die Kette die gewünschte Länge erreicht hat
+                    if len(current_chain) == length:
+                        chains_for_length.append(current_chain.copy())
+                        # Log alle 1000 gefundenen Ketten
+                        if len(chains_for_length) % 1000 == 0:
+                            logger.debug(f"  Gefunden: {len(chains_for_length)} Ketten der Länge {length}")
+                        return
+                    
+                    # Expandiere zu allen möglichen nächsten Funktionen
+                    current_func = current_chain[-1]
+                    for next_func in all_functions:
+                        # Überspringe Funktionen, die bereits in der Kette sind (Zyklen vermeiden)
+                        if next_func in current_chain:
+                            continue
+                        
+                        # Überprüfe, ob der Übergang von current_func zu next_func valide ist
+                        if (current_func, next_func) in self.blacklist:
+                            continue
+                            
+                        if (current_func, next_func) in self.compatibility:
+                            if not self.compatibility[(current_func, next_func)]:
+                                continue
+                        else:
+                            # Wenn keine explizite Kompatibilität definiert ist, prüfen ob eine Kante existiert
+                            if next_func not in self.call_edges.get(current_func, []):
+                                continue
+                        
+                        # Füge die nächste Funktion hinzu und fahre rekursiv fort
+                        current_chain.append(next_func)
+                        dfs(current_chain)
+                        current_chain.pop()  # Backtracking
+                
+                # Starte DFS mit dieser Startfunktion
+                chains_before = len(chains_for_length)
+                dfs([start_func])
+                chains_after = len(chains_for_length)
+                logger.debug(f"  Von {start_func} aus: {chains_after - chains_before} neue Ketten gefunden")
+            
+            # Füge alle Ketten dieser Länge hinzu
+            all_chains.extend(chains_for_length)
+            logger.info(f"Generiert {len(chains_for_length)} valide Ketten der Länge {length}")
+        
+        logger.info(f"Insgesamt {len(all_chains)} valide Ketten generiert")
         return all_chains
-    
-    def _generate_chains_from(self, current_function, current_chain, max_length):
-        """Rekursive Hilfsmethode zur Generierung von Ketten."""
-        # Aktuelle Funktion zur Kette hinzufügen
-        new_chain = current_chain + [current_function]
-        
-        # Wenn die maximale Länge erreicht ist, stoppen
-        if len(new_chain) >= max_length:
-            return [new_chain]
-            
-        # Alle kompatiblen Folgefunktionen finden
-        next_functions = self.find_compatible_functions(current_function)
-        
-        # Zyklen vermeiden
-        next_functions = [f for f in next_functions if f not in new_chain]
-        
-        # Keine weiteren kompatiblen Funktionen, Kette beenden
-        if not next_functions:
-            return [new_chain]
-            
-        # Für jede kompatible Funktion rekursiv fortsetzen
-        chains = []
-        for next_function in next_functions:
-            chains.extend(self._generate_chains_from(next_function, new_chain, max_length))
-            
-        return chains
 
 
-class ComprehensiveFusionOptimizer:
-    """Tool zur umfassenden Optimierung von Function Fusion Konfigurationen."""
+class FunctionFusionOptimizer:
+    """
+    Optimiert Function Fusion Konfigurationen basierend auf allen möglichen Parameterkombinationen.
+    Schließt nur unrealistische Funktionsaufrufe aus.
+    """
     
     def __init__(self, config_file="config/fusion_parameters.json"):
-        print(f"[DEBUG] Aktuelles Arbeitsverzeichnis: {os.getcwd()}")
-        print(f"[DEBUG] Erwarteter Config-Pfad: {config_file}")
-        print(f"[DEBUG] Existiert Datei? {os.path.exists(config_file)}")
+        logger.info(f"Initialisiere FunctionFusionOptimizer mit Konfiguration aus {config_file}")
+        logger.info(f"Arbeitsverzeichnis: {os.getcwd()}")
+        
         # Lade Konfiguration
-        with open(config_file, 'r') as f:
-            self.params = json.load(f)
+        try:
+            logger.info(f"Versuche, Konfigurationsdatei zu laden: {config_file}")
+            with open(config_file, 'r') as f:
+                self.params = json.load(f)
+                logger.info(f"Konfiguration erfolgreich geladen: {len(self.params)} Parameter")
+                logger.debug(f"Geladene Konfiguration: {json.dumps(self.params, indent=2)}")
+        except FileNotFoundError:
+            logger.error(f"Konfigurationsdatei nicht gefunden: {config_file}")
+            logger.info("Überprüfe folgende Dateien im aktuellen Verzeichnis:")
+            for f in os.listdir():
+                logger.info(f"  - {f}")
+            if os.path.exists("config"):
+                logger.info("Dateien im config-Verzeichnis:")
+                for f in os.listdir("config"):
+                    logger.info(f"  - config/{f}")
+            
+            # Fallback zu Standardkonfiguration
+            self.params = {
+                "function_memory_configs": {},
+                "deployment": ["local"],
+                "io_config": {
+                    "iterations": [1],
+                    "file_size_kb": [10],
+                    "enable_fsync": [False]
+                },
+                "network": {
+                    "latency_ms": [0],
+                    "loss_percent": [0],
+                    "bandwidth_kbit": [None]
+                },
+                "max_chain_length": 5,
+                "min_chain_length": 2,
+                "auto_discover_functions": True
+            }
+            logger.warning("Standard-Konfiguration wird verwendet")
+        except Exception as e:
+            logger.exception(f"Unerwarteter Fehler beim Laden der Konfiguration: {e}")
+            raise
         
         self.tester = None  # DockerFusionTester wird später initialisiert
         self.results = {}
         self.best_configs = []
         
         # Funktionsliste dynamisch ermitteln
+        logger.info("Starte Funktionserkennung...")
         self.all_functions = self._discover_all_functions()
+        logger.info(f"Gefundene Funktionen ({len(self.all_functions)}): {', '.join(self.all_functions)}")
         
-        # Erweiterte Parameter für DAG-Unterstützung
-        self.params["enable_dag"] = self.params.get("enable_dag", True)
-        self.params["max_chain_length"] = self.params.get("max_chain_length", 5)
-        self.params["min_chain_length"] = self.params.get("min_chain_length", 2)
+        # Erstelle den Funktionsaufruf-Graphen
+        logger.info("Erstelle Funktionsaufruf-Graph...")
+        self.call_graph = self._build_function_call_graph()
+        logger.info(f"Graph erstellt: {len(self.call_graph.call_edges)} Funktionen, " + 
+                   f"{sum(len(e) for e in self.call_graph.call_edges.values())} Kanten, " +
+                   f"{len(self.call_graph.blacklist)//2} Blacklist-Paare")
         
         # Memory-Konfigurationen für Funktionen
         self.function_memory_configs = self.params.get("function_memory_configs", {})
         
         # Standardwert für Funktionen ohne explizite Konfiguration
         self.default_memory_configs = [128, 256, 512, 1024]
-        
-        # DAG-Konfigurationen
-        self.dag_configs = []
         
         # Definiere Fitness-Funktionen
         self.fitness_functions = {
@@ -214,27 +271,33 @@ class ComprehensiveFusionOptimizer:
         self.progress = 0
         self.total_tests = 0
         
-        # FusionDiscovery für Kompatibilitätsanalyse
-        self.discovery = FusionDiscovery()
+        logger.info("FunctionFusionOptimizer initialisiert und bereit")
     
-    def _discover_all_functions(self):
+    def _discover_all_functions(self) -> List[str]:
         """Findet automatisch alle verfügbaren Funktionen im System."""
         # Zuerst prüfen, ob Funktionen in der Konfiguration angegeben sind
         if "functions" in self.params:
+            logger.info("Verwende vorkonfigurierte Funktionsliste")
             return self.params["functions"]
         
         # Andernfalls versuchen, sie automatisch zu erkennen
         functions = []
         
-        # Beispiel für die automatische Erkennung basierend auf den Docker-Funktionsordnern
-        import os
+        # Erkennung basierend auf Docker-Funktionsordnern
         functions_dir = "functions/webshop"
+        logger.info(f"Suche nach Funktionen in: {functions_dir}")
+        
         if os.path.exists(functions_dir):
+            logger.info(f"Verzeichnis {functions_dir} gefunden")
             functions = [d for d in os.listdir(functions_dir) 
                         if os.path.isdir(os.path.join(functions_dir, d))]
+            logger.info(f"Gefunden: {len(functions)} Funktionen in {functions_dir}")
+        else:
+            logger.warning(f"Verzeichnis {functions_dir} nicht gefunden")
         
         if not functions:
-            # Fallback: Hard-coded Liste basierend auf den Docker-Containern
+            logger.info("Keine Funktionen gefunden, verwende Fallback-Liste")
+            # Fallback: Hard-coded Liste
             functions = [
                 "addcartitem", "cartkvstorage", "checkout", "currency", 
                 "email", "emptycart", "frontend", "getads", "getcart", 
@@ -242,496 +305,463 @@ class ComprehensiveFusionOptimizer:
                 "payment", "searchproducts", "shipmentquote", "shiporder", 
                 "supportedcurrencies"
             ]
+            logger.info(f"Fallback-Liste enthält {len(functions)} Funktionen")
             
-        print(f"Entdeckte {len(functions)} Funktionen: {functions}")
         return functions
     
-    def generate_all_possible_chains(self, max_chain_length=None, min_chain_length=None, limit=10):
-        """Erzeugt alle möglichen Funktionsketten bis zu einer bestimmten Länge."""
-        if max_chain_length is None:
-            max_chain_length = self.params["max_chain_length"]
-            
-        if min_chain_length is None:
-            min_chain_length = self.params["min_chain_length"]
+    def _build_function_call_graph(self) -> FunctionCallGraph:
+        """
+        Erstellt einen gerichteten Graphen von Funktionsaufrufen
+        basierend auf Kompatibilität zwischen Funktionen.
+        """
+        logger.info("Erstelle Funktionsaufruf-Graph mit realistischen Aufrufbeziehungen")
+        graph = FunctionCallGraph()
         
-        all_chains = []
-        total_generated = 0
+        # 1. Alle Funktionen hinzufügen
+        for func in self.all_functions:
+            graph.add_function(func)
         
-        # Berechne, wie viele Ketten pro Länge generiert werden sollen
-        lengths = list(range(min_chain_length, max_chain_length + 1))
-        chains_per_length = limit // len(lengths)
+        logger.info("Definiere Aufrufbeziehungen")
+        # 2. Realistische Kanten definieren (ohne Wahrscheinlichkeiten)
+        # Frontend-Flows
+        graph.add_edge("frontend", "listproducts")
+        graph.add_edge("frontend", "getads")
+        graph.add_edge("frontend", "getcart")
+        graph.add_edge("frontend", "supportedcurrencies")
+        graph.add_edge("frontend", "checkout")
         
-        for length in lengths:
-            # Berechne, wie viele Permutationen es geben würde
-            import math
-            total_possible = math.perm(len(self.all_functions), length)
-            
-            if total_possible <= chains_per_length:
-                # Wenn weniger als das Limit, generiere alle
-                chains = [list(p) for p in itertools.permutations(self.all_functions, length)]
-            else:
-                # Ansonsten generiere eine zufällige Teilmenge
-                print(f"  Begrenze Ketten mit Länge {length} auf {chains_per_length} (von {total_possible})")
-                
-                # Methode 1: Zufällige Auswahl von Funktionen für jede Position
-                chains = []
-                for _ in range(chains_per_length):
-                    chain = random.sample(self.all_functions, length)
-                    if chain not in chains:  # Vermeidet Duplikate
-                        chains.append(chain)
-                
-                # Stelle sicher, dass wir genug haben (falls es Duplikate gab)
-                while len(chains) < chains_per_length and len(chains) < total_possible:
-                    chain = random.sample(self.all_functions, length)
-                    if chain not in chains:
-                        chains.append(chain)
-            
-            all_chains.extend(chains)
-            total_generated += len(chains)
-            
-            if total_generated >= limit:
-                break
+        # Produkt-Flow
+        graph.add_edge("listproducts", "getproduct")
+        graph.add_edge("getproduct", "searchproducts")
+        graph.add_edge("searchproducts", "getproduct")
+        graph.add_edge("getproduct", "listrecommendations")
         
-        # Falls wir über dem Limit sind, kürzen
-        if len(all_chains) > limit:
-            all_chains = all_chains[:limit]
+        # Warenkorb-Flow
+        graph.add_edge("getcart", "cartkvstorage")
+        graph.add_edge("addcartitem", "cartkvstorage")
+        graph.add_edge("emptycart", "cartkvstorage")
+        graph.add_edge("cartkvstorage", "getcart")
         
-        print(f"Generierte {len(all_chains)} mögliche Funktionsketten mit Länge {min_chain_length}-{max_chain_length}.")
-        return all_chains
+        # Checkout-Flow
+        graph.add_edge("checkout", "getcart")
+        graph.add_edge("checkout", "shipmentquote")
+        graph.add_edge("checkout", "payment")
+        graph.add_edge("checkout", "shiporder")
+        graph.add_edge("checkout", "email")
+        graph.add_edge("checkout", "emptycart")
         
+        graph.add_edge("shipmentquote", "currency")
+        graph.add_edge("payment", "currency")
+        
+        logger.info("Definiere semantisch inkompatible Funktionspaare (Blacklist)")
+        # 3. Definiere semantisch inkompatible Funktionspaare (Blacklist)
+        # Dies sind die unrealistischen Aufrufe, die ausgeschlossen werden sollen
+        graph.add_blacklist_pair("addcartitem", "emptycart")
+        graph.add_blacklist_pair("checkout", "addcartitem")
+        graph.add_blacklist_pair("currency", "listproducts")
+        graph.add_blacklist_pair("payment", "shipmentquote")
+        graph.add_blacklist_pair("emptycart", "payment")
+        graph.add_blacklist_pair("email", "getads")
+        
+        return graph
     
-    def filter_compatible_chains(self, all_chains):
-        """Filtert Ketten basierend auf Input/Output-Kompatibilität."""
-        compatible_chains = []
+    def generate_fusion_groups(self, chains: List[List[str]], max_groups_per_chain: int = 10) -> Dict[str, List[List[List[str]]]]:
+        """
+        Generiert alle möglichen Fusionsgruppen für jede Funktionskette zur Evaluierung.
         
-        for chain in all_chains:
-            if self._is_chain_compatible(chain):
-                compatible_chains.append(chain)
-                
-        print(f"Gefiltert auf {len(compatible_chains)} kompatible Ketten.")
-        return compatible_chains
-    
-    def _is_chain_compatible(self, chain):
-        """Prüft, ob die Ein-/Ausgaben der Funktionen in der Kette kompatibel sind."""
-        # Diese Methode würde die API-Spezifikationen jeder Funktion analysieren
-        # und prüfen, ob die Ausgabe von Funktion i als Eingabe für Funktion i+1 dienen kann
-        
-        # Hier eine vereinfachte Implementierung, die bekannte Inkompatibilitäten prüft
-        for i in range(len(chain) - 1):
-            # Bekannte inkompatible Funktionspaare
-            incompatible_pairs = [
-                ("addcartitem", "emptycart"),           # Logischer Konflikt
-                ("checkout", "addcartitem"),            # Checkout sollte nach dem Hinzufügen von Items sein
-                ("currency", "listproducts"),           # Currency nimmt keinen Product-Response entgegen
-                ("payment", "shipmentquote")            # Payment und Shipment haben inkompatible Parameter
-            ]
+        Args:
+            chains: Liste von Funktionsketten
+            max_groups_per_chain: Maximale Anzahl von Fusionsgruppen pro Kette
             
-            if (chain[i], chain[i+1]) in incompatible_pairs:
-                return False
-                
-        return True
-    
-    def generate_dag_structures(self, compatible_chains, max_dags=50, max_chains_per_start=5000):
-        """Generiert komplexe DAG-Strukturen aus kompatiblen Ketten ohne Zyklen."""
-        if not self.params.get("enable_dag", True):
-            print("DAG-Generierung deaktiviert.")
-            return []
+        Returns:
+            Dict mit Ketten als Schlüssel und Listen von Fusionsgruppen als Werten
+        """
+        logger.info(f"Generiere Fusionsgruppen für {len(chains)} Ketten")
         
-        print(f"Beginne DAG-Generierung (max {max_dags} DAGs)...")
-        dags = []
-        processed_starts = 0
+        result = {}
+        # Fortschrittsanzeige für die Verarbeitung aller Ketten
+        chains_progress = tqdm(chains, desc="Generiere Fusionsgruppen")
         
-        # Gruppiere Ketten nach erstem Element (Startknoten) 
-        by_first_node = {}
-        for chain in compatible_chains:
-            if not chain:
-                continue
-                
-            first = chain[0]
-            if first not in by_first_node:
-                by_first_node[first] = []
-                
-            by_first_node[first].append(chain)
-        
-        print(f"Gefunden: {len(by_first_node)} mögliche Startknoten für DAGs")
-        
-        # Verarbeite Startknoten mit den meisten Ketten zuerst
-        sorted_starts = sorted(by_first_node.items(), key=lambda x: len(x[1]), reverse=True)
-        
-        for start_node, chains in sorted_starts:
-            if len(chains) < 2:
-                continue
-                
-            processed_starts += 1
-            if processed_starts % 5 == 0:
-                print(f"Verarbeite Startknoten {processed_starts}/{len(sorted_starts)}: {start_node} mit {len(chains)} Ketten")
+        for i, chain in enumerate(chains_progress):
+            chain_key = "->".join(chain)
             
-            # Begrenze die Anzahl der Ketten pro Startknoten für bessere Performance
-            if len(chains) > max_chains_per_start:
-                print(f"  Begrenze Ketten für {start_node} von {len(chains)} auf {max_chains_per_start}")
-                chains = chains[:max_chains_per_start]
+            # Aktualisiere Fortschrittsanzeige mit aktueller Kette
+            if i % 10 == 0:
+                chains_progress.set_description(f"Generiere Fusionsgruppen [{i+1}/{len(chains)}]")
             
-            # Erstelle einen Graphen mit gewichteten Kanten
-            G = {}
-            edge_weights = {}
+            # Verschiedene Fusionsstrategien generieren
+            fusion_groups = []
             
-            # Füge Knoten hinzu
-            for chain in chains:
-                for node in chain:
-                    if node not in G:
-                        G[node] = set()
+            logger.debug(f"Verarbeite Kette {i+1}/{len(chains)}: {chain_key}")
             
-            # Gewichte Kanten basierend auf Häufigkeit und Position
-            for chain in chains:
-                for i in range(len(chain) - 1):
-                    u, v = chain[i], chain[i+1]
-                    if v not in G[u]:
-                        G[u].add(v)
-                        edge_weights[(u, v)] = 1
-                    else:
-                        edge_weights[(u, v)] += 1
+            # 1. Alle benachbarten Paare testen
+            for i in range(len(chain) - 1):
+                fusion_groups.append([[chain[i], chain[i+1]]])
             
-            # Wähle Kanten mit höherem Gewicht, um Zyklen zu vermeiden
-            dag = {
-                "nodes": set(G.keys()),
-                "edges": [],
-                "start_node": start_node
-            }
+            # 2. Alle möglichen Triplets testen
+            if len(chain) >= 3:
+                for i in range(len(chain) - 2):
+                    fusion_groups.append([[chain[i], chain[i+1], chain[i+2]]])
             
-            # Sortiere Kanten nach Gewicht (absteigend)
-            sorted_edges = sorted(edge_weights.items(), key=lambda x: x[1], reverse=True)
+            # 3. Disjunkte Paare testen
+            if len(chain) >= 4:
+                for i in range(len(chain) - 3):
+                    for j in range(i + 2, len(chain) - 1):
+                        fusion_groups.append([[chain[i], chain[i+1]], [chain[j], chain[j+1]]])
             
-            # Füge Kanten hinzu, solange keine Zyklen entstehen
-            for (u, v), weight in sorted_edges:
-                edge = {"from": u, "to": v}
-                dag["edges"].append(edge)
+            # 4. Baseline (keine Fusion) zum Vergleich
+            fusion_groups.append([])
+            
+            # Begrenze die Anzahl der zu testenden Gruppen, wenn zu viele
+            if len(fusion_groups) > max_groups_per_chain:
+                logger.debug(f"  Zu viele Fusionsgruppen ({len(fusion_groups)}), reduziere auf {max_groups_per_chain}")
+                # Immer Baseline behalten und den Rest zufällig auswählen
+                baseline = []
+                rest = [g for g in fusion_groups if g != []]
+                selected = random.sample(rest, min(max_groups_per_chain - 1, len(rest)))
+                fusion_groups = selected + [baseline]
                 
-                # Prüfe auf Zyklen und entferne die Kante, wenn ein Zyklus entsteht
-                if self._has_cycles(dag):
-                    dag["edges"].remove(edge)
+            result[chain_key] = fusion_groups
+            logger.debug(f"  Generiert: {len(fusion_groups)} Fusionsgruppen für diese Kette")
             
-            # Nur DAGs mit mindestens 2 Kanten hinzufügen
-            if len(dag["edges"]) >= 2:
-                # Konvertiere nodes von Set zu Liste
-                dag["nodes"] = list(dag["nodes"])
-                dags.append(dag)
-                
-                if len(dags) % 10 == 0:
-                    print(f"  Bisher {len(dags)} DAGs generiert")
-                
-                # Begrenze die Anzahl der DAGs
-                if len(dags) >= max_dags:
-                    print(f"Maximale Anzahl von {max_dags} DAGs erreicht, beende Generierung")
-                    break
-        
-        print(f"Generierte {len(dags)} komplexe DAG-Strukturen aus {processed_starts} Startknoten.")
-        return dags
-    
-    def _has_cycles(self, dag):
-        """Prüft, ob ein DAG Zyklen enthält."""
-        # Implementierung eines Algorithmus zum Erkennen von Zyklen in einem gerichteten Graphen
-        visited = set()
-        temp_visited = set()
-        
-        def visit(node):
-            """Rekursive DFS-Funktion zum Erkennen von Zyklen."""
-            if node in temp_visited:
-                return True  # Zyklus gefunden
-                
-            if node in visited:
-                return False
-                
-            temp_visited.add(node)
-            
-            # Besuche alle Nachbarn
-            for edge in dag["edges"]:
-                if edge["from"] == node and visit(edge["to"]):
-                    return True
-                    
-            temp_visited.remove(node)
-            visited.add(node)
-            return False
-            
-        # Starte DFS von jedem Knoten aus
-        for node in dag["nodes"]:
-            if node not in visited and visit(node):
-                return True
-                
-        return False
-    
-    def _generate_memory_combinations(self, chain):
-        """Generiert alle möglichen Memory-Kombinationen für eine Kette."""
-        # Sammle Memory-Optionen für jede Funktion in der Kette
-        memory_options = []
-        for func in chain:
-            # Verwende konfigurierte Memory-Werte oder Standard
-            options = self.function_memory_configs.get(func, self.default_memory_configs)
-            memory_options.append(options)
-        
-        # Für kurze Ketten: Alle Kombinationen durchgehen
-        if len(chain) <= 3:
-            all_combinations = list(itertools.product(*memory_options))
-            return [dict(zip(chain, combo)) for combo in all_combinations]
-        
-        # Für längere Ketten: Sampling zur Reduzierung der Kombinationen
-        result = []
-        
-        # 1. Alle Funktionen mit dem gleichen Memory-Wert
-        for mem in self.default_memory_configs:
-            result.append({func: mem for func in chain})
-        
-        # 2. Erste Funktion mit höherem Memory, Rest niedrig
-        for high_mem in [512, 1024, 2048]:
-            config = {func: 128 for func in chain}
-            config[chain[0]] = high_mem
-            result.append(config)
-        
-        # 3. Einige zufällige Kombinationen
-        for _ in range(10):
-            config = {}
-            for func in chain:
-                options = self.function_memory_configs.get(func, self.default_memory_configs)
-                config[func] = random.choice(options)
-            result.append(config)
+        total_groups = sum(len(groups) for groups in result.values())
+        logger.info(f"Generierte insgesamt {total_groups} Fusionsgruppen für alle Ketten")
         
         return result
     
-    def generate_test_configurations(self, test_count=None):
-        """Überschreibt die bisherige Methode, um alle möglichen Kombinationen zu testen."""
-        # Schritt 1: Alle möglichen Funktionsketten generieren
-        print("Generiere alle möglichen Funktionsketten...")
-        all_chains = self.generate_all_possible_chains()
+    def _generate_memory_configurations(self, chain: List[str], fusion_groups: List[List[str]]) -> List[Dict[str, int]]:
+        """
+        Generiert Memory-Konfigurationen für eine Funktionskette mit Fusionsgruppen.
+        Verwendet alle Werte aus der Konfigurationsdatei.
         
-        # Schritt 2: Auf kompatible Ketten filtern
-        print("Filtere auf kompatible Ketten...")
-        compatible_chains = self.filter_compatible_chains(all_chains)
+        Args:
+            chain: Die Funktionskette
+            fusion_groups: Liste von Fusionsgruppen
+            
+        Returns:
+            Liste von Memory-Konfigurationen für die Kette
+        """
+        logger.debug(f"Generiere Memory-Konfigurationen für Kette: {' -> '.join(chain)}")
+        start_time = time.time()
         
-        # Schritt 3: DAG-Strukturen generieren
-        print("Generiere DAG-Strukturen...")
-        dags = self.generate_dag_structures(compatible_chains)
-        self.dag_configs = dags
-        
-        # Schritt 4: Für jede kompatible Kette alle Parameter-Kombinationen generieren
         configs = []
         
-        # Zuerst lineare Ketten
-        print("Generiere Konfigurationen für lineare Ketten...")
-        for chain in tqdm(compatible_chains):
-            # Für jede Kette verschiedene Memory-Konfigurationen
-            memory_configs = self._generate_memory_combinations(chain)
+        # Alle Konfigurationen aus der Parameterdatei verwenden
+        for func in chain:
+            memory_options = self.function_memory_configs.get(func, self.default_memory_configs)
             
-            for memory_config in memory_configs:
-                # Kartesisches Produkt aller Parameter
-                for deploy in self.params["deployment"]:
-                    for iterations in self.params["io_config"]["iterations"]:
-                        for file_size in self.params["io_config"]["file_size_kb"]:
-                            for fsync in self.params["io_config"]["enable_fsync"]:
-                                for latency in self.params["network"]["latency_ms"]:
-                                    for loss in self.params["network"]["loss_percent"]:
-                                        # Bandbreiten-Parameter
-                                        bandwidth_options = self.params["network"].get("bandwidth_kbit", [None])
-                                        
-                                        for bandwidth in bandwidth_options:
-                                            config = {
-                                                "id": len(configs),
-                                                "type": "chain",
-                                                "chain": chain,
-                                                "memory_config": memory_config,
-                                                "deployment": deploy,
-                                                "io_config": {
-                                                    "iterations": iterations,
-                                                    "file_size_kb": file_size,
-                                                    "enable_fsync": fsync
-                                                },
-                                                "network": {
-                                                    "latency_ms": latency,
-                                                    "loss_percent": loss,
-                                                    "bandwidth_kbit": bandwidth
-                                                }
-                                            }
-                                            configs.append(config)
+            # Wenn noch keine Konfigurationen vorhanden, erstelle Basiskonfigurationen
+            if not configs:
+                configs = [{func: mem} for mem in memory_options]
+                logger.debug(f"  Initialisiert mit {len(configs)} Basis-Konfigurationen für {func}")
+            else:
+                # Erweitere bestehende Konfigurationen
+                new_configs = []
+                for config in configs:
+                    for mem in memory_options:
+                        new_config = config.copy()
+                        new_config[func] = mem
+                        new_configs.append(new_config)
+                
+                configs = new_configs
+                logger.debug(f"  Nach Hinzufügen von {func}: {len(configs)} Konfigurationen")
+                
+                # Wenn zu viele Konfigurationen, beschränke auf eine sinnvolle Anzahl
+                if len(configs) > 50:
+                    logger.debug(f"  Zu viele Konfigurationen ({len(configs)}), reduziere auf 50")
+                    configs = random.sample(configs, 50)
         
-        # Dann DAG-Strukturen
-        if self.params.get("enable_dag", True):
-            print("Generiere Konfigurationen für DAG-Strukturen...")
-            for dag in tqdm(dags):
-                # Für DAGs nehmen wir nur eine Teilmenge der Parameter-Kombinationen
-                # um die Gesamtzahl der Tests zu begrenzen
-                deployments = self.params["deployment"]
-                iterations = [self.params["io_config"]["iterations"][0], self.params["io_config"]["iterations"][-1]]
-                file_sizes = [self.params["io_config"]["file_size_kb"][0], self.params["io_config"]["file_size_kb"][-1]]
+        end_time = time.time()
+        logger.debug(f"  Memory-Konfigurationen generiert: {len(configs)} in {end_time - start_time:.2f} Sekunden")
+        return configs
+    
+    def generate_test_configurations(self, max_configs=None) -> List[Dict[str, Any]]:
+        """
+        Generiert Testkonfigurationen für alle Parameterkombinationen.
+        Schließt nur unrealistische Funktionsaufrufe aus.
+        
+        Args:
+            max_configs: Maximale Anzahl zu generierender Konfigurationen
+            
+        Returns:
+            Liste von Testkonfigurationen
+        """
+        logger.info("Generiere Testkonfigurationen für alle Parameterkombinationen")
+        start_time = time.time()
+        
+        # 1. Alle validen Ketten generieren
+        logger.info("Starte Generierung valider Funktionsketten...")
+        chains = self.call_graph.generate_all_valid_chains(
+            min_length=self.params.get("min_chain_length", 2),
+            max_length=self.params.get("max_chain_length", 5)
+        )
+        
+        # Wenn zu viele Ketten, beschränke die Anzahl
+        if len(chains) > 100:
+            logger.info(f"Beschränke die Anzahl der Ketten von {len(chains)} auf 100 (zufällige Auswahl)")
+            chains = random.sample(chains, 100)
+        
+        # 2. Fusionsgruppen für jede Kette generieren
+        logger.info("Generiere Fusionsgruppen für die Ketten...")
+        chain_fusion_groups = self.generate_fusion_groups(chains)
+        
+        # 3. Testkonfigurationen für jede Kette und Fusionsgruppe erstellen
+        logger.info("Erstelle Testkonfigurationen für alle Parameterkombinationen...")
+        configs = []
+        
+        # Fortschritt für Ketten
+        chains_progress = tqdm(chains, desc="Verarbeite Ketten")
+        
+        for chain in chains_progress:
+            chain_key = "->".join(chain)
+            fusion_groups_list = chain_fusion_groups.get(chain_key, [[]])
+            
+            logger.debug(f"Verarbeite Kette: {chain_key}")
+            logger.debug(f"  {len(fusion_groups_list)} Fusionsgruppen gefunden")
+            
+            # Fortschritt für Fusionsgruppen innerhalb einer Kette
+            for fusion_groups in fusion_groups_list:
+                # Memory-Konfigurationen generieren
+                memory_configs = self._generate_memory_configurations(chain, fusion_groups)
                 
-                # Memory-Konfigurationen für DAGs (einfacheres Sampling)
-                memory_config = {}
-                for node in dag["nodes"]:
-                    options = self.function_memory_configs.get(node, self.default_memory_configs)
-                    memory_config[node] = options[0]  # Verwende die niedrigste Memory-Option als Standard
+                # Zähler für erstellte Konfigurationen
+                created_configs_count = 0
                 
-                for deploy in deployments:
-                    for iter_val in iterations:
-                        for file_size in file_sizes:
-                            for fsync in [False]:  # Vereinfachung: nur ohne fsync
-                                for latency in [self.params["network"]["latency_ms"][0]]:  # Niedrigste Latenz
-                                    for loss in [self.params["network"]["loss_percent"][0]]:  # Niedrigster Verlust
-                                        bandwidth = None  # Unbegrenzte Bandbreite
-                                        
-                                        config = {
-                                            "id": len(configs),
-                                            "type": "dag",
-                                            "dag": dag,
-                                            "memory_config": memory_config,
-                                            "deployment": deploy,
-                                            "io_config": {
-                                                "iterations": iter_val,
-                                                "file_size_kb": file_size,
-                                                "enable_fsync": fsync
-                                            },
-                                            "network": {
-                                                "latency_ms": latency,
-                                                "loss_percent": loss,
-                                                "bandwidth_kbit": bandwidth
-                                            }
-                                        }
-                                        configs.append(config)
+                # Vollständiges kartesisches Produkt aller Parameter
+                for memory_config in memory_configs:
+                    for deploy in self.params["deployment"]:
+                        for iterations in self.params["io_config"]["iterations"]:
+                            for file_size in self.params["io_config"]["file_size_kb"]:
+                                for fsync in self.params["io_config"]["enable_fsync"]:
+                                    for latency in self.params["network"]["latency_ms"]:
+                                        for loss in self.params["network"]["loss_percent"]:
+                                            bandwidths = self.params["network"].get("bandwidth_kbit", [None])
+                                            for bandwidth in bandwidths:
+                                                config = {
+                                                    "id": len(configs),
+                                                    "type": "fusion_test",
+                                                    "chain": chain,
+                                                    "fusion_groups": fusion_groups,
+                                                    "memory_config": memory_config,
+                                                    "deployment": deploy,
+                                                    "io_config": {
+                                                        "iterations": iterations,
+                                                        "file_size_kb": file_size,
+                                                        "enable_fsync": fsync
+                                                    },
+                                                    "network": {
+                                                        "latency_ms": latency,
+                                                        "loss_percent": loss,
+                                                        "bandwidth_kbit": bandwidth
+                                                    }
+                                                }
+                                                configs.append(config)
+                                                created_configs_count += 1
+                
+                logger.debug(f"  Für Fusionsgruppe {fusion_groups}: {created_configs_count} Konfigurationen erstellt")
         
         self.total_tests = len(configs)
-        print(f"Generierte insgesamt {self.total_tests} Test-Konfigurationen.")
+        end_time = time.time()
+        logger.info(f"Generiert: {self.total_tests} Testkonfigurationen in {end_time - start_time:.2f} Sekunden")
         
-        # Optional: Wenn ein test_count angegeben wurde und weniger ist als die Gesamtzahl
-        if test_count and test_count < len(configs):
-            print(f"Reduziere auf {test_count} Test-Konfigurationen...")
-            
-            # Strategie für die Reduzierung:
-            # 1. Alle DAG-Strukturen beibehalten (diese sind besonders interessant)
-            dag_configs = [c for c in configs if c["type"] == "dag"]
-            chain_configs = [c for c in configs if c["type"] == "chain"]
-            
-            remaining = test_count - len(dag_configs)
-            if remaining <= 0:
-                # Falls zu viele DAGs, auch diese reduzieren
-                configs = random.sample(dag_configs, test_count)
-            else:
-                # Sonst zufällige Auswahl von Ketten hinzufügen
-                chain_selection = random.sample(chain_configs, min(remaining, len(chain_configs)))
-                configs = dag_configs + chain_selection
-                
+        # Bei Bedarf Anzahl der Tests begrenzen durch zufällige Auswahl
+        if max_configs and len(configs) > max_configs:
+            logger.info(f"Reduziere auf {max_configs} Testkonfigurationen durch zufällige Auswahl")
+            configs = random.sample(configs, max_configs)
             self.total_tests = len(configs)
-            print(f"Reduziert auf {self.total_tests} Test-Konfigurationen.")
             
         return configs
     
-    def _calculate_fitness(self, result):
-        """Berechnet den Fitness-Wert eines Testergebnisses."""
-        # Gewichtete Summe verschiedener Metriken
-        speedup_fitness = self.fitness_functions["speedup"](result) * 2.0  # Doppelte Gewichtung
-        latency_fitness = self.fitness_functions["latency"](result)
-        throughput_fitness = self.fitness_functions["throughput"](result)
-        resource_fitness = self.fitness_functions["resource_usage"](result)
-        
-        # Gewichtung der verschiedenen Aspekte
-        return (
-            0.4 * speedup_fitness + 
-            0.3 * latency_fitness + 
-            0.2 * throughput_fitness + 
-            0.1 * resource_fitness
-        )
-    
     async def run_tests(self, test_configurations):
-        """Führt die Tests für alle Konfigurationen aus."""
-        from docker_fusion_tester import DockerFusionTester
+        """Führt Tests für alle Konfigurationen aus."""
+        logger.info(f"Starte Tests für {len(test_configurations)} Konfigurationen")
         
-        self.tester = DockerFusionTester()
-        await self.tester.setup()
+        logger.info("Initialisiere DockerFusionTester...")
+        try:
+            from docker_fusion_tester import DockerFusionTester
+            self.tester = DockerFusionTester()
+            await self.tester.setup()
+            logger.info("DockerFusionTester erfolgreich initialisiert")
+        except Exception as e:
+            logger.exception(f"Fehler bei Initialisierung des DockerFusionTester: {e}")
+            raise
         
         try:
             # Fortschrittsanzeige
-            progress_bar = tqdm(total=len(test_configurations))
+            logger.info("Starte Testausführung...")
+            progress_bar = tqdm(total=len(test_configurations), desc="Tests")
             
             # Tests ausführen
-            for config in test_configurations:
-                result = await self._run_single_test(config)
-                
-                config_key = str(config["id"])
-                self.results[config_key] = result
-                
-                # Fortschritt aktualisieren
-                self.progress += 1
-                progress_bar.update(1)
-                
-                # Speichere Zwischenergebnisse
-                if self.progress % 100 == 0:
-                    self._save_results()
+            for i, config in enumerate(test_configurations):
+                logger.info(f"==> Test {i+1}/{len(test_configurations)} (ID: {config['id']}) läuft...")
+                try:
+                    # Detaillierte Informationen zum aktuellen Test
+                    logger.info(f"  Kette: {' -> '.join(config['chain'])}")
+                    if config['fusion_groups']:
+                        groups_str = ", ".join(["+".join(group) for group in config['fusion_groups']])
+                        logger.info(f"  Fusionsgruppen: {groups_str}")
+                    else:
+                        logger.info("  Keine Fusion (Baseline)")
+                    
+                    # Führe Test aus
+                    start_time = time.time()
+                    result = await self._run_fusion_test(config)
+                    end_time = time.time()
+                    
+                    # Protokolliere Ergebnis
+                    test_duration = end_time - start_time
+                    speedup = result.get("speedup_factor", 0)
+                    logger.info(f"  ✓ Test abgeschlossen in {test_duration:.2f}s, Speedup: {speedup:.2f}x")
+                    
+                    # Speichere Ergebnis
+                    config_key = str(config["id"])
+                    self.results[config_key] = result
+                    
+                    # Fortschritt aktualisieren
+                    self.progress += 1
+                    progress_bar.update(1)
+                    
+                    # Speichere Zwischenergebnisse
+                    if self.progress % 10 == 0:
+                        logger.info(f"Speichere Zwischenergebnisse nach {self.progress} Tests...")
+                        self._save_results()
+                        
+                except Exception as e:
+                    logger.error(f"Fehler bei Test {config['id']}: {e}")
+                    logger.error(f"Stack Trace: {traceback.format_exc()}")
+                    # Fehlschlag protokollieren aber weitermachen
+                    progress_bar.update(1)
+                    self.progress += 1
             
             progress_bar.close()
             
             # Sortiere und speichere die besten Konfigurationen
+            logger.info("Alle Tests abgeschlossen, aktualisiere beste Konfigurationen...")
             self._update_best_configs()
             self._save_results()
+            logger.info("Ergebnisse gespeichert.")
             
         finally:
+            logger.info("Bereinige DockerFusionTester...")
             await self.tester.cleanup()
     
     async def run_tests_parallel(self, test_configurations, max_workers=8):
-        """Führt Tests parallel mit einer begrenzten Anzahl von Workern aus."""
-        from .docker_fusion_tester import DockerFusionTester
+        """Führt Tests parallel aus."""
+        logger.info(f"Starte parallele Tests mit {max_workers} Workern")
         
-        self.tester = DockerFusionTester()
-        await self.tester.setup()
+        logger.info("Initialisiere DockerFusionTester...")
+        try:
+            from docker_fusion_tester import DockerFusionTester
+            self.tester = DockerFusionTester()
+            await self.tester.setup()
+            logger.info("DockerFusionTester erfolgreich initialisiert")
+        except Exception as e:
+            logger.exception(f"Fehler bei Initialisierung des DockerFusionTester: {e}")
+            raise
         
         try:
+            # Teile die Tests in Chunks
             total = len(test_configurations)
-            chunks = [test_configurations[i:i + total // max_workers + 1] 
-                      for i in range(0, total, total // max_workers + 1)]
+            chunk_size = max(1, total // max_workers)
+            chunks = [test_configurations[i:i + chunk_size] 
+                     for i in range(0, total, chunk_size)]
             
-            # Parallele Tasks starten
-            tasks = []
-            for chunk in chunks:
-                task = asyncio.create_task(self._run_test_chunk(chunk))
-                tasks.append(task)
+            logger.info(f"Tests in {len(chunks)} Chunks aufgeteilt, je ~{chunk_size} Tests pro Worker")
             
-            # Auf alle Tasks warten mit Fortschrittsanzeige
-            for result in await tqdm_asyncio.gather(*tasks, total=len(tasks)):
-                # Ergebnisse zusammenführen
-                for config_key, test_result in result.items():
-                    self.results[config_key] = test_result
+            # Erstelle Worker-Pools
+            semaphore = asyncio.Semaphore(max_workers)
             
-            # Beste Konfigurationen aktualisieren
+            async def worker(worker_id, chunk):
+                logger.info(f"Worker {worker_id} gestartet mit {len(chunk)} Tests")
+                result_dict = {}
+                
+                async with semaphore:
+                    # Fortschrittsanzeige für diesen Worker
+                    worker_progress = tqdm(chunk, desc=f"Worker {worker_id}", position=worker_id)
+                    
+                    for config in worker_progress:
+                        try:
+                            logger.info(f"Worker {worker_id}: Test {config['id']} läuft...")
+                            start_time = time.time()
+                            result = await self._run_fusion_test(config)
+                            end_time = time.time()
+                            
+                            # Log Ergebnis
+                            test_duration = end_time - start_time
+                            speedup = result.get("speedup_factor", 0)
+                            logger.info(f"Worker {worker_id}: Test {config['id']} abgeschlossen " + 
+                                      f"in {test_duration:.2f}s, Speedup: {speedup:.2f}x")
+                            
+                            result_dict[str(config["id"])] = result
+                            worker_progress.set_description(f"Worker {worker_id} ({len(result_dict)}/{len(chunk)})")
+                        except Exception as e:
+                            logger.error(f"Worker {worker_id}: Fehler bei Test {config['id']}: {e}")
+                            logger.error(f"Stack Trace: {traceback.format_exc()}")
+                
+                logger.info(f"Worker {worker_id} beendet: {len(result_dict)}/{len(chunk)} Tests erfolgreich")
+                return result_dict
+            
+            # Starte Tasks
+            logger.info(f"Starte {len(chunks)} Worker-Tasks...")
+            tasks = [asyncio.create_task(worker(i, chunk)) for i, chunk in enumerate(chunks)]
+            
+            # Sammle Ergebnisse
+            results_progress = tqdm(total=len(tasks), desc="Sammle Ergebnisse")
+            
+            for i, task in enumerate(asyncio.as_completed(tasks)):
+                logger.info(f"Warte auf Ergebnisse von Worker {i+1}/{len(tasks)}...")
+                try:
+                    results = await task
+                    # Füge Ergebnisse zum Hauptdict hinzu
+                    result_count = len(results)
+                    logger.info(f"Worker {i+1} abgeschlossen: {result_count} Ergebnisse erhalten")
+                    self.results.update(results)
+                    self.progress += result_count
+                    
+                    # Speichere Zwischenergebnisse
+                    if self.progress % 10 == 0:
+                        logger.info(f"Speichere Zwischenergebnisse nach {self.progress} Tests...")
+                        self._save_results()
+                        
+                except Exception as e:
+                    logger.error(f"Fehler beim Verarbeiten der Ergebnisse von Worker {i+1}: {e}")
+                    logger.error(f"Stack Trace: {traceback.format_exc()}")
+                
+                results_progress.update(1)
+            
+            results_progress.close()
+            
+            # Aktualisiere beste Konfigurationen
+            logger.info("Alle Worker abgeschlossen, aktualisiere beste Konfigurationen...")
             self._update_best_configs()
             self._save_results()
+            logger.info(f"Alle Tests abgeschlossen: {self.progress} Tests durchgeführt, Ergebnisse gespeichert")
             
         finally:
+            logger.info("Bereinige DockerFusionTester...")
             await self.tester.cleanup()
     
-    async def _run_test_chunk(self, chunk):
-        """Führt einen Chunk von Tests aus und gibt die Ergebnisse zurück."""
-        results = {}
+    async def _run_fusion_test(self, config):
+        """
+        Führt einen Fusionstest für eine Funktionskette mit Fusionsgruppen durch.
         
-        for config in chunk:
-            result = await self._run_single_test(config)
-            config_key = str(config["id"])
-            results[config_key] = result
-        
-        return results
-    
-    async def _run_single_test(self, config):
-        """Überschreibt die Basismethode, um sowohl Ketten als auch DAGs zu testen."""
-        # Je nach Konfigurationstyp unterschiedliche Tests durchführen
-        if config["type"] == "chain":
-            return await self._run_chain_test(config)
-        elif config["type"] == "dag":
-            return await self._run_dag_test(config)
-        else:
-            raise ValueError(f"Unbekannter Konfigurationstyp: {config['type']}")
-    
-    async def _run_chain_test(self, config):
-        """Führt einen Test für eine lineare Funktionskette durch."""
-        # Konfigurationen auslesen
+        Args:
+            config: Die Testkonfiguration
+            
+        Returns:
+            Testergebnis mit Performance-Metriken
+        """
+        # Extrahiere Konfigurationen
         chain = config["chain"]
-        memory_config = config["memory_config"]  # Memory-Konfiguration pro Funktion
+        fusion_groups = config["fusion_groups"]
+        memory_config = config["memory_config"]
+        
+        logger.debug(f"Führe Test {config['id']} aus: {'-'.join(chain)}")
         
         if not chain:
+            logger.warning(f"Test {config['id']}: Leere Funktionskette")
             return {"error": "Leere Funktionskette"}
-            
+        
         # I/O-Konfiguration erstellen
         io_params = {
             "iterations": config["io_config"]["iterations"],
@@ -748,154 +778,268 @@ class ComprehensiveFusionOptimizer:
         }
         
         # Memory-Konfiguration für die beteiligten Funktionen setzen
+        logger.debug(f"Test {config['id']}: Konfiguriere Memory für {len(memory_config)} Funktionen")
         for func_name, memory in memory_config.items():
             try:
+                logger.debug(f"  Setze Memory für {func_name}: {memory}MB")
                 await self.tester.update_function_config(func_name, {"MEMORY_SIZE": str(memory)})
             except Exception as e:
-                print(f"Warnung: Konnte Memory für {func_name} nicht setzen: {e}")
+                logger.warning(f"  ⚠️ Konnte Memory für {func_name} nicht setzen: {e}")
         
         # Netzwerk-Konfiguration für die beteiligten Funktionen setzen
+        logger.debug(f"Test {config['id']}: Konfiguriere Netzwerk für {len(chain)} Funktionen")
+        logger.debug(f"  Netzwerkkonfiguration: {network_config}")
         for func_name in chain:
             try:
+                logger.debug(f"  Konfiguriere Netzwerk für {func_name}")
                 await self.tester.update_network_config(func_name, network_config)
             except Exception as e:
-                print(f"Warnung: Konnte Netzwerk für {func_name} nicht konfigurieren: {e}")
+                logger.warning(f"  ⚠️ Konnte Netzwerk für {func_name} nicht konfigurieren: {e}")
         
+        # Start timing
         start_time = time.time()
         
-        # Direkter Test (ohne Fusion)
-        # Bei einer Kette rufen wir die letzte Funktion direkt auf
-        direct_service = chain[-1]
-        direct_result = await self.tester.invoke_function(direct_service, {
-            "operation": "test",
-            "userId": f"test_{config['id']}_direct",
-            "io_params": io_params
-        })
+        # Baseline-Test (ohne Fusion)
+        logger.debug(f"Test {config['id']}: Starte Baseline-Test")
+        baseline_results = await self._run_baseline_test(chain, io_params, config["id"])
+        logger.debug(f"Test {config['id']}: Baseline-Test abgeschlossen, Zeit: {baseline_results.get('total_time_ms', 0):.2f}ms")
         
         # Fusion-Test
-        # Bei einer Kette rufen wir die erste Funktion auf, die dann die anderen aufruft
-        fusion_service = chain[0]
-        fusion_result = await self.tester.invoke_function(fusion_service, {
-            "userId": f"test_{config['id']}_fusion",
-            "io_params": io_params
-        })
+        logger.debug(f"Test {config['id']}: Starte Fusion-Test")
+        fusion_results = await self._run_fusion_chain(chain, fusion_groups, io_params, config["id"])
+        logger.debug(f"Test {config['id']}: Fusion-Test abgeschlossen, Zeit: {fusion_results.get('total_time_ms', 0):.2f}ms")
         
+        # End timing
         end_time = time.time()
         
-        # Ergebnisse erfassen
-        direct_time = direct_result.get("execution_time_ms", 0)
-        fusion_time = fusion_result.get("execution_time_ms", 0)
+        # Berechne Performance-Metriken
+        baseline_time = baseline_results.get("total_time_ms", 0)
+        fusion_time = fusion_results.get("total_time_ms", 0)
         
-        speedup = direct_time / fusion_time if fusion_time > 0 else 0
+        # Berechne Speedup
+        speedup = baseline_time / fusion_time if fusion_time > 0 else 0
         
-        # CPU-Nutzung schätzen (vereinfacht)
-        resource_usage_percent = 0
-        if "body" in fusion_result and isinstance(fusion_result["body"], dict):
-            performance = fusion_result["body"].get("performance", {})
-            if isinstance(performance, dict):
-                resource_usage_percent = performance.get("cpu_usage_percent", 0)
+        # Ressourcennutzung berechnen (vereinfacht)
+        resource_usage_percent = fusion_results.get("resource_usage_percent", 0)
         
-        return {
+        # Ergebnis zusammenstellen
+        result = {
             "config": config,
-            "direct_time_ms": direct_time,
+            "baseline_time_ms": baseline_time,
             "fusion_time_ms": fusion_time,
             "speedup_factor": speedup,
             "test_duration_ms": (end_time - start_time) * 1000,
             "average_latency_ms": fusion_time,
             "requests_per_second": 1000 / fusion_time if fusion_time > 0 else 0,
             "resource_usage_percent": resource_usage_percent,
-            "direct_result": direct_result,
-            "fusion_result": fusion_result,
+            "baseline_results": baseline_results,
+            "fusion_results": fusion_results,
             "timestamp": time.time()
+        }
+        
+        logger.debug(f"Test {config['id']} abgeschlossen: Speedup={speedup:.2f}x")
+        return result
+    
+    async def _run_baseline_test(self, chain, io_params, config_id):
+        """
+        Führt einen Baseline-Test ohne Fusion durch.
+        
+        Args:
+            chain: Die Funktionskette
+            io_params: I/O-Parameter
+            config_id: ID der Testkonfiguration
+            
+        Returns:
+            Ergebnis des Baseline-Tests
+        """
+        logger.debug(f"Baseline-Test für ID {config_id}: {len(chain)} Funktionen einzeln aufrufen")
+        results = {}
+        total_time = 0
+        
+        # Rufe jede Funktion einzeln auf
+        for i, func_name in enumerate(chain):
+            logger.debug(f"  Baseline: Rufe Funktion {i+1}/{len(chain)} auf: {func_name}")
+            # Erstelle ein Test-Event für diese Funktion
+            event = {
+                "operation": "test",
+                "userId": f"test_{config_id}_baseline_{i}",
+                "io_params": io_params
+            }
+            
+            # Rufe die Funktion auf
+            try:
+                start_time = time.time()
+                result = await self.tester.invoke_function(func_name, event)
+                end_time = time.time()
+                
+                execution_time = result.get("execution_time_ms", 0)
+                logger.debug(f"  Baseline: {func_name} abgeschlossen in {execution_time:.2f}ms")
+                
+                results[func_name] = result
+                
+                # Addiere Ausführungszeit
+                total_time += execution_time
+            except Exception as e:
+                logger.error(f"  ❌ Baseline: Fehler beim Aufruf von {func_name}: {e}")
+                # Fallback-Wert für Fehlerfall
+                results[func_name] = {"error": str(e), "execution_time_ms": 0}
+        
+        logger.debug(f"Baseline-Test abgeschlossen: Gesamtzeit = {total_time:.2f}ms")
+        return {
+            "function_results": results,
+            "total_time_ms": total_time
         }
     
-    async def _run_dag_test(self, config):
-        """Führt einen Test für einen DAG durch."""
-        # Hier müssen wir die DAG-spezifische Testlogik implementieren
-        dag = config["dag"]
-        memory_config = config["memory_config"]
+    async def _run_fusion_chain(self, chain, fusion_groups, io_params, config_id):
+        """
+        Führt einen Test mit Fusion für die Funktionskette durch.
         
-        if not dag or not dag["nodes"]:
-            return {"error": "Leerer DAG"}
+        Args:
+            chain: Die Funktionskette
+            fusion_groups: Liste von Fusionsgruppen
+            io_params: I/O-Parameter
+            config_id: ID der Testkonfiguration
             
-        # I/O-Konfiguration erstellen
-        io_params = {
-            "iterations": config["io_config"]["iterations"],
-            "file_size_kb": config["io_config"]["file_size_kb"],
-            "enable_fsync": config["io_config"]["enable_fsync"],
-            "enable_fio": random.random() < 0.2  # 20% Sampling für FIO
-        }
+        Returns:
+            Ergebnis des Fusionstests
+        """
+        # Formatiere die Fusionsgruppen für bessere Lesbarkeit
+        fusion_str = "keine" if not fusion_groups else ", ".join(["+".join(group) for group in fusion_groups])
+        logger.debug(f"Fusion-Test für ID {config_id}: Kette mit {len(chain)} Funktionen, Fusion: {fusion_str}")
         
-        # Netzwerk-Konfiguration
-        network_config = {
-            "latency_ms": config["network"]["latency_ms"],
-            "loss_percent": config["network"]["loss_percent"],
-            "bandwidth_kbit": config["network"].get("bandwidth_kbit")
-        }
-        
-        # Memory und Netzwerk für alle Knoten konfigurieren
-        for node in dag["nodes"]:
-            memory = memory_config.get(node, 128)
-            try:
-                await self.tester.update_function_config(node, {"MEMORY_SIZE": str(memory)})
-                await self.tester.update_network_config(node, network_config)
-            except Exception as e:
-                print(f"Warnung: Konnte {node} nicht konfigurieren: {e}")
-        
-        start_time = time.time()
-        
-        # Direkter Test: Rufe alle Endfunktionen direkt auf
-        # Endfunktionen sind Knoten ohne ausgehende Kanten
-        end_nodes = [node for node in dag["nodes"] 
-                    if not any(edge["from"] == node for edge in dag["edges"])]
-                    
-        direct_results = {}
-        for node in end_nodes:
-            result = await self.tester.invoke_function(node, {
-                "operation": "test",
-                "userId": f"test_{config['id']}_direct_{node}",
-                "io_params": io_params
-            })
-            direct_results[node] = result
-        
-        # Berechne Gesamtzeit für direkten Aufruf (Summe aller Endknoten)
-        direct_time = sum(result.get("execution_time_ms", 0) for result in direct_results.values())
-        
-        # Fusion-Test: Rufe den Startknoten auf
-        start_node = dag["start_node"]
-        fusion_result = await self.tester.invoke_function(start_node, {
-            "userId": f"test_{config['id']}_fusion_dag",
-            "io_params": io_params
-        })
-        
-        end_time = time.time()
-        fusion_time = fusion_result.get("execution_time_ms", 0)
-        
-        speedup = direct_time / fusion_time if fusion_time > 0 else 0
-        
-        # CPU-Nutzung schätzen (vereinfacht)
+        results = {}
+        total_time = 0
         resource_usage_percent = 0
-        if "body" in fusion_result and isinstance(fusion_result["body"], dict):
-            performance = fusion_result["body"].get("performance", {})
-            if isinstance(performance, dict):
-                resource_usage_percent = performance.get("cpu_usage_percent", 0)
         
+        # Flache Liste aller Funktionen in Fusionsgruppen
+        flat_fusion_funcs = set()
+        for group in fusion_groups:
+            for func in group:
+                flat_fusion_funcs.add(func)
+        
+        # Verarbeite die Kette sequenziell, fasse aber Funktionen in Fusionsgruppen zusammen
+        i = 0
+        while i < len(chain):
+            current_func = chain[i]
+            
+            # Suche nach der Fusionsgruppe, die diese Funktion enthält (falls vorhanden)
+            fusion_group = None
+            for group in fusion_groups:
+                if current_func in group:
+                    fusion_group = group
+                    break
+            
+            if fusion_group:
+                # Dies ist Teil einer Fusionsgruppe - rufe die erste Funktion der Gruppe auf
+                group_start_func = fusion_group[0]
+                group_str = "+".join(fusion_group)
+                
+                logger.debug(f"  Fusion: Rufe Fusionsgruppe auf: {group_str} (startet mit {group_start_func})")
+                
+                # Erstelle ein Event für die Fusionsgruppe
+                event = {
+                    "operation": "fusion_test",
+                    "userId": f"test_{config_id}_fusion_{i}",
+                    "io_params": io_params,
+                    "fusion_group": fusion_group  # Gib die Fusionsgruppe mit
+                }
+                
+                try:
+                    # Rufe die erste Funktion der Gruppe auf, um die Fusion zu simulieren
+                    start_time = time.time()
+                    result = await self.tester.invoke_function(group_start_func, event)
+                    end_time = time.time()
+                    
+                    execution_time = result.get("execution_time_ms", 0)
+                    logger.debug(f"  Fusion: Gruppe {group_str} abgeschlossen in {execution_time:.2f}ms")
+                    
+                    group_key = "_".join(fusion_group)
+                    results[group_key] = result
+                    
+                    # Addiere Ausführungszeit
+                    total_time += execution_time
+                    
+                    # Verfolge Ressourcennutzung
+                    if "body" in result and isinstance(result["body"], dict):
+                        perf = result["body"].get("performance", {})
+                        if isinstance(perf, dict):
+                            usage = perf.get("cpu_usage_percent", 0)
+                            resource_usage_percent += usage
+                            logger.debug(f"  Fusion: CPU-Nutzung für Gruppe {group_str}: {usage:.1f}%")
+                    
+                    # Überspringe alle Funktionen in dieser Gruppe
+                    skipped = len(fusion_group) - 1
+                    logger.debug(f"  Fusion: Überspringe {skipped} weitere Funktionen in dieser Gruppe")
+                    i += len(fusion_group)
+                    
+                except Exception as e:
+                    logger.error(f"  ❌ Fusion: Fehler beim Aufruf der Fusionsgruppe {group_str}: {e}")
+                    logger.error(f"  Stack Trace: {traceback.format_exc()}")
+                    results[f"fusion_group_{i}"] = {"error": str(e), "execution_time_ms": 0}
+                    i += len(fusion_group)
+            else:
+                # Keine Fusion für diese Funktion - rufe sie einzeln auf
+                logger.debug(f"  Fusion: Rufe einzelne Funktion auf: {current_func} (keine Fusionsgruppe)")
+                event = {
+                    "operation": "test",
+                    "userId": f"test_{config_id}_single_{i}",
+                    "io_params": io_params
+                }
+                
+                try:
+                    start_time = time.time()
+                    result = await self.tester.invoke_function(current_func, event)
+                    end_time = time.time()
+                    
+                    execution_time = result.get("execution_time_ms", 0)
+                    logger.debug(f"  Fusion: Einzelfunktion {current_func} abgeschlossen in {execution_time:.2f}ms")
+                    
+                    results[current_func] = result
+                    
+                    # Addiere Ausführungszeit
+                    total_time += execution_time
+                
+                except Exception as e:
+                    logger.error(f"  ❌ Fusion: Fehler beim Aufruf von {current_func}: {e}")
+                    logger.error(f"  Stack Trace: {traceback.format_exc()}")
+                    results[current_func] = {"error": str(e), "execution_time_ms": 0}
+                
+                i += 1
+        
+        # Normalisiere Ressourcennutzung
+        if fusion_groups:
+            resource_usage_percent /= len(fusion_groups)
+        
+        logger.debug(f"Fusion-Test abgeschlossen: Gesamtzeit = {total_time:.2f}ms, Ressourcennutzung = {resource_usage_percent:.1f}%")
         return {
-            "config": config,
-            "direct_time_ms": direct_time,
-            "fusion_time_ms": fusion_time,
-            "speedup_factor": speedup,
-            "test_duration_ms": (end_time - start_time) * 1000,
-            "average_latency_ms": fusion_time,
-            "requests_per_second": 1000 / fusion_time if fusion_time > 0 else 0,
-            "resource_usage_percent": resource_usage_percent,
-            "direct_results": direct_results,
-            "fusion_result": fusion_result,
-            "timestamp": time.time()
+            "function_results": results,
+            "total_time_ms": total_time,
+            "resource_usage_percent": resource_usage_percent
         }
+    
+    def _calculate_fitness(self, result):
+        """Berechnet den Fitness-Wert eines Testergebnisses."""
+        # Gewichtete Summe verschiedener Metriken
+        speedup_fitness = self.fitness_functions["speedup"](result) * 2.0  # Doppelte Gewichtung
+        latency_fitness = self.fitness_functions["latency"](result)
+        throughput_fitness = self.fitness_functions["throughput"](result)
+        resource_fitness = self.fitness_functions["resource_usage"](result)
+        
+        # Gewichtung der verschiedenen Aspekte
+        fitness = (
+            0.4 * speedup_fitness + 
+            0.3 * latency_fitness + 
+            0.2 * throughput_fitness + 
+            0.1 * resource_fitness
+        )
+        
+        logger.debug(f"Fitness berechnet: {fitness:.2f} (Speedup: {result.get('speedup_factor', 0):.2f}x)")
+        return fitness
     
     def _update_best_configs(self):
         """Aktualisiert die Liste der besten Konfigurationen basierend auf den Testergebnissen."""
+        logger.info("Aktualisiere Liste der besten Konfigurationen...")
+        
         # Berechne Fitness für alle Ergebnisse
         fitness_scores = {}
         for config_key, result in self.results.items():
@@ -908,11 +1052,15 @@ class ComprehensiveFusionOptimizer:
             reverse=True
         )
         
+        logger.info(f"Beste Konfiguration hat Fitness-Score: {sorted_configs[0][1]:.2f} " if sorted_configs else "Keine Ergebnisse")
+        
         # Wähle die besten Konfigurationen
         self.best_configs = [
             self.results[config_key]["config"]
             for config_key, _ in sorted_configs[:10]  # Top 10
         ]
+        
+        logger.info(f"{len(self.best_configs)} beste Konfigurationen ausgewählt")
     
     def _save_results(self):
         """Speichert die Testergebnisse und besten Konfigurationen."""
@@ -920,7 +1068,11 @@ class ComprehensiveFusionOptimizer:
         os.makedirs("results", exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         
-        with open(f"results/fusion_results_{timestamp}.json", "w") as f:
+        results_file = f"results/fusion_results_{timestamp}.json"
+        best_configs_file = f"results/best_configs_{timestamp}.json"
+        
+        logger.info(f"Speichere Ergebnisse in {results_file}")
+        with open(results_file, "w") as f:
             json.dump({
                 "timestamp": time.time(),
                 "progress": self.progress,
@@ -930,16 +1082,22 @@ class ComprehensiveFusionOptimizer:
             }, f, indent=2)
         
         # Speichere beste Konfigurationen separat
-        with open(f"results/best_configs_{timestamp}.json", "w") as f:
+        logger.info(f"Speichere beste Konfigurationen in {best_configs_file}")
+        with open(best_configs_file, "w") as f:
             json.dump({
                 "timestamp": time.time(),
                 "best_configs": self.best_configs
             }, f, indent=2)
+        
+        logger.info("Ergebnisse erfolgreich gespeichert")
     
     def analyze_results(self):
         """Analysiert die Testergebnisse und generiert einen Bericht."""
         if not self.results:
+            logger.warning("Keine Testergebnisse vorhanden für Analyse")
             return "Keine Testergebnisse vorhanden."
+        
+        logger.info(f"Analysiere {len(self.results)} Testergebnisse...")
         
         report = {
             "summary": {
@@ -948,15 +1106,15 @@ class ComprehensiveFusionOptimizer:
                 "max_speedup": 0,
                 "best_config": None
             },
-            "performance_by_parameter": {},
-            "io_performance": {},
-            "network_performance": {},
-            "memory_performance": {},
             "chain_performance": {},
-            "dag_performance": {}
+            "fusion_performance": {},
+            "memory_performance": {},
+            "io_performance": {},
+            "network_performance": {}
         }
 
-        # === 1. Summary berechnen ===
+        # Berechne Summary-Statistiken
+        logger.info("Berechne Summary-Statistiken...")
         speedups = []
         for result in self.results.values():
             speedup = result.get("speedup_factor", 0)
@@ -967,14 +1125,16 @@ class ComprehensiveFusionOptimizer:
                 report["summary"]["best_config"] = result["config"]
 
         report["summary"]["average_speedup"] = sum(speedups) / len(speedups) if speedups else 0
+        logger.info(f"Durchschnittlicher Speedup: {report['summary']['average_speedup']:.2f}x")
+        logger.info(f"Maximaler Speedup: {report['summary']['max_speedup']:.2f}x")
 
-        # === 2. Chain Performance ===
+        # Analysiere Chain-Performance
+        logger.info("Analysiere Performance nach Funktionsketten...")
         chain_data = {}
         for result in self.results.values():
             config = result["config"]
-            if config["type"] == "chain":
-                chain_str = "->".join(config["chain"])
-                chain_data.setdefault(chain_str, []).append(result.get("speedup_factor", 0))
+            chain_str = "->".join(config["chain"])
+            chain_data.setdefault(chain_str, []).append(result.get("speedup_factor", 0))
 
         report["chain_performance"] = {
             chain: {
@@ -983,69 +1143,75 @@ class ComprehensiveFusionOptimizer:
             }
             for chain, vals in chain_data.items()
         }
+        logger.info(f"Performance für {len(chain_data)} verschiedene Funktionsketten analysiert")
 
-        # === 3. DAG Performance ===
-        dag_data = {}
+        # Analysiere Fusionsgruppen-Performance
+        logger.info("Analysiere Performance nach Fusionsgruppen...")
+        fusion_data = {}
         for result in self.results.values():
             config = result["config"]
-            if config["type"] == "dag":
-                dag_id = f"{config['dag']['start_node']}_nodes_{len(config['dag']['nodes'])}"
-                dag_data.setdefault(dag_id, []).append(result.get("speedup_factor", 0))
+            
+            # Erstelle eine String-Repräsentation der Fusionsgruppen
+            if config["fusion_groups"]:
+                fusion_str = "|".join(["_".join(group) for group in config["fusion_groups"]])
+            else:
+                fusion_str = "no_fusion"
+                
+            fusion_data.setdefault(fusion_str, []).append(result.get("speedup_factor", 0))
 
-        report["dag_performance"] = {
-            dag: {
+        report["fusion_performance"] = {
+            fusion: {
                 "avg_speedup": sum(vals) / len(vals),
                 "count": len(vals)
             }
-            for dag, vals in dag_data.items()
+            for fusion, vals in fusion_data.items()
         }
+        logger.info(f"Performance für {len(fusion_data)} verschiedene Fusionsgruppen analysiert")
 
-        # === 4. Memory Performance (für Chains und DAGs) ===
-        memory_groups = {}
+        # Analysiere Memory-Performance
+        logger.info("Analysiere Performance nach Memory-Konfigurationen...")
+        memory_data = {}
         for result in self.results.values():
             config = result["config"]
-            memory_config = config.get("memory_config", {})
-            if not memory_config:
-                continue
-
-            if config["type"] == "chain" and config["chain"]:
-                func1 = config["chain"][0]
-            elif config["type"] == "dag":
-                func1 = config["dag"]["start_node"]
-            else:
-                continue
-
-            memory = memory_config.get(func1, 128)
-            key = f"{func1}_{memory}MB"
-            memory_groups.setdefault(key, []).append(result.get("speedup_factor", 0))
+            
+            # Vereinfache Memory-Konfiguration zu einem String
+            # Wir verwenden hier nur die durchschnittliche Memory-Zuordnung
+            avg_memory = sum(config["memory_config"].values()) / len(config["memory_config"])
+            memory_key = f"avg_{int(avg_memory)}MB"
+            
+            memory_data.setdefault(memory_key, []).append(result.get("speedup_factor", 0))
 
         report["memory_performance"] = {
-            key: {
+            memory: {
                 "avg_speedup": sum(vals) / len(vals),
                 "count": len(vals)
             }
-            for key, vals in memory_groups.items()
+            for memory, vals in memory_data.items()
         }
+        logger.info(f"Performance für {len(memory_data)} verschiedene Memory-Konfigurationen analysiert")
 
-        # === 5. IO Performance ===
-        io_groups = {}
+        # Analysiere I/O-Performance
+        logger.info("Analysiere Performance nach I/O-Konfigurationen...")
+        io_data = {}
         for result in self.results.values():
             config = result["config"]
             iterations = config["io_config"]["iterations"]
             file_size = config["io_config"]["file_size_kb"]
             key = f"iter_{iterations}_size_{file_size}"
-            io_groups.setdefault(key, []).append(result.get("speedup_factor", 0))
+            io_data.setdefault(key, []).append(result.get("speedup_factor", 0))
 
         report["io_performance"] = {
             key: {
                 "avg_speedup": sum(vals) / len(vals),
                 "count": len(vals)
             }
-            for key, vals in io_groups.items()
+            for key, vals in io_data.items()
         }
+        logger.info(f"Performance für {len(io_data)} verschiedene I/O-Konfigurationen analysiert")
 
-        # === 6. Network Performance ===
-        network_groups = {}
+        # Analysiere Network-Performance
+        logger.info("Analysiere Performance nach Netzwerk-Konfigurationen...")
+        network_data = {}
         for result in self.results.values():
             config = result["config"]
             net = config.get("network", {})
@@ -1053,17 +1219,19 @@ class ComprehensiveFusionOptimizer:
             loss = net.get("loss_percent", 0)
             bw = net.get("bandwidth_kbit", "unlimited")
             key = f"lat_{latency}_loss_{loss}_bw_{bw}"
-            network_groups.setdefault(key, []).append(result.get("speedup_factor", 0))
+            network_data.setdefault(key, []).append(result.get("speedup_factor", 0))
 
         report["network_performance"] = {
             key: {
                 "avg_speedup": sum(vals) / len(vals),
                 "count": len(vals)
             }
-            for key, vals in network_groups.items()
+            for key, vals in network_data.items()
         }
+        logger.info(f"Performance für {len(network_data)} verschiedene Netzwerk-Konfigurationen analysiert")
 
-        # === 7. Top-5 Konfigurationen ===
+        # Extrahiere Top-Konfigurationen
+        logger.info("Extrahiere Top-Konfigurationen...")
         top_configs = []
         for _, result in sorted(
             self.results.items(),
@@ -1071,115 +1239,89 @@ class ComprehensiveFusionOptimizer:
             reverse=True
         )[:5]:
             config = result["config"]
-            if config["type"] == "chain":
-                top_configs.append({
-                    "chain": "->".join(config["chain"]),
-                    "memory": config["memory_config"],
-                    "speedup": result.get("speedup_factor", 0),
-                    "latency_ms": result.get("fusion_time_ms", 0)
-                })
-            else:  # dag
-                top_configs.append({
-                    "type": "dag",
-                    "start_node": config["dag"]["start_node"],
-                    "node_count": len(config["dag"]["nodes"]),
-                    "speedup": result.get("speedup_factor", 0),
-                    "latency_ms": result.get("fusion_time_ms", 0)
-                })
+            top_configs.append({
+                "chain": "->".join(config["chain"]),
+                "fusion_groups": [["->".join(group) for group in config["fusion_groups"]]],
+                "memory": config["memory_config"],
+                "speedup": result.get("speedup_factor", 0),
+                "latency_ms": result.get("fusion_time_ms", 0)
+            })
 
         report["top_configs"] = top_configs
-
-        return report
-
-
-
-async def run_comprehensive_fusion_optimization(test_count=None, parallel=True, max_workers=8):
-    """Führt einen umfassenden Fusionsoptimierungsprozess durch."""
-    print("Starte umfassende Function Fusion Optimierung...")
-    
-    # 1. Optimizer für umfassende Tests erstellen
-    optimizer = ComprehensiveFusionOptimizer()
-    
-    # 2. Testvarianten für alle Ketten und DAGs generieren
-    print("Generiere Testkonfigurationen...")
-    test_configs = optimizer.generate_test_configurations(test_count)
-    
-    # 3. Tests ausführen
-    print("Führe Tests aus...")
-    if parallel and max_workers > 1:
-        await optimizer.run_tests_parallel(test_configs, max_workers)
-    else:
-        await optimizer.run_tests(test_configs)
-    
-    # 4. Ergebnisse analysieren
-    print("Analysiere Ergebnisse...")
-    results = optimizer.analyze_results()
-    
-    # 5. Bericht erstellen
-    print("Erstelle Bericht...")
-    generate_detailed_report(results)
-    
-    print("Umfassende Function Fusion Optimierung abgeschlossen.")
-    return results
-
-
-def generate_detailed_report(results):
-    """Erstellt einen detaillierten Bericht über die Optimierungsergebnisse."""
-    # Hier würde ein umfassender Bericht erstellt werden
-    
-    # 1. Überblick
-    print("=== FUNCTION FUSION OPTIMIERUNG - BERICHT ===")
-    print(f"Getestete Konfigurationen: {results['summary']['total_tests']}")
-    print(f"Durchschnittliche Beschleunigung: {results['summary']['average_speedup']:.2f}x")
-    print(f"Maximale Beschleunigung: {results['summary']['max_speedup']:.2f}x")
-    
-    # 2. Top-5 Konfigurationen
-    print("\n=== TOP 5 KONFIGURATIONEN ===")
-    for i, config in enumerate(results.get("top_configs", []), 1):
-        if "chain" in config:
-            print(f"{i}. Kette: {config['chain']}")
-        else:
-            print(f"{i}. DAG mit Startknoten: {config.get('start_node', 'N/A')}, " +
-                 f"{config.get('node_count', 0)} Knoten")
+        logger.info(f"Top 5 Konfigurationen mit Speedups von {top_configs[0]['speedup']:.2f}x bis {top_configs[-1]['speedup']:.2f}x")
         
-        print(f"   Beschleunigung: {config.get('speedup', 0):.2f}x")
-        print(f"   Latenz: {config.get('latency_ms', 0):.2f} ms")
-        if "memory" in config:
-            print(f"   Memory-Konfiguration: {config['memory']}")
-        print("   ---")
+        # Identifiziere die besten Fusionskandidaten
+        logger.info("Identifiziere beste Fusionskandidaten...")
+        report["best_fusion_candidates"] = self.identify_best_fusion_candidates()
+        logger.info(f"{len(report['best_fusion_candidates'])} beste Fusionskandidaten identifiziert")
+
+        logger.info(f"Analyse abgeschlossen: Durchschnittlicher Speedup = {report['summary']['average_speedup']:.2f}x")
+        return report
+            
+
     
-    # 3. Performance nach Chain-Typ
-    print("\n=== PERFORMANCE NACH KETTENTYP ===")
-    chain_data = sorted(
-        results.get("chain_performance", {}).items(),
-        key=lambda x: x[1]["avg_speedup"],
-        reverse=True
-    )
-    for chain, data in chain_data[:5]:  # Top-5
-        print(f"Kette: {chain}")
-        print(f"  Durchschnittliche Beschleunigung: {data['avg_speedup']:.2f}x")
-        print(f"  Anzahl Tests: {data['count']}")
-    
-    # 4. Memory-Performance
-    print("\n=== PERFORMANCE NACH MEMORY-KONFIGURATION ===")
-    memory_data = sorted(
-        results.get("memory_performance", {}).items(),
-        key=lambda x: x[1]["avg_speedup"],
-        reverse=True
-    )
-    for mem, data in memory_data[:5]:  # Top-5
-        print(f"Konfiguration: {mem}")
-        print(f"  Durchschnittliche Beschleunigung: {data['avg_speedup']:.2f}x")
-        print(f"  Anzahl Tests: {data['count']}")
-    
-    # 5. Ausgabe in Datei
-    import json
-    
-    report_file = f"fusion_optimization_results_{time.strftime('%Y%m%d_%H%M%S')}.json"
-    with open(report_file, "w") as f:
-        json.dump(results, f, indent=2)
-    
-    print(f"\nDetaillierten Bericht in '{report_file}' gespeichert.")
+    def identify_best_fusion_candidates(self):
+        """
+        Analysiert Testergebnisse, um die besten Fusionskandidaten zu identifizieren.
+        """
+        logger.info("Analysiere Testergebnisse für beste Fusionskandidaten...")
+        fusion_performance = {}
+        
+        # Analysiere alle Testergebnisse
+        for result_id, result in self.results.items():
+            config = result.get("config", {})
+            fusion_groups = config.get("fusion_groups", [])
+            
+            # Überspringe Baseline-Tests
+            if not fusion_groups:
+                continue
+                
+            # Analysiere jede Fusionsgruppe einzeln
+            for group in fusion_groups:
+                # Erstelle einen Identifikator für diese Fusionsgruppe
+                group_id = "_".join(group)
+                
+                # Sammle Performance-Metriken
+                speedup = result.get("speedup_factor", 0)
+                
+                if group_id not in fusion_performance:
+                    fusion_performance[group_id] = {
+                        "speedups": [],
+                        "count": 0,
+                        "functions": group
+                    }
+                    
+                fusion_performance[group_id]["speedups"].append(speedup)
+                fusion_performance[group_id]["count"] += 1
+        
+        # Berechne durchschnittlichen Speedup für jede Fusionsgruppe
+        logger.info(f"Berechne durchschnittlichen Speedup für {len(fusion_performance)} Fusionsgruppen...")
+        for group_id, metrics in fusion_performance.items():
+            if metrics["speedups"]:
+                metrics["avg_speedup"] = sum(metrics["speedups"]) / len(metrics["speedups"])
+                logger.debug(f"Fusionsgruppe {group_id}: Avg Speedup = {metrics['avg_speedup']:.2f}x, {metrics['count']} Tests")
+            else:
+                metrics["avg_speedup"] = 0
+        
+        # Sortiere nach durchschnittlichem Speedup
+        sorted_fusions = sorted(
+            fusion_performance.items(),
+            key=lambda x: x[1]["avg_speedup"],
+            reverse=True
+        )
+        
+        # Liste der besten Fusionskandidaten
+        best_candidates = []
+        for group_id, metrics in sorted_fusions[:10]:  # Top 10
+            best_candidates.append({
+                "functions": metrics["functions"],
+                "avg_speedup": metrics["avg_speedup"],
+                "test_count": metrics["count"]
+            })
+            logger.info(f"Top Fusion: {'+'.join(metrics['functions'])}: {metrics['avg_speedup']:.2f}x Speedup ({metrics['count']} Tests)")
+        
+        logger.info(f"Identifiziert: {len(best_candidates)} beste Fusionskandidaten")
+        return best_candidates
 
 
 class DockerFusionTester:
@@ -1188,26 +1330,33 @@ class DockerFusionTester:
     def __init__(self, services_url_base="http://localhost"):
         self.services_url_base = services_url_base
         self.http_client = None
+        logger.info(f"DockerFusionTester initialisiert mit URL-Basis: {services_url_base}")
     
     async def setup(self):
         """Initialisiert den Tester."""
+        logger.info("Initialisiere HTTP-Client für DockerFusionTester...")
         self.http_client = httpx.AsyncClient(timeout=30.0)
-        print("DockerFusionTester bereit")
+        logger.info("DockerFusionTester bereit")
     
     async def cleanup(self):
         """Räumt Ressourcen auf."""
         if self.http_client:
+            logger.info("Schließe HTTP-Client...")
             await self.http_client.aclose()
+            logger.info("HTTP-Client geschlossen")
     
     async def invoke_function(self, function_name, event_data):
         """Ruft eine Funktion auf und gibt das Ergebnis zurück."""
-        # Service-Port bestimmen (z.B. 8000 + Service-Index)
+        # Service-Port bestimmen
         service_name = function_name.lower().replace("_", "-")
         url = f"{self.services_url_base}:{self._get_service_port(service_name)}/invoke"
+        
+        logger.debug(f"Rufe Funktion auf: {function_name}, URL: {url}")
         
         # Aufruf durchführen
         try:
             start_time = asyncio.get_event_loop().time()
+            logger.debug(f"HTTP-Anfrage an {url} gesendet")
             response = await self.http_client.post(url, json=event_data)
             end_time = asyncio.get_event_loop().time()
             
@@ -1216,14 +1365,27 @@ class DockerFusionTester:
                 # Ausführungszeit hinzufügen
                 execution_time = (end_time - start_time) * 1000  # ms
                 result["execution_time_ms"] = execution_time
+                logger.debug(f"Funktion {function_name} erfolgreich aufgerufen: {execution_time:.2f}ms")
                 return result
             else:
+                logger.warning(f"Funktion {function_name} lieferte Status {response.status_code}")
                 return {
                     "error": f"Status {response.status_code}",
                     "execution_time_ms": (end_time - start_time) * 1000
                 }
                 
+        except httpx.ReadTimeout:
+            logger.error(f"Timeout beim Aufruf von {function_name}")
+            return {"error": f"Timeout beim Aufruf von {function_name}", "execution_time_ms": 0}
+        except httpx.ConnectTimeout:
+            logger.error(f"Verbindungs-Timeout für {function_name}")
+            return {"error": f"Verbindungs-Timeout für {function_name}", "execution_time_ms": 0}
+        except httpx.ConnectError:
+            logger.error(f"Verbindungsfehler für {function_name}")
+            return {"error": f"Verbindungsfehler für {function_name}", "execution_time_ms": 0}
         except Exception as e:
+            logger.error(f"Unerwarteter Fehler beim Aufruf von {function_name}: {e}")
+            logger.error(f"Stack Trace: {traceback.format_exc()}")
             return {"error": str(e), "execution_time_ms": 0}
     
     async def update_function_config(self, function_name, config_updates):
@@ -1231,11 +1393,19 @@ class DockerFusionTester:
         service_name = function_name.lower().replace("_", "-")
         url = f"{self.services_url_base}:{self._get_service_port(service_name)}/config"
         
+        logger.debug(f"Aktualisiere Konfiguration für {function_name}: {config_updates}")
+        
         try:
             response = await self.http_client.post(url, json=config_updates)
-            return response.status_code == 200
+            success = response.status_code == 200
+            if success:
+                logger.debug(f"Konfiguration für {function_name} erfolgreich aktualisiert")
+            else:
+                logger.warning(f"Konfigurationsaktualisierung für {function_name} fehlgeschlagen: Status {response.status_code}")
+            return success
         except Exception as e:
-            print(f"Fehler beim Aktualisieren der Konfiguration: {e}")
+            logger.warning(f"Fehler beim Aktualisieren der Konfiguration für {function_name}: {e}")
+            logger.debug(f"Stack Trace: {traceback.format_exc()}")
             return False
     
     async def update_network_config(self, function_name, network_config):
@@ -1243,49 +1413,179 @@ class DockerFusionTester:
         service_name = function_name.lower().replace("_", "-")
         url = f"{self.services_url_base}:{self._get_service_port(service_name)}/network"
         
+        logger.debug(f"Aktualisiere Netzwerkkonfiguration für {function_name}: {network_config}")
+        
         try:
             response = await self.http_client.post(url, json=network_config)
-            return response.status_code == 200
+            success = response.status_code == 200
+            if success:
+                logger.debug(f"Netzwerkkonfiguration für {function_name} erfolgreich aktualisiert")
+            else:
+                logger.warning(f"Netzwerkkonfiguration für {function_name} fehlgeschlagen: Status {response.status_code}")
+            return success
         except Exception as e:
-            print(f"Fehler beim Aktualisieren der Netzwerkkonfiguration: {e}")
+            logger.warning(f"Fehler beim Aktualisieren der Netzwerkkonfiguration für {function_name}: {e}")
+            logger.debug(f"Stack Trace: {traceback.format_exc()}")
             return False
     
     def _get_service_port(self, service_name):
         """Gibt den Port für einen Service zurück."""
-        # Idealerweise aus einer Konfigurationsdatei oder Environment lesen
+        # Service-Port-Mapping
         service_ports = {
-            "addcartitem": 8001,
-            "cartkvstorage": 8002,
-            "checkout": 8003,
-            "currency": 8004,
-            "email": 8005,
-            "emptycart": 8006,
-            "frontend": 8007,
-            "getads": 8008,
-            "getcart": 8009,
-            "getproduct": 8010,
-            "listproducts": 8011,
-            "listrecommendations": 8012,
+            "addcartitem": 8002,
+            "cartkvstorage": 8003,
+            "checkout": 8012,
+            "currency": 8014,
+            "email": 8017,
+            "emptycart": 8005,
+            "frontend": 8001,
+            "getads": 8016,
+            "getcart": 8004,
+            "getproduct": 8007,
+            "listproducts": 8006,
+            "listrecommendations": 8009,
             "payment": 8013,
-            "searchproducts": 8014,
-            "shipmentquote": 8015,
-            "shiporder": 8016,
-            "supportedcurrencies": 8017
+            "searchproducts": 8008,
+            "shipmentquote": 8010,
+            "shiporder": 8011,
+            "supportedcurrencies": 8015
         }
-        return service_ports.get(service_name, 8000)
+        port = service_ports.get(service_name, 8000)
+        logger.debug(f"Service-Port für {service_name}: {port}")
+        return port
+
+
+async def run_function_fusion_optimization(test_count=None, parallel=True, max_workers=8):
+    """Führt einen umfassenden Optimierungsprozess für Function Fusion durch."""
+    logger.info("Starte Function Fusion Optimierung...")
+    start_time = time.time()
+    
+    # 1. Optimizer für automatische Fusionsidentifikation erstellen
+    logger.info("Initialisiere FunctionFusionOptimizer...")
+    optimizer = FunctionFusionOptimizer()
+    
+    # 2. Testvarianten für realistische Funktionsaufrufe generieren
+    logger.info("Generiere Testkonfigurationen...")
+    test_configs = optimizer.generate_test_configurations(test_count)
+    logger.info(f"Generiert: {len(test_configs)} Testkonfigurationen")
+    
+    # 3. Tests ausführen
+    logger.info("Führe Tests aus...")
+    test_start_time = time.time()
+    if parallel and max_workers > 1:
+        logger.info(f"Führe Tests parallel mit {max_workers} Workern aus...")
+        await optimizer.run_tests_parallel(test_configs, max_workers)
+    else:
+        logger.info("Führe Tests sequentiell aus...")
+        await optimizer.run_tests(test_configs)
+    
+    test_end_time = time.time()
+    test_duration = test_end_time - test_start_time
+    logger.info(f"Tests abgeschlossen in {test_duration:.2f} Sekunden")
+    
+    # 4. Ergebnisse analysieren
+    logger.info("Analysiere Ergebnisse...")
+    analysis_start_time = time.time()
+    results = optimizer.analyze_results()
+    analysis_end_time = time.time()
+    analysis_duration = analysis_end_time - analysis_start_time
+    logger.info(f"Analyse abgeschlossen in {analysis_duration:.2f} Sekunden")
+    
+    # 5. Bericht erstellen
+    logger.info("Erstelle Bericht...")
+    report_start_time = time.time()
+    generate_detailed_report(results)
+    report_end_time = time.time()
+    report_duration = report_end_time - report_start_time
+    logger.info(f"Bericht erstellt in {report_duration:.2f} Sekunden")
+    
+    end_time = time.time()
+    total_duration = end_time - start_time
+    logger.info(f"Function Fusion Optimierung abgeschlossen in {total_duration:.2f} Sekunden")
+    return results
+
+
+def generate_detailed_report(results):
+    """Erstellt einen detaillierten Bericht über die Optimierungsergebnisse."""
+    logger.info("Erstelle detaillierten Bericht...")
+    
+    # 1. Überblick
+    print("=== FUNCTION FUSION OPTIMIERUNG - BERICHT ===")
+    print(f"Getestete Konfigurationen: {results['summary']['total_tests']}")
+    print(f"Durchschnittliche Beschleunigung: {results['summary']['average_speedup']:.2f}x")
+    print(f"Maximale Beschleunigung: {results['summary']['max_speedup']:.2f}x")
+    
+    # 2. Beste Fusionskandidaten
+    print("\n=== BESTE FUSION-KANDIDATEN ===")
+    for i, candidate in enumerate(results.get("best_fusion_candidates", []), 1):
+        print(f"{i}. {' -> '.join(candidate['functions'])}")
+        print(f"   Durchschnittliche Beschleunigung: {candidate['avg_speedup']:.2f}x")
+        print(f"   Anzahl Tests: {candidate['test_count']}")
+        print("   ---")
+    
+    # 3. Top-5 Konfigurationen
+    print("\n=== TOP 5 KONFIGURATIONEN ===")
+    for i, config in enumerate(results.get("top_configs", []), 1):
+        print(f"{i}. Kette: {config['chain']}")
+        if "fusion_groups" in config:
+            print(f"   Fusionsgruppen: {config['fusion_groups']}")
+        print(f"   Beschleunigung: {config.get('speedup', 0):.2f}x")
+        print(f"   Latenz: {config.get('latency_ms', 0):.2f} ms")
+        print("   ---")
+    
+    # 4. Performance nach Fusionsgruppe
+    print("\n=== PERFORMANCE NACH FUSIONSGRUPPE ===")
+    fusion_data = sorted(
+        results.get("fusion_performance", {}).items(),
+        key=lambda x: x[1]["avg_speedup"],
+        reverse=True
+    )
+    for fusion, data in fusion_data[:5]:  # Top-5
+        print(f"Fusionsgruppe: {fusion}")
+        print(f"  Durchschnittliche Beschleunigung: {data['avg_speedup']:.2f}x")
+        print(f"  Anzahl Tests: {data['count']}")
+    
+    # 5. Ausgabe in Datei
+    report_file = f"fusion_optimization_results_{time.strftime('%Y%m%d_%H%M%S')}.json"
+    logger.info(f"Speichere vollständigen Bericht in {report_file}")
+    
+    with open(report_file, "w") as f:
+        json.dump(results, f, indent=2)
+    
+    print(f"\nDetaillierten Bericht in '{report_file}' gespeichert.")
+    logger.info("Bericht erfolgreich erstellt und gespeichert")
 
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='Comprehensive Function Fusion Optimizer')
+    parser = argparse.ArgumentParser(description='Function Fusion Optimizer')
     parser.add_argument('--test-count', type=int, help='Anzahl der durchzuführenden Tests')
     parser.add_argument('--parallel', action='store_true', help='Tests parallel ausführen')
     parser.add_argument('--workers', type=int, default=8, help='Anzahl der Worker für parallele Ausführung')
+    parser.add_argument('--debug', action='store_true', help='Debug-Logging aktivieren')
     args = parser.parse_args()
     
-    # Comprehensive Optimierung durchführen
-    asyncio.run(run_comprehensive_fusion_optimization(
-        test_count=args.test_count,
-        parallel=args.parallel,
-        max_workers=args.workers
-    ))
+    # Debug-Logging aktivieren, falls gewünscht
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
+        for handler in logger.handlers:
+            handler.setLevel(logging.DEBUG)
+        logger.info("Debug-Logging aktiviert")
+    
+    # Informationen über die Ausführungsumgebung
+    logger.info(f"Python-Version: {os.sys.version}")
+    logger.info(f"Arbeitsverzeichnis: {os.getcwd()}")
+    logger.info(f"Verfügbare CPUs: {os.cpu_count()}")
+    
+    # Optimierung durchführen
+    logger.info(f"Starte Optimierung mit Parametern: test_count={args.test_count}, parallel={args.parallel}, workers={args.workers}")
+    try:
+        asyncio.run(run_function_fusion_optimization(
+            test_count=args.test_count,
+            parallel=args.parallel,
+            max_workers=args.workers
+        ))
+    except Exception as e:
+        logger.critical(f"Fataler Fehler bei der Optimierung: {e}")
+        logger.critical(f"Stack Trace: {traceback.format_exc()}")
+        raise
