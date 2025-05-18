@@ -1,0 +1,96 @@
+{
+  "timestamp": 1747587751.9306824,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "4127107": {
+      "config": {
+        "id": 4127107,
+        "type": "chain",
+        "chain": [
+          "getads",
+          "cartkvstorage",
+          "checkout"
+        ],
+        "memory_config": {
+          "getads": 128,
+          "cartkvstorage": 1024,
+          "checkout": 256
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 1000,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 0,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": 1000
+        }
+      },
+      "direct_time_ms": 47.0000000204891,
+      "fusion_time_ms": 157.00000000651926,
+      "speedup_factor": 0.2993630574429138,
+      "test_duration_ms": 213.83118629455566,
+      "average_latency_ms": 157.00000000651926,
+      "requests_per_second": 6.369426751327873,
+      "resource_usage_percent": 0,
+      "direct_result": {
+        "statusCode": 200,
+        "body": {
+          "error": "Unbekannte Operation",
+          "received_operation": "test"
+        },
+        "executionTime": 0.053670009947381914,
+        "metadata": {
+          "function": "cartkvstorage",
+          "timestamp": "2025-05-18T17:02:31.568411",
+          "duration_ms": 0.053670009947381914
+        },
+        "execution_time_ms": 47.0000000204891
+      },
+      "fusion_result": {
+        "statusCode": 200,
+        "body": {
+          "results": []
+        },
+        "executionTime": 148.772448010277,
+        "metadata": {
+          "function": "searchproducts",
+          "timestamp": "2025-05-18T17:02:31.720516",
+          "duration_ms": 148.772448010277
+        },
+        "execution_time_ms": 157.00000000651926
+      },
+      "timestamp": 1747587751.9306824
+    }
+  },
+  "best_configs": [
+    {
+      "id": 4127107,
+      "type": "chain",
+      "chain": [
+        "getads",
+        "cartkvstorage",
+        "checkout"
+      ],
+      "memory_config": {
+        "getads": 128,
+        "cartkvstorage": 1024,
+        "checkout": 256
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1000,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 1000
+      }
+    }
+  ]
+}

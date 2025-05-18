@@ -1,6 +1,14 @@
 async def handler(event, context=None, call_function=None):
     print("[add_cart_item] Eingabe:", event)
 
+    if event.get("operation") == "test":
+        print("[add_cart_item] Test-Operation erkannt – simuliere Workload")
+        # → Option 1: einfache Antwort
+        return {
+            "statusCode": 200,
+            "body": True
+        }
+
     response = await call_function(
         "cartkvstorage",
         {

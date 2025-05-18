@@ -1,0 +1,73 @@
+{
+  "timestamp": 1747589887.0683763,
+  "best_configs": [
+    {
+      "id": 7581600,
+      "type": "dag",
+      "dag": {
+        "nodes": [
+          "shipmentquote",
+          "checkout",
+          "getproduct",
+          "emptycart",
+          "frontend",
+          "getcart",
+          "email",
+          "shiporder"
+        ],
+        "edges": [
+          {
+            "from": "frontend",
+            "to": "checkout"
+          },
+          {
+            "from": "checkout",
+            "to": "getcart"
+          },
+          {
+            "from": "getcart",
+            "to": "email"
+          },
+          {
+            "from": "frontend",
+            "to": "shipmentquote"
+          },
+          {
+            "from": "shipmentquote",
+            "to": "getproduct"
+          },
+          {
+            "from": "getproduct",
+            "to": "shiporder"
+          },
+          {
+            "from": "shiporder",
+            "to": "emptycart"
+          }
+        ],
+        "start_node": "frontend"
+      },
+      "memory_config": {
+        "shipmentquote": 128,
+        "checkout": 128,
+        "getproduct": 128,
+        "emptycart": 128,
+        "frontend": 128,
+        "getcart": 128,
+        "email": 128,
+        "shiporder": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

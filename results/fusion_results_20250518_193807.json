@@ -1,0 +1,193 @@
+{
+  "timestamp": 1747589887.0683763,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "7581600": {
+      "config": {
+        "id": 7581600,
+        "type": "dag",
+        "dag": {
+          "nodes": [
+            "shipmentquote",
+            "checkout",
+            "getproduct",
+            "emptycart",
+            "frontend",
+            "getcart",
+            "email",
+            "shiporder"
+          ],
+          "edges": [
+            {
+              "from": "frontend",
+              "to": "checkout"
+            },
+            {
+              "from": "checkout",
+              "to": "getcart"
+            },
+            {
+              "from": "getcart",
+              "to": "email"
+            },
+            {
+              "from": "frontend",
+              "to": "shipmentquote"
+            },
+            {
+              "from": "shipmentquote",
+              "to": "getproduct"
+            },
+            {
+              "from": "getproduct",
+              "to": "shiporder"
+            },
+            {
+              "from": "shiporder",
+              "to": "emptycart"
+            }
+          ],
+          "start_node": "frontend"
+        },
+        "memory_config": {
+          "shipmentquote": 128,
+          "checkout": 128,
+          "getproduct": 128,
+          "emptycart": 128,
+          "frontend": 128,
+          "getcart": 128,
+          "email": 128,
+          "shiporder": 128
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 1,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 0,
+          "loss_percent": 0,
+          "bandwidth_kbit": null
+        }
+      },
+      "direct_time_ms": 109.99999998603016,
+      "fusion_time_ms": 62.000000034458935,
+      "speedup_factor": 1.774193547175699,
+      "test_duration_ms": 176.33390426635742,
+      "average_latency_ms": 62.000000034458935,
+      "requests_per_second": 16.129032249100174,
+      "resource_usage_percent": 0,
+      "direct_results": {
+        "emptycart": {
+          "statusCode": 200,
+          "body": {
+            "statusCode": 200,
+            "body": true
+          },
+          "executionTime": 0.04366399662103504,
+          "metadata": {
+            "function": "listproducts",
+            "timestamp": "2025-05-18T17:38:07.103180",
+            "duration_ms": 0.04366399662103504
+          },
+          "execution_time_ms": 47.0000000204891
+        },
+        "email": {
+          "statusCode": 200,
+          "body": true,
+          "executionTime": 9.721273003378883,
+          "metadata": {
+            "function": "emptycart",
+            "timestamp": "2025-05-18T17:38:07.162586",
+            "duration_ms": 9.721273003378883
+          },
+          "execution_time_ms": 62.999999965541065
+        }
+      },
+      "fusion_result": {
+        "statusCode": 200,
+        "body": [],
+        "executionTime": 13.939083000877872,
+        "metadata": {
+          "function": "getproduct",
+          "timestamp": "2025-05-18T17:38:07.227132",
+          "duration_ms": 13.939083000877872
+        },
+        "execution_time_ms": 62.000000034458935
+      },
+      "timestamp": 1747589887.0683763
+    }
+  },
+  "best_configs": [
+    {
+      "id": 7581600,
+      "type": "dag",
+      "dag": {
+        "nodes": [
+          "shipmentquote",
+          "checkout",
+          "getproduct",
+          "emptycart",
+          "frontend",
+          "getcart",
+          "email",
+          "shiporder"
+        ],
+        "edges": [
+          {
+            "from": "frontend",
+            "to": "checkout"
+          },
+          {
+            "from": "checkout",
+            "to": "getcart"
+          },
+          {
+            "from": "getcart",
+            "to": "email"
+          },
+          {
+            "from": "frontend",
+            "to": "shipmentquote"
+          },
+          {
+            "from": "shipmentquote",
+            "to": "getproduct"
+          },
+          {
+            "from": "getproduct",
+            "to": "shiporder"
+          },
+          {
+            "from": "shiporder",
+            "to": "emptycart"
+          }
+        ],
+        "start_node": "frontend"
+      },
+      "memory_config": {
+        "shipmentquote": 128,
+        "checkout": 128,
+        "getproduct": 128,
+        "emptycart": 128,
+        "frontend": 128,
+        "getcart": 128,
+        "email": 128,
+        "shiporder": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

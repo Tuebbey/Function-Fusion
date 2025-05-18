@@ -1,0 +1,158 @@
+{
+  "timestamp": 1747588162.133369,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "7948802": {
+      "config": {
+        "id": 7948802,
+        "type": "dag",
+        "dag": {
+          "nodes": [
+            "listproducts",
+            "listrecommendations",
+            "searchproducts",
+            "addcartitem",
+            "email"
+          ],
+          "edges": [
+            {
+              "from": "listproducts",
+              "to": "addcartitem"
+            },
+            {
+              "from": "listproducts",
+              "to": "listrecommendations"
+            },
+            {
+              "from": "listrecommendations",
+              "to": "searchproducts"
+            },
+            {
+              "from": "searchproducts",
+              "to": "email"
+            }
+          ],
+          "start_node": "listproducts"
+        },
+        "memory_config": {
+          "listproducts": 128,
+          "listrecommendations": 128,
+          "searchproducts": 128,
+          "addcartitem": 128,
+          "email": 128
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 100,
+          "file_size_kb": 1,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 0,
+          "loss_percent": 0,
+          "bandwidth_kbit": null
+        }
+      },
+      "direct_time_ms": 125.0,
+      "fusion_time_ms": 125.0,
+      "speedup_factor": 1.0,
+      "test_duration_ms": 246.52361869812012,
+      "average_latency_ms": 125.0,
+      "requests_per_second": 8.0,
+      "resource_usage_percent": 0,
+      "direct_results": {
+        "addcartitem": {
+          "statusCode": 200,
+          "body": {
+            "error": "The operation specified does not exist."
+          },
+          "executionTime": 1.387594995321706,
+          "metadata": {
+            "function": "frontend",
+            "timestamp": "2025-05-18T17:09:22.062716",
+            "duration_ms": 1.387594995321706
+          },
+          "execution_time_ms": 62.000000034458935
+        },
+        "email": {
+          "statusCode": 200,
+          "body": true,
+          "executionTime": 7.831267997971736,
+          "metadata": {
+            "function": "emptycart",
+            "timestamp": "2025-05-18T17:09:22.118764",
+            "duration_ms": 7.831267997971736
+          },
+          "execution_time_ms": 62.999999965541065
+        }
+      },
+      "fusion_result": {
+        "statusCode": 200,
+        "body": {
+          "id": "591c6fb7f8c1b0c1e5ebf0172f94b721"
+        },
+        "executionTime": 63.53641100577079,
+        "metadata": {
+          "function": "shiporder",
+          "timestamp": "2025-05-18T17:09:22.234562",
+          "duration_ms": 63.53641100577079
+        },
+        "execution_time_ms": 125.0
+      },
+      "timestamp": 1747588162.1323695
+    }
+  },
+  "best_configs": [
+    {
+      "id": 7948802,
+      "type": "dag",
+      "dag": {
+        "nodes": [
+          "listproducts",
+          "listrecommendations",
+          "searchproducts",
+          "addcartitem",
+          "email"
+        ],
+        "edges": [
+          {
+            "from": "listproducts",
+            "to": "addcartitem"
+          },
+          {
+            "from": "listproducts",
+            "to": "listrecommendations"
+          },
+          {
+            "from": "listrecommendations",
+            "to": "searchproducts"
+          },
+          {
+            "from": "searchproducts",
+            "to": "email"
+          }
+        ],
+        "start_node": "listproducts"
+      },
+      "memory_config": {
+        "listproducts": 128,
+        "listrecommendations": 128,
+        "searchproducts": 128,
+        "addcartitem": 128,
+        "email": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

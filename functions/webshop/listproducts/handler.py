@@ -137,6 +137,18 @@ PRODUCTS = [
 
 async def handler(event, context=None, call_function=None):
     print("[list_products] Event empfangen:", event)
-    return {"products": PRODUCTS}
 
+    if event.get("operation") == "test":
+        print("[list_products] Test-Operation erkannt – simuliere Antwort")
+        return {
+            "statusCode": 200,
+            "body": True
+        }
+
+    return {
+        "statusCode": 200,
+        "body": {
+            "products": PRODUCTS
+        }
+    }
 

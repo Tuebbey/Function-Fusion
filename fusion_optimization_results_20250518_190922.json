@@ -1,0 +1,77 @@
+{
+  "summary": {
+    "total_tests": 1,
+    "average_speedup": 1.0,
+    "max_speedup": 1.0,
+    "best_config": {
+      "id": 7948802,
+      "type": "dag",
+      "dag": {
+        "nodes": [
+          "listproducts",
+          "listrecommendations",
+          "searchproducts",
+          "addcartitem",
+          "email"
+        ],
+        "edges": [
+          {
+            "from": "listproducts",
+            "to": "addcartitem"
+          },
+          {
+            "from": "listproducts",
+            "to": "listrecommendations"
+          },
+          {
+            "from": "listrecommendations",
+            "to": "searchproducts"
+          },
+          {
+            "from": "searchproducts",
+            "to": "email"
+          }
+        ],
+        "start_node": "listproducts"
+      },
+      "memory_config": {
+        "listproducts": 128,
+        "listrecommendations": 128,
+        "searchproducts": 128,
+        "addcartitem": 128,
+        "email": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": null
+      }
+    }
+  },
+  "performance_by_parameter": {},
+  "io_performance": {
+    "iter_100_size_1": {
+      "avg_speedup": 1.0,
+      "count": 1
+    }
+  },
+  "network_performance": {},
+  "memory_performance": {},
+  "chain_performance": {},
+  "dag_performance": {},
+  "top_configs": [
+    {
+      "type": "dag",
+      "start_node": "listproducts",
+      "node_count": 5,
+      "speedup": 1.0,
+      "latency_ms": 125.0
+    }
+  ]
+}

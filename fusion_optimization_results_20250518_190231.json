@@ -1,0 +1,65 @@
+{
+  "summary": {
+    "total_tests": 1,
+    "average_speedup": 0.2993630574429138,
+    "max_speedup": 0.2993630574429138,
+    "best_config": {
+      "id": 4127107,
+      "type": "chain",
+      "chain": [
+        "getads",
+        "cartkvstorage",
+        "checkout"
+      ],
+      "memory_config": {
+        "getads": 128,
+        "cartkvstorage": 1024,
+        "checkout": 256
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1000,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 1000
+      }
+    }
+  },
+  "performance_by_parameter": {},
+  "io_performance": {
+    "iter_1_size_1000": {
+      "avg_speedup": 0.2993630574429138,
+      "count": 1
+    }
+  },
+  "network_performance": {},
+  "memory_performance": {
+    "func1_128MB": {
+      "avg_speedup": 0.2993630574429138,
+      "count": 1
+    }
+  },
+  "chain_performance": {
+    "getads->cartkvstorage->checkout": {
+      "avg_speedup": 0.2993630574429138,
+      "count": 1
+    }
+  },
+  "dag_performance": {},
+  "top_configs": [
+    {
+      "chain": "getads->cartkvstorage->checkout",
+      "memory": {
+        "getads": 128,
+        "cartkvstorage": 1024,
+        "checkout": 256
+      },
+      "speedup": 0.2993630574429138,
+      "latency_ms": 157.00000000651926
+    }
+  ]
+}

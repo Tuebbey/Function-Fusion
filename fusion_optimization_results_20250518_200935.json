@@ -1,0 +1,671 @@
+{
+  "summary": {
+    "total_tests": 100,
+    "average_speedup": 1.1669947904031372,
+    "max_speedup": 5.95238095013712,
+    "best_config": {
+      "id": 7728104,
+      "type": "chain",
+      "chain": [
+        "currency",
+        "supportedcurrencies",
+        "addcartitem",
+        "getcart",
+        "listrecommendations"
+      ],
+      "memory_config": {
+        "currency": 2048,
+        "supportedcurrencies": 128,
+        "addcartitem": 128,
+        "getcart": 128,
+        "listrecommendations": 128
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 50,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 50,
+        "loss_percent": 0,
+        "bandwidth_kbit": 100
+      }
+    }
+  },
+  "performance_by_parameter": {},
+  "io_performance": {
+    "iter_1_size_1": {
+      "avg_speedup": 1.3042865447859313,
+      "count": 7
+    },
+    "iter_1_size_1000": {
+      "avg_speedup": 1.486385321304564,
+      "count": 2
+    },
+    "iter_100_size_1": {
+      "avg_speedup": 1.101283358714096,
+      "count": 5
+    },
+    "iter_100_size_1000": {
+      "avg_speedup": 1.371999999973923,
+      "count": 2
+    },
+    "iter_20_size_500": {
+      "avg_speedup": 1.3262411340051832,
+      "count": 3
+    },
+    "iter_5_size_50": {
+      "avg_speedup": 1.0784644835561334,
+      "count": 6
+    },
+    "iter_100_size_100": {
+      "avg_speedup": 0.8418042138910925,
+      "count": 5
+    },
+    "iter_5_size_100": {
+      "avg_speedup": 2.3594497346784333,
+      "count": 3
+    },
+    "iter_50_size_10": {
+      "avg_speedup": 0.8115719409659489,
+      "count": 4
+    },
+    "iter_1_size_100": {
+      "avg_speedup": 0.8532706607636843,
+      "count": 5
+    },
+    "iter_10_size_50": {
+      "avg_speedup": 0.7760192520201078,
+      "count": 5
+    },
+    "iter_5_size_1000": {
+      "avg_speedup": 0.7755796209636333,
+      "count": 4
+    },
+    "iter_50_size_1000": {
+      "avg_speedup": 2.1037493832725955,
+      "count": 4
+    },
+    "iter_20_size_50": {
+      "avg_speedup": 3.47619047506856,
+      "count": 2
+    },
+    "iter_50_size_500": {
+      "avg_speedup": 0.7165744378708089,
+      "count": 3
+    },
+    "iter_100_size_10": {
+      "avg_speedup": 0.8810803881446665,
+      "count": 2
+    },
+    "iter_10_size_100": {
+      "avg_speedup": 1.659574470219475,
+      "count": 1
+    },
+    "iter_10_size_1": {
+      "avg_speedup": 1.8945724524804874,
+      "count": 5
+    },
+    "iter_100_size_500": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "iter_10_size_500": {
+      "avg_speedup": 0.9134376095952009,
+      "count": 7
+    },
+    "iter_1_size_10": {
+      "avg_speedup": 1.1228188665448298,
+      "count": 3
+    },
+    "iter_50_size_100": {
+      "avg_speedup": 1.0001280091212834,
+      "count": 2
+    },
+    "iter_5_size_1": {
+      "avg_speedup": 1.2561049535952507,
+      "count": 4
+    },
+    "iter_20_size_1000": {
+      "avg_speedup": 0.8710957500644567,
+      "count": 2
+    },
+    "iter_1_size_500": {
+      "avg_speedup": 0.9841269833790399,
+      "count": 1
+    },
+    "iter_20_size_1": {
+      "avg_speedup": 1.0425432451538594,
+      "count": 3
+    },
+    "iter_100_size_50": {
+      "avg_speedup": 0.7301587294547827,
+      "count": 1
+    },
+    "iter_10_size_10": {
+      "avg_speedup": 0.7607526883731013,
+      "count": 2
+    },
+    "iter_20_size_10": {
+      "avg_speedup": 0.9095744676997343,
+      "count": 2
+    },
+    "iter_20_size_100": {
+      "avg_speedup": 0.6025641029850652,
+      "count": 1
+    },
+    "iter_5_size_500": {
+      "avg_speedup": 0.3760000001639128,
+      "count": 1
+    },
+    "iter_50_size_50": {
+      "avg_speedup": 0.4959999998100102,
+      "count": 1
+    },
+    "iter_50_size_1": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    }
+  },
+  "network_performance": {
+    "lat_0_loss_0_bw_None": {
+      "avg_speedup": 1.4837326940035849,
+      "count": 8
+    },
+    "lat_20_loss_0_bw_500": {
+      "avg_speedup": 1.3191489350898533,
+      "count": 1
+    },
+    "lat_20_loss_0.01_bw_100": {
+      "avg_speedup": 1.0,
+      "count": 1
+    },
+    "lat_10_loss_0.1_bw_5000": {
+      "avg_speedup": 0.8650793659886307,
+      "count": 2
+    },
+    "lat_0_loss_0_bw_5000": {
+      "avg_speedup": 0.6322025313060982,
+      "count": 2
+    },
+    "lat_50_loss_0.1_bw_100": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "lat_20_loss_0.01_bw_500": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "lat_5_loss_0_bw_100": {
+      "avg_speedup": 1.2088194926594096,
+      "count": 2
+    },
+    "lat_20_loss_0.1_bw_500": {
+      "avg_speedup": 1.3191489379620285,
+      "count": 1
+    },
+    "lat_50_loss_0.01_bw_5000": {
+      "avg_speedup": 0.3760000001639128,
+      "count": 1
+    },
+    "lat_50_loss_0.5_bw_5000": {
+      "avg_speedup": 0.3974358977611868,
+      "count": 1
+    },
+    "lat_100_loss_0.5_bw_500": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "lat_0_loss_0.1_bw_100": {
+      "avg_speedup": 1.0161290311375215,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_500": {
+      "avg_speedup": 0.7460317467650247,
+      "count": 1
+    },
+    "lat_5_loss_0.5_bw_5000": {
+      "avg_speedup": 0.9999999987615391,
+      "count": 1
+    },
+    "lat_50_loss_0_bw_100": {
+      "avg_speedup": 5.95238095013712,
+      "count": 1
+    },
+    "lat_50_loss_0.05_bw_100": {
+      "avg_speedup": 1.0161290330303305,
+      "count": 1
+    },
+    "lat_10_loss_0.5_bw_500": {
+      "avg_speedup": 0.7425751211382193,
+      "count": 3
+    },
+    "lat_5_loss_0.05_bw_None": {
+      "avg_speedup": 2.5084993797170765,
+      "count": 3
+    },
+    "lat_20_loss_0.01_bw_5000": {
+      "avg_speedup": 1.3191489379620285,
+      "count": 1
+    },
+    "lat_100_loss_0.1_bw_500": {
+      "avg_speedup": 0.7520481309508427,
+      "count": 2
+    },
+    "lat_50_loss_0.1_bw_None": {
+      "avg_speedup": 0.7460317451518116,
+      "count": 1
+    },
+    "lat_5_loss_0.01_bw_1000": {
+      "avg_speedup": 1.0,
+      "count": 1
+    },
+    "lat_100_loss_0.1_bw_100": {
+      "avg_speedup": 1.1516379592344466,
+      "count": 2
+    },
+    "lat_100_loss_0.01_bw_5000": {
+      "avg_speedup": 0.9841269833790399,
+      "count": 1
+    },
+    "lat_10_loss_0.5_bw_5000": {
+      "avg_speedup": 1.0161290330303305,
+      "count": 1
+    },
+    "lat_0_loss_0.01_bw_500": {
+      "avg_speedup": 0.9999999987615391,
+      "count": 2
+    },
+    "lat_0_loss_0.1_bw_500": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "lat_10_loss_0_bw_None": {
+      "avg_speedup": 1.0080645168882914,
+      "count": 2
+    },
+    "lat_0_loss_0.5_bw_1000": {
+      "avg_speedup": 1.0386067273559512,
+      "count": 2
+    },
+    "lat_5_loss_0.01_bw_None": {
+      "avg_speedup": 0.7301587294547827,
+      "count": 1
+    },
+    "lat_50_loss_0.5_bw_500": {
+      "avg_speedup": 0.4500000001247307,
+      "count": 1
+    },
+    "lat_20_loss_0.1_bw_None": {
+      "avg_speedup": 0.9841269852122365,
+      "count": 1
+    },
+    "lat_100_loss_0.5_bw_1000": {
+      "avg_speedup": 0.7580645150993441,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_1000": {
+      "avg_speedup": 0.9841269852122365,
+      "count": 1
+    },
+    "lat_5_loss_0.05_bw_1000": {
+      "avg_speedup": 1.0161290311375215,
+      "count": 1
+    },
+    "lat_5_loss_0.01_bw_100": {
+      "avg_speedup": 1.9374999988631316,
+      "count": 1
+    },
+    "lat_10_loss_0.01_bw_None": {
+      "avg_speedup": 0.9320634916336406,
+      "count": 2
+    },
+    "lat_20_loss_0.5_bw_1000": {
+      "avg_speedup": 0.8670476195905766,
+      "count": 2
+    },
+    "lat_10_loss_0.5_bw_None": {
+      "avg_speedup": 0.8294077487348854,
+      "count": 3
+    },
+    "lat_20_loss_0.1_bw_5000": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "lat_5_loss_0.05_bw_100": {
+      "avg_speedup": 1.6595744669256962,
+      "count": 1
+    },
+    "lat_20_loss_0.05_bw_1000": {
+      "avg_speedup": 1.3404255334959074,
+      "count": 1
+    },
+    "lat_50_loss_0.05_bw_None": {
+      "avg_speedup": 1.3191489350898533,
+      "count": 2
+    },
+    "lat_100_loss_0.05_bw_1000": {
+      "avg_speedup": 0.7460317460757427,
+      "count": 1
+    },
+    "lat_20_loss_0.5_bw_100": {
+      "avg_speedup": 1.3191489350898533,
+      "count": 1
+    },
+    "lat_10_loss_0.1_bw_100": {
+      "avg_speedup": 0.9841269833790399,
+      "count": 1
+    },
+    "lat_5_loss_0.1_bw_500": {
+      "avg_speedup": 1.0217391314800999,
+      "count": 1
+    },
+    "lat_5_loss_0.05_bw_5000": {
+      "avg_speedup": 1.024653832272318,
+      "count": 2
+    },
+    "lat_20_loss_0.1_bw_100": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 2
+    },
+    "lat_10_loss_0.5_bw_100": {
+      "avg_speedup": 1.0161290330303305,
+      "count": 1
+    },
+    "lat_0_loss_0.05_bw_500": {
+      "avg_speedup": 1.0,
+      "count": 1
+    },
+    "lat_0_loss_0.1_bw_None": {
+      "avg_speedup": 0.740063491594525,
+      "count": 2
+    },
+    "lat_100_loss_0.5_bw_None": {
+      "avg_speedup": 0.7580645167498736,
+      "count": 1
+    },
+    "lat_50_loss_0_bw_5000": {
+      "avg_speedup": 5.698412696212863,
+      "count": 1
+    },
+    "lat_5_loss_0.1_bw_None": {
+      "avg_speedup": 0.5053763437158721,
+      "count": 1
+    },
+    "lat_10_loss_0.05_bw_500": {
+      "avg_speedup": 1.340425531835843,
+      "count": 1
+    },
+    "lat_50_loss_0_bw_1000": {
+      "avg_speedup": 0.6025641029850652,
+      "count": 1
+    },
+    "lat_0_loss_0.05_bw_5000": {
+      "avg_speedup": 0.7460317451518116,
+      "count": 1
+    },
+    "lat_20_loss_0_bw_100": {
+      "avg_speedup": 1.369565218711705,
+      "count": 1
+    },
+    "lat_10_loss_0.1_bw_None": {
+      "avg_speedup": 0.8571428564169112,
+      "count": 2
+    },
+    "lat_50_loss_0.01_bw_None": {
+      "avg_speedup": 0.6025641029850652,
+      "count": 1
+    },
+    "lat_100_loss_0.1_bw_5000": {
+      "avg_speedup": 0.7301587294547827,
+      "count": 1
+    },
+    "lat_50_loss_0.05_bw_1000": {
+      "avg_speedup": 0.5000000003096152,
+      "count": 1
+    },
+    "lat_0_loss_0.01_bw_100": {
+      "avg_speedup": 0.3760000001639128,
+      "count": 1
+    },
+    "lat_50_loss_0.01_bw_100": {
+      "avg_speedup": 0.9841269852122365,
+      "count": 1
+    },
+    "lat_0_loss_0.05_bw_None": {
+      "avg_speedup": 1.340425531835843,
+      "count": 1
+    },
+    "lat_100_loss_0_bw_5000": {
+      "avg_speedup": 1.0161290311375215,
+      "count": 1
+    },
+    "lat_10_loss_0_bw_500": {
+      "avg_speedup": 1.3191489350898533,
+      "count": 1
+    },
+    "lat_100_loss_0.05_bw_5000": {
+      "avg_speedup": 0.7460317460757427,
+      "count": 1
+    },
+    "lat_100_loss_0.1_bw_1000": {
+      "avg_speedup": 5.698412701477803,
+      "count": 1
+    },
+    "lat_20_loss_0_bw_1000": {
+      "avg_speedup": 0.9999999987615391,
+      "count": 1
+    }
+  },
+  "memory_performance": {
+    "supportedcurrencies_128MB": {
+      "avg_speedup": 1.2376237774524113,
+      "count": 11
+    },
+    "getcart_1024MB": {
+      "avg_speedup": 1.0141244777878713,
+      "count": 7
+    },
+    "shiporder_128MB": {
+      "avg_speedup": 0.983240459531769,
+      "count": 8
+    },
+    "getcart_2048MB": {
+      "avg_speedup": 0.8870967748901021,
+      "count": 2
+    },
+    "shiporder_2048MB": {
+      "avg_speedup": 0.9949596774373609,
+      "count": 6
+    },
+    "shiporder_256MB": {
+      "avg_speedup": 0.9121199967598133,
+      "count": 8
+    },
+    "getcart_256MB": {
+      "avg_speedup": 0.7030636625278718,
+      "count": 6
+    },
+    "currency_2048MB": {
+      "avg_speedup": 5.95238095013712,
+      "count": 1
+    },
+    "shiporder_512MB": {
+      "avg_speedup": 1.0372732088151042,
+      "count": 8
+    },
+    "supportedcurrencies_2048MB": {
+      "avg_speedup": 0.5538654435030194,
+      "count": 3
+    },
+    "currency_512MB": {
+      "avg_speedup": 5.619047618558767,
+      "count": 3
+    },
+    "getcart_128MB": {
+      "avg_speedup": 1.1203331487455588,
+      "count": 9
+    },
+    "getcart_512MB": {
+      "avg_speedup": 0.9194877489757868,
+      "count": 5
+    },
+    "emptycart_2048MB": {
+      "avg_speedup": 1.0161290330303305,
+      "count": 1
+    },
+    "addcartitem_2048MB": {
+      "avg_speedup": 1.0000000007462522,
+      "count": 1
+    },
+    "getproduct_1024MB": {
+      "avg_speedup": 0.9841269833790399,
+      "count": 2
+    },
+    "emptycart_128MB": {
+      "avg_speedup": 0.9920634927234429,
+      "count": 2
+    },
+    "supportedcurrencies_1024MB": {
+      "avg_speedup": 1.0,
+      "count": 1
+    },
+    "supportedcurrencies_512MB": {
+      "avg_speedup": 0.5839999999540547,
+      "count": 3
+    },
+    "emptycart_256MB": {
+      "avg_speedup": 1.0029330574295698,
+      "count": 2
+    },
+    "getproduct_256MB": {
+      "avg_speedup": 1.0161290330303305,
+      "count": 1
+    },
+    "shiporder_1024MB": {
+      "avg_speedup": 1.1516129028545905,
+      "count": 5
+    },
+    "addcartitem_128MB": {
+      "avg_speedup": 0.5053763437158721,
+      "count": 1
+    },
+    "addcartitem_512MB": {
+      "avg_speedup": 0.6025641029850652,
+      "count": 1
+    },
+    "addcartitem_1024MB": {
+      "avg_speedup": 0.5000000003096152,
+      "count": 1
+    },
+    "getproduct_128MB": {
+      "avg_speedup": 1.3191489350898533,
+      "count": 1
+    },
+    "emptycart_512MB": {
+      "avg_speedup": 0.9841269833790399,
+      "count": 1
+    }
+  },
+  "chain_performance": {
+    "getcart->frontend->shiporder": {
+      "avg_speedup": 0.9576511707948792,
+      "count": 29
+    },
+    "shiporder->frontend->getproduct": {
+      "avg_speedup": 1.005396911421446,
+      "count": 35
+    },
+    "supportedcurrencies->listproducts->addcartitem->email->payment": {
+      "avg_speedup": 0.9173333332873881,
+      "count": 3
+    },
+    "supportedcurrencies->emptycart->currency->getcart": {
+      "avg_speedup": 0.4865137614938434,
+      "count": 7
+    },
+    "currency->supportedcurrencies->addcartitem->getcart->listrecommendations": {
+      "avg_speedup": 5.702380951453355,
+      "count": 4
+    },
+    "emptycart->email": {
+      "avg_speedup": 0.9983748527858993,
+      "count": 6
+    },
+    "addcartitem->listproducts->checkout->searchproducts": {
+      "avg_speedup": 0.6519851119392012,
+      "count": 4
+    },
+    "getproduct->currency": {
+      "avg_speedup": 1.0758829837195658,
+      "count": 4
+    }
+  },
+  "dag_performance": {
+    "supportedcurrencies_nodes_8": {
+      "avg_speedup": 1.4837326940035849,
+      "count": 8
+    }
+  },
+  "top_configs": [
+    {
+      "chain": "currency->supportedcurrencies->addcartitem->getcart->listrecommendations",
+      "memory": {
+        "currency": 2048,
+        "supportedcurrencies": 128,
+        "addcartitem": 128,
+        "getcart": 128,
+        "listrecommendations": 128
+      },
+      "speedup": 5.95238095013712,
+      "latency_ms": 63.000000023748726
+    },
+    {
+      "chain": "currency->supportedcurrencies->addcartitem->getcart->listrecommendations",
+      "memory": {
+        "currency": 512,
+        "supportedcurrencies": 128,
+        "addcartitem": 2048,
+        "getcart": 2048,
+        "listrecommendations": 2048
+      },
+      "speedup": 5.698412701477803,
+      "latency_ms": 62.999999965541065
+    },
+    {
+      "chain": "currency->supportedcurrencies->addcartitem->getcart->listrecommendations",
+      "memory": {
+        "currency": 512,
+        "supportedcurrencies": 128,
+        "addcartitem": 256,
+        "getcart": 512,
+        "listrecommendations": 512
+      },
+      "speedup": 5.698412696212863,
+      "latency_ms": 63.000000023748726
+    },
+    {
+      "chain": "currency->supportedcurrencies->addcartitem->getcart->listrecommendations",
+      "memory": {
+        "currency": 512,
+        "supportedcurrencies": 512,
+        "addcartitem": 512,
+        "getcart": 512,
+        "listrecommendations": 512
+      },
+      "speedup": 5.460317457985634,
+      "latency_ms": 63.000000023748726
+    },
+    {
+      "chain": "shiporder->frontend->getproduct",
+      "memory": {
+        "shiporder": 2048,
+        "frontend": 2048,
+        "getproduct": 128
+      },
+      "speedup": 1.9374999988631316,
+      "latency_ms": 32.00000000651926
+    }
+  ]
+}

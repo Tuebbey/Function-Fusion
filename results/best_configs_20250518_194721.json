@@ -1,0 +1,255 @@
+{
+  "timestamp": 1747590441.8512642,
+  "best_configs": [
+    {
+      "id": 5533367,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 1024,
+        "listrecommendations": 256,
+        "currency": 256
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 10,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.1,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 4878978,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 512,
+        "listrecommendations": 128,
+        "currency": 128
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 6231437,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 2048,
+        "listrecommendations": 512,
+        "currency": 1024
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 1000,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 100,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 13585,
+      "type": "chain",
+      "chain": [
+        "emptycart",
+        "checkout"
+      ],
+      "memory_config": {
+        "emptycart": 128,
+        "checkout": 128
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 6440791,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 2048,
+        "listrecommendations": 2048,
+        "currency": 1024
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 10,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.1,
+        "bandwidth_kbit": 5000
+      }
+    },
+    {
+      "id": 6995565,
+      "type": "chain",
+      "chain": [
+        "cartkvstorage",
+        "checkout",
+        "getads",
+        "frontend",
+        "getcart"
+      ],
+      "memory_config": {
+        "cartkvstorage": 2048,
+        "checkout": 128,
+        "getads": 128,
+        "frontend": 128,
+        "getcart": 128
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 50,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.1,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 4554113,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 256,
+        "listrecommendations": 512,
+        "currency": 128
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 1,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 50,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 3891060,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 128,
+        "listrecommendations": 256,
+        "currency": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 500,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 10,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 4068864,
+      "type": "chain",
+      "chain": [
+        "email",
+        "listrecommendations",
+        "currency"
+      ],
+      "memory_config": {
+        "email": 128,
+        "listrecommendations": 512,
+        "currency": 1024
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 50,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 50,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 303668,
+      "type": "chain",
+      "chain": [
+        "emptycart",
+        "checkout"
+      ],
+      "memory_config": {
+        "emptycart": 512,
+        "checkout": 2048
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 500,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 10,
+        "loss_percent": 0.1,
+        "bandwidth_kbit": 500
+      }
+    }
+  ]
+}

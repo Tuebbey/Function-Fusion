@@ -1,0 +1,153 @@
+{
+  "timestamp": 1747587486.8986783,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "5248802": {
+      "config": {
+        "id": 5248802,
+        "type": "dag",
+        "dag": {
+          "nodes": [
+            "frontend",
+            "listrecommendations",
+            "emptycart",
+            "email",
+            "cartkvstorage"
+          ],
+          "edges": [
+            {
+              "from": "cartkvstorage",
+              "to": "listrecommendations"
+            },
+            {
+              "from": "listrecommendations",
+              "to": "emptycart"
+            },
+            {
+              "from": "cartkvstorage",
+              "to": "emptycart"
+            },
+            {
+              "from": "emptycart",
+              "to": "frontend"
+            },
+            {
+              "from": "frontend",
+              "to": "email"
+            }
+          ],
+          "start_node": "cartkvstorage"
+        },
+        "memory_config": {
+          "frontend": 128,
+          "listrecommendations": 128,
+          "emptycart": 128,
+          "email": 128,
+          "cartkvstorage": 128
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 100,
+          "file_size_kb": 1,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 0,
+          "loss_percent": 0,
+          "bandwidth_kbit": null
+        }
+      },
+      "direct_time_ms": 436.9999999762513,
+      "fusion_time_ms": 125.0,
+      "speedup_factor": 3.49599999981001,
+      "test_duration_ms": 563.1730556488037,
+      "average_latency_ms": 125.0,
+      "requests_per_second": 8.0,
+      "resource_usage_percent": 0,
+      "direct_results": {
+        "email": {
+          "statusCode": 200,
+          "body": true,
+          "executionTime": 245.79191399971023,
+          "metadata": {
+            "function": "emptycart",
+            "timestamp": "2025-05-18T16:58:07.165925",
+            "duration_ms": 245.79191399971023
+          },
+          "execution_time_ms": 436.9999999762513
+        }
+      },
+      "fusion_result": {
+        "statusCode": 500,
+        "body": {
+          "error": "'productId'",
+          "type": "KeyError"
+        },
+        "metadata": {
+          "function": "add_cart_item",
+          "timestamp": "2025-05-18T16:58:07.282398",
+          "error": true
+        },
+        "execution_time_ms": 125.0
+      },
+      "timestamp": 1747587486.8981142
+    }
+  },
+  "best_configs": [
+    {
+      "id": 5248802,
+      "type": "dag",
+      "dag": {
+        "nodes": [
+          "frontend",
+          "listrecommendations",
+          "emptycart",
+          "email",
+          "cartkvstorage"
+        ],
+        "edges": [
+          {
+            "from": "cartkvstorage",
+            "to": "listrecommendations"
+          },
+          {
+            "from": "listrecommendations",
+            "to": "emptycart"
+          },
+          {
+            "from": "cartkvstorage",
+            "to": "emptycart"
+          },
+          {
+            "from": "emptycart",
+            "to": "frontend"
+          },
+          {
+            "from": "frontend",
+            "to": "email"
+          }
+        ],
+        "start_node": "cartkvstorage"
+      },
+      "memory_config": {
+        "frontend": 128,
+        "listrecommendations": 128,
+        "emptycart": 128,
+        "email": 128,
+        "cartkvstorage": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

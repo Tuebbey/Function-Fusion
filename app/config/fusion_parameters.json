@@ -1,0 +1,37 @@
+{
+  "function_memory_configs": {
+    "addcartitem": [128, 256, 512, 1024, 2048],
+    "cartkvstorage": [128, 256, 512, 1024, 2048],
+    "checkout": [128, 256, 512, 1024, 2048],
+    "currency": [128, 256, 512, 1024, 2048],
+    "email": [128, 256, 512, 1024, 2048],
+    "emptycart": [128, 256, 512, 1024, 2048],
+    "frontend": [128, 256, 512, 1024, 2048],
+    "getads": [128, 256, 512, 1024, 2048],
+    "getcart": [128, 256, 512, 1024, 2048],
+    "getproduct": [128, 256, 512, 1024, 2048],
+    "listproducts": [128, 256, 512, 1024, 2048],
+    "listrecommendations": [128, 256, 512, 1024, 2048],
+    "payment": [128, 256, 512, 1024, 2048],
+    "searchproducts": [128, 256, 512, 1024, 2048],
+    "shipmentquote": [128, 256, 512, 1024, 2048],
+    "shiporder": [128, 256, 512, 1024, 2048],
+    "supportedcurrencies": [128, 256, 512, 1024, 2048]
+  },
+  "deployment": ["local", "remote"],
+  "io_config": {
+    "iterations": [1, 5, 10, 20, 50, 100],
+    "file_size_kb": [1, 10, 50, 100, 500, 1000],
+    "enable_fsync": [true, false],
+    "enable_fio": [true, false]
+  },
+  "network": {
+    "latency_ms": [0, 5, 10, 20, 50, 100],
+    "loss_percent": [0, 0.01, 0.05, 0.1, 0.5],
+    "bandwidth_kbit": [null, 5000, 1000, 500, 100]
+  },
+  "enable_dag": true,
+  "max_chain_length": 5,
+  "min_chain_length": 2,
+  "auto_discover_functions": true
+}

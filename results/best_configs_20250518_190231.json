@@ -1,0 +1,30 @@
+{
+  "timestamp": 1747587751.9306824,
+  "best_configs": [
+    {
+      "id": 4127107,
+      "type": "chain",
+      "chain": [
+        "getads",
+        "cartkvstorage",
+        "checkout"
+      ],
+      "memory_config": {
+        "getads": 128,
+        "cartkvstorage": 1024,
+        "checkout": 256
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1000,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 1000
+      }
+    }
+  ]
+}

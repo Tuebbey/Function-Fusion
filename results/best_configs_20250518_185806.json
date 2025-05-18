@@ -1,0 +1,59 @@
+{
+  "timestamp": 1747587486.8998334,
+  "best_configs": [
+    {
+      "id": 5248802,
+      "type": "dag",
+      "dag": {
+        "nodes": [
+          "frontend",
+          "listrecommendations",
+          "emptycart",
+          "email",
+          "cartkvstorage"
+        ],
+        "edges": [
+          {
+            "from": "cartkvstorage",
+            "to": "listrecommendations"
+          },
+          {
+            "from": "listrecommendations",
+            "to": "emptycart"
+          },
+          {
+            "from": "cartkvstorage",
+            "to": "emptycart"
+          },
+          {
+            "from": "emptycart",
+            "to": "frontend"
+          },
+          {
+            "from": "frontend",
+            "to": "email"
+          }
+        ],
+        "start_node": "cartkvstorage"
+      },
+      "memory_config": {
+        "frontend": 128,
+        "listrecommendations": 128,
+        "emptycart": 128,
+        "email": 128,
+        "cartkvstorage": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "timestamp": 1747591775.9025042,
+  "best_configs": [
+    {
+      "id": 3673984,
+      "type": "chain",
+      "chain": [
+        "shiporder",
+        "frontend",
+        "getproduct"
+      ],
+      "memory_config": {
+        "shiporder": 2048,
+        "frontend": 2048,
+        "getproduct": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 2640679,
+      "type": "chain",
+      "chain": [
+        "shiporder",
+        "frontend",
+        "getproduct"
+      ],
+      "memory_config": {
+        "shiporder": 512,
+        "frontend": 2048,
+        "getproduct": 512
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 1,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 1462529,
+      "type": "chain",
+      "chain": [
+        "shiporder",
+        "frontend",
+        "getproduct"
+      ],
+      "memory_config": {
+        "shiporder": 128,
+        "frontend": 1024,
+        "getproduct": 512
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 10,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 4136589,
+      "type": "chain",
+      "chain": [
+        "getcart",
+        "frontend",
+        "shiporder"
+      ],
+      "memory_config": {
+        "getcart": 128,
+        "frontend": 1024,
+        "shiporder": 256
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 207193,
+      "type": "chain",
+      "chain": [
+        "emptycart",
+        "email"
+      ],
+      "memory_config": {
+        "emptycart": 256,
+        "email": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.1,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 3858087,
+      "type": "chain",
+      "chain": [
+        "getcart",
+        "frontend",
+        "shiporder"
+      ],
+      "memory_config": {
+        "getcart": 128,
+        "frontend": 128,
+        "shiporder": 1024
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 50,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 3084813,
+      "type": "chain",
+      "chain": [
+        "shiporder",
+        "frontend",
+        "getproduct"
+      ],
+      "memory_config": {
+        "shiporder": 1024,
+        "frontend": 1024,
+        "getproduct": 512
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 500,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 10,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 3228310,
+      "type": "chain",
+      "chain": [
+        "shiporder",
+        "frontend",
+        "getproduct"
+      ],
+      "memory_config": {
+        "shiporder": 1024,
+        "frontend": 2048,
+        "getproduct": 2048
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.05,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 1622643,
+      "type": "chain",
+      "chain": [
+        "shiporder",
+        "frontend",
+        "getproduct"
+      ],
+      "memory_config": {
+        "shiporder": 256,
+        "frontend": 128,
+        "getproduct": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 50,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.1,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 4020231,
+      "type": "chain",
+      "chain": [
+        "getcart",
+        "frontend",
+        "shiporder"
+      ],
+      "memory_config": {
+        "getcart": 128,
+        "frontend": 512,
+        "shiporder": 256
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 50,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 5000
+      }
+    }
+  ]
+}

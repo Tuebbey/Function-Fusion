@@ -1,0 +1,263 @@
+{
+  "summary": {
+    "total_tests": 100,
+    "average_speedup": 0.851621271672926,
+    "max_speedup": 3.3027522935485862,
+    "best_config": {
+      "id": 647047,
+      "type": "chain",
+      "chain": [
+        "listproducts",
+        "listrecommendations"
+      ],
+      "memory_config": {
+        "listproducts": 128,
+        "listrecommendations": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 100,
+        "file_size_kb": 50,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 1000
+      }
+    }
+  },
+  "performance_by_parameter": {},
+  "io_performance": {
+    "iter_20_size_1": {
+      "avg_speedup": 0.593241616447112,
+      "count": 6
+    },
+    "iter_100_size_50": {
+      "avg_speedup": 1.1496194437176388,
+      "count": 7
+    },
+    "iter_5_size_1000": {
+      "avg_speedup": 0.9980743245317708,
+      "count": 4
+    },
+    "iter_10_size_10": {
+      "avg_speedup": 1.659574470219475,
+      "count": 1
+    },
+    "iter_1_size_100": {
+      "avg_speedup": 0.956019338938959,
+      "count": 4
+    },
+    "iter_50_size_500": {
+      "avg_speedup": 0.6213756610890937,
+      "count": 3
+    },
+    "iter_10_size_100": {
+      "avg_speedup": 0.9841269833790399,
+      "count": 1
+    },
+    "iter_50_size_1": {
+      "avg_speedup": 1.0979006653091468,
+      "count": 5
+    },
+    "iter_20_size_10": {
+      "avg_speedup": 0.7909234061400437,
+      "count": 5
+    },
+    "iter_50_size_50": {
+      "avg_speedup": 1.771106382741708,
+      "count": 4
+    },
+    "iter_1_size_500": {
+      "avg_speedup": 1.3711386412230626,
+      "count": 4
+    },
+    "iter_100_size_1": {
+      "avg_speedup": 0.4260468909611754,
+      "count": 3
+    },
+    "iter_5_size_500": {
+      "avg_speedup": 0.959128406533323,
+      "count": 4
+    },
+    "iter_10_size_500": {
+      "avg_speedup": 1.0161290330303305,
+      "count": 1
+    },
+    "iter_1_size_1": {
+      "avg_speedup": 0.4769908258876111,
+      "count": 2
+    },
+    "iter_1_size_10": {
+      "avg_speedup": 0.9413926492909502,
+      "count": 2
+    },
+    "iter_100_size_10": {
+      "avg_speedup": 0.6540368946305194,
+      "count": 3
+    },
+    "iter_10_size_50": {
+      "avg_speedup": 0.5486272244804054,
+      "count": 6
+    },
+    "iter_5_size_100": {
+      "avg_speedup": 0.8141968311953953,
+      "count": 4
+    },
+    "iter_5_size_50": {
+      "avg_speedup": 0.5893763442974983,
+      "count": 3
+    },
+    "iter_20_size_500": {
+      "avg_speedup": 0.2795697675629217,
+      "count": 2
+    },
+    "iter_100_size_1000": {
+      "avg_speedup": 0.8338557628818286,
+      "count": 4
+    },
+    "iter_50_size_1000": {
+      "avg_speedup": 0.65873015842499,
+      "count": 2
+    },
+    "iter_1_size_50": {
+      "avg_speedup": 0.6057487674112052,
+      "count": 5
+    },
+    "iter_10_size_1000": {
+      "avg_speedup": 0.5747301583245217,
+      "count": 2
+    },
+    "iter_5_size_1": {
+      "avg_speedup": 0.4698181815951493,
+      "count": 2
+    },
+    "iter_50_size_100": {
+      "avg_speedup": 2.5161290301986883,
+      "count": 1
+    },
+    "iter_20_size_100": {
+      "avg_speedup": 0.3760000001639128,
+      "count": 1
+    },
+    "iter_10_size_1": {
+      "avg_speedup": 1.1051072324453552,
+      "count": 3
+    },
+    "iter_1_size_1000": {
+      "avg_speedup": 0.47676224640747517,
+      "count": 3
+    },
+    "iter_20_size_1000": {
+      "avg_speedup": 0.7580645150993441,
+      "count": 1
+    },
+    "iter_50_size_10": {
+      "avg_speedup": 0.6230158727307133,
+      "count": 2
+    }
+  },
+  "network_performance": {},
+  "memory_performance": {
+    "func1_256MB": {
+      "avg_speedup": 0.6039414569670747,
+      "count": 24
+    },
+    "func1_1024MB": {
+      "avg_speedup": 0.9288703259393997,
+      "count": 17
+    },
+    "func1_2048MB": {
+      "avg_speedup": 0.8054727551051997,
+      "count": 20
+    },
+    "func1_512MB": {
+      "avg_speedup": 0.8898386777067033,
+      "count": 21
+    },
+    "func1_128MB": {
+      "avg_speedup": 1.115592740287125,
+      "count": 18
+    }
+  },
+  "chain_performance": {
+    "supportedcurrencies->searchproducts->addcartitem": {
+      "avg_speedup": 0.43215419486853657,
+      "count": 38
+    },
+    "listrecommendations->emptycart->listproducts->getproduct->getcart": {
+      "avg_speedup": 0.17792222852452552,
+      "count": 7
+    },
+    "email->listrecommendations->currency": {
+      "avg_speedup": 1.2026190659648728,
+      "count": 36
+    },
+    "addcartitem->getcart->getproduct->cartkvstorage": {
+      "avg_speedup": 0.5831265511058223,
+      "count": 5
+    },
+    "cartkvstorage->checkout->getads->frontend->getcart": {
+      "avg_speedup": 1.1948665981902393,
+      "count": 2
+    },
+    "listproducts->listrecommendations": {
+      "avg_speedup": 2.855688073298671,
+      "count": 4
+    },
+    "emptycart->checkout": {
+      "avg_speedup": 0.9340509428471043,
+      "count": 8
+    }
+  },
+  "dag_performance": {},
+  "top_configs": [
+    {
+      "chain": "listproducts->listrecommendations",
+      "memory": {
+        "listproducts": 128,
+        "listrecommendations": 2048
+      },
+      "speedup": 3.3027522935485862,
+      "latency_ms": 108.99999999674037
+    },
+    {
+      "chain": "listproducts->listrecommendations",
+      "memory": {
+        "listproducts": 512,
+        "listrecommendations": 256
+      },
+      "speedup": 2.7519999998621643,
+      "latency_ms": 125.0
+    },
+    {
+      "chain": "listproducts->listrecommendations",
+      "memory": {
+        "listproducts": 512,
+        "listrecommendations": 2048
+      },
+      "speedup": 2.743999999947846,
+      "latency_ms": 125.0
+    },
+    {
+      "chain": "listproducts->listrecommendations",
+      "memory": {
+        "listproducts": 128,
+        "listrecommendations": 512
+      },
+      "speedup": 2.6239999998360872,
+      "latency_ms": 125.0
+    },
+    {
+      "chain": "email->listrecommendations->currency",
+      "memory": {
+        "email": 1024,
+        "listrecommendations": 256,
+        "currency": 256
+      },
+      "speedup": 2.516129036800806,
+      "latency_ms": 30.999999959021807
+    }
+  ]
+}

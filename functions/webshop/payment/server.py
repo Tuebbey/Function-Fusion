@@ -179,6 +179,45 @@ async def health_check():
         "timestamp": datetime.utcnow().isoformat()
     }
 
+# Neue Endpunkte für die Konfiguration
+
+@app.post("/config")
+async def update_config(request: Request):
+    """Aktualisiert die Konfiguration des Services."""
+    try:
+        config_updates = await request.json()
+        
+        # Memory-Größe aktualisieren
+        if "MEMORY_SIZE" in config_updates:
+            new_memory = int(config_updates["MEMORY_SIZE"])
+            os.environ["MEMORY_SIZE"] = str(new_memory)
+            logger.info(f"Memory-Größe aktualisiert auf {new_memory}MB")
+        
+        return {"status": "success", "config": config_updates}
+    except Exception as e:
+        logger.error(f"Fehler bei Konfigurationsaktualisierung: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/network")
+async def update_network(request: Request):
+    """Aktualisiert die Netzwerkkonfiguration."""
+    try:
+        network_config = await request.json()
+        
+        # In einer echten Implementierung würde hier tc/netem konfiguriert
+        # Für das Beispiel nur Logging
+        latency = network_config.get("latency_ms", 0)
+        loss = network_config.get("loss_percent", 0)
+        bandwidth = network_config.get("bandwidth_kbit")
+        
+        logger.info(f"Netzwerk aktualisiert: Latenz={latency}ms, Verlust={loss}%, " + 
+                   f"Bandbreite={bandwidth or 'unlimited'}kbit")
+        
+        return {"status": "success", "network": network_config}
+    except Exception as e:
+        logger.error(f"Fehler bei Netzwerkkonfiguration: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv('PORT', 8000))
