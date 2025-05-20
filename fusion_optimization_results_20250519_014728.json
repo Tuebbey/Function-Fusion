@@ -1,0 +1,734 @@
+{
+  "summary": {
+    "total_tests": 50,
+    "average_speedup": 2.111819064374394,
+    "max_speedup": 7.330295700712096,
+    "best_config": {
+      "id": 11462308,
+      "type": "fusion_test",
+      "chain": [
+        "listproducts",
+        "getproduct",
+        "listrecommendations"
+      ],
+      "fusion_groups": [
+        [
+          "listproducts",
+          "getproduct",
+          "listrecommendations"
+        ]
+      ],
+      "memory_config": {
+        "listproducts": 128,
+        "getproduct": 512,
+        "listrecommendations": 1024
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 500
+      }
+    }
+  },
+  "chain_performance": {
+    "emptycart->cartkvstorage->getcart": {
+      "avg_speedup": 0.9722403864520125,
+      "count": 1
+    },
+    "checkout->emptycart->cartkvstorage->getcart": {
+      "avg_speedup": 2.2555004356404105,
+      "count": 4
+    },
+    "frontend->checkout->emptycart->cartkvstorage": {
+      "avg_speedup": 1.4514743272070234,
+      "count": 5
+    },
+    "checkout->payment->currency": {
+      "avg_speedup": 2.168806985688369,
+      "count": 2
+    },
+    "frontend->checkout->payment->currency": {
+      "avg_speedup": 3.2946583125764417,
+      "count": 3
+    },
+    "addcartitem->cartkvstorage": {
+      "avg_speedup": 0.9150108270433517,
+      "count": 1
+    },
+    "frontend->getcart->cartkvstorage": {
+      "avg_speedup": 1.0655801049806461,
+      "count": 1
+    },
+    "frontend->listproducts->getproduct->searchproducts": {
+      "avg_speedup": 1.9920882960899093,
+      "count": 2
+    },
+    "addcartitem->cartkvstorage->getcart": {
+      "avg_speedup": 1.4941448865528772,
+      "count": 2
+    },
+    "checkout->emptycart": {
+      "avg_speedup": 0.8963512508955471,
+      "count": 1
+    },
+    "payment->currency": {
+      "avg_speedup": 1.2885047924628992,
+      "count": 1
+    },
+    "frontend->listproducts->getproduct->listrecommendations": {
+      "avg_speedup": 2.6151061745233926,
+      "count": 4
+    },
+    "frontend->listproducts->getproduct": {
+      "avg_speedup": 3.3319845751680712,
+      "count": 2
+    },
+    "listproducts->getproduct->searchproducts": {
+      "avg_speedup": 1.5682351914302723,
+      "count": 1
+    },
+    "checkout->shipmentquote->currency": {
+      "avg_speedup": 1.813139954121537,
+      "count": 1
+    },
+    "listproducts->getproduct->listrecommendations": {
+      "avg_speedup": 7.330295700712096,
+      "count": 1
+    },
+    "checkout->payment": {
+      "avg_speedup": 1.4246932570629607,
+      "count": 1
+    },
+    "frontend->checkout->emptycart": {
+      "avg_speedup": 1.9924722228751302,
+      "count": 2
+    },
+    "frontend->checkout->email": {
+      "avg_speedup": 2.336273603245715,
+      "count": 2
+    },
+    "frontend->checkout->getcart->cartkvstorage": {
+      "avg_speedup": 1.805739073747882,
+      "count": 2
+    },
+    "frontend->checkout->shipmentquote": {
+      "avg_speedup": 1.487455293683841,
+      "count": 2
+    },
+    "frontend->checkout->shipmentquote->currency": {
+      "avg_speedup": 2.07703797065638,
+      "count": 2
+    },
+    "frontend->checkout": {
+      "avg_speedup": 2.029183753860894,
+      "count": 1
+    },
+    "searchproducts->getproduct->listrecommendations": {
+      "avg_speedup": 1.4741319022334347,
+      "count": 1
+    },
+    "checkout->getcart->cartkvstorage": {
+      "avg_speedup": 1.9886410786861513,
+      "count": 2
+    },
+    "frontend->checkout->payment": {
+      "avg_speedup": 4.322864258180645,
+      "count": 1
+    },
+    "checkout->shiporder": {
+      "avg_speedup": 1.002657195262134,
+      "count": 1
+    },
+    "frontend->checkout->emptycart->cartkvstorage->getcart": {
+      "avg_speedup": 1.5150036568129628,
+      "count": 1
+    }
+  },
+  "fusion_performance": {
+    "no_fusion": {
+      "avg_speedup": 1.0883731915141304,
+      "count": 12
+    },
+    "checkout_emptycart_cartkvstorage": {
+      "avg_speedup": 2.531753192574566,
+      "count": 3
+    },
+    "frontend_checkout": {
+      "avg_speedup": 1.6975746115590393,
+      "count": 4
+    },
+    "checkout_payment_currency": {
+      "avg_speedup": 3.857675071301391,
+      "count": 2
+    },
+    "getcart_cartkvstorage": {
+      "avg_speedup": 1.0655801049806461,
+      "count": 1
+    },
+    "listproducts_getproduct": {
+      "avg_speedup": 1.0102755248898072,
+      "count": 2
+    },
+    "cartkvstorage_getcart": {
+      "avg_speedup": 1.4047944277371514,
+      "count": 1
+    },
+    "frontend_checkout_payment": {
+      "avg_speedup": 4.5179426719956055,
+      "count": 2
+    },
+    "emptycart_cartkvstorage": {
+      "avg_speedup": 1.4308763756009615,
+      "count": 2
+    },
+    "getproduct_listrecommendations": {
+      "avg_speedup": 3.198196900199195,
+      "count": 3
+    },
+    "frontend_listproducts": {
+      "avg_speedup": 2.239580380604795,
+      "count": 1
+    },
+    "getproduct_searchproducts": {
+      "avg_speedup": 1.5682351914302723,
+      "count": 1
+    },
+    "shipmentquote_currency": {
+      "avg_speedup": 1.9187732760517633,
+      "count": 2
+    },
+    "frontend_listproducts_getproduct": {
+      "avg_speedup": 3.626924154813768,
+      "count": 2
+    },
+    "listproducts_getproduct_listrecommendations": {
+      "avg_speedup": 7.330295700712096,
+      "count": 1
+    },
+    "frontend_checkout_emptycart": {
+      "avg_speedup": 2.4168079508932023,
+      "count": 1
+    },
+    "checkout_email": {
+      "avg_speedup": 2.336273603245715,
+      "count": 2
+    },
+    "frontend_checkout_getcart": {
+      "avg_speedup": 1.805739073747882,
+      "count": 2
+    },
+    "checkout_shipmentquote": {
+      "avg_speedup": 1.6154961315233665,
+      "count": 1
+    },
+    "checkout_getcart_cartkvstorage": {
+      "avg_speedup": 3.0426321566695544,
+      "count": 1
+    },
+    "addcartitem_cartkvstorage": {
+      "avg_speedup": 1.583495345368603,
+      "count": 1
+    },
+    "frontend_checkout|shipmentquote_currency": {
+      "avg_speedup": 2.1296693433307707,
+      "count": 1
+    },
+    "checkout_emptycart": {
+      "avg_speedup": 1.333252485551959,
+      "count": 1
+    },
+    "frontend_checkout|emptycart_cartkvstorage": {
+      "avg_speedup": 1.8115274738964924,
+      "count": 1
+    }
+  },
+  "memory_performance": {
+    "avg_426MB": {
+      "avg_speedup": 1.6059103835284037,
+      "count": 2
+    },
+    "avg_1280MB": {
+      "avg_speedup": 3.071775959229635,
+      "count": 4
+    },
+    "avg_1664MB": {
+      "avg_speedup": 1.8335637416738904,
+      "count": 1
+    },
+    "avg_938MB": {
+      "avg_speedup": 2.076810379193026,
+      "count": 3
+    },
+    "avg_1152MB": {
+      "avg_speedup": 0.8366980133319106,
+      "count": 2
+    },
+    "avg_1536MB": {
+      "avg_speedup": 1.0655801049806461,
+      "count": 1
+    },
+    "avg_736MB": {
+      "avg_speedup": 1.1547170522836299,
+      "count": 1
+    },
+    "avg_256MB": {
+      "avg_speedup": 1.4925173709942627,
+      "count": 4
+    },
+    "avg_1312MB": {
+      "avg_speedup": 2.0378374714488094,
+      "count": 1
+    },
+    "avg_576MB": {
+      "avg_speedup": 1.1526993233124885,
+      "count": 2
+    },
+    "avg_320MB": {
+      "avg_speedup": 1.2885047924628992,
+      "count": 1
+    },
+    "avg_544MB": {
+      "avg_speedup": 4.713021085810565,
+      "count": 1
+    },
+    "avg_1344MB": {
+      "avg_speedup": 1.8311838846261237,
+      "count": 2
+    },
+    "avg_960MB": {
+      "avg_speedup": 4.356126098447613,
+      "count": 1
+    },
+    "avg_597MB": {
+      "avg_speedup": 3.1187643619264422,
+      "count": 2
+    },
+    "avg_554MB": {
+      "avg_speedup": 7.330295700712096,
+      "count": 1
+    },
+    "avg_1194MB": {
+      "avg_speedup": 1.6757289757979752,
+      "count": 2
+    },
+    "avg_810MB": {
+      "avg_speedup": 3.0468241873856474,
+      "count": 1
+    },
+    "avg_864MB": {
+      "avg_speedup": 1.961751318941206,
+      "count": 1
+    },
+    "avg_1024MB": {
+      "avg_speedup": 1.6154961315233665,
+      "count": 1
+    },
+    "avg_480MB": {
+      "avg_speedup": 2.9066711761512694,
+      "count": 1
+    },
+    "avg_512MB": {
+      "avg_speedup": 1.5296195395271188,
+      "count": 2
+    },
+    "avg_384MB": {
+      "avg_speedup": 1.8063395496147483,
+      "count": 2
+    },
+    "avg_1109MB": {
+      "avg_speedup": 1.4741319022334347,
+      "count": 1
+    },
+    "avg_682MB": {
+      "avg_speedup": 3.0426321566695544,
+      "count": 1
+    },
+    "avg_1600MB": {
+      "avg_speedup": 1.649726828554558,
+      "count": 1
+    },
+    "avg_896MB": {
+      "avg_speedup": 4.322864258180645,
+      "count": 1
+    },
+    "avg_469MB": {
+      "avg_speedup": 1.568136494857058,
+      "count": 1
+    },
+    "avg_1056MB": {
+      "avg_speedup": 2.3317934259987028,
+      "count": 1
+    },
+    "avg_1365MB": {
+      "avg_speedup": 1.6257230191057823,
+      "count": 1
+    },
+    "avg_672MB": {
+      "avg_speedup": 0.9499736096323292,
+      "count": 1
+    },
+    "avg_416MB": {
+      "avg_speedup": 1.0995432415239716,
+      "count": 2
+    },
+    "avg_563MB": {
+      "avg_speedup": 1.5150036568129628,
+      "count": 1
+    }
+  },
+  "io_performance": {
+    "iter_5_size_1": {
+      "avg_speedup": 2.41783222123095,
+      "count": 3
+    },
+    "iter_50_size_100": {
+      "avg_speedup": 2.771671917120354,
+      "count": 7
+    },
+    "iter_1_size_100": {
+      "avg_speedup": 1.94149960482533,
+      "count": 3
+    },
+    "iter_1_size_1": {
+      "avg_speedup": 2.176975389066247,
+      "count": 3
+    },
+    "iter_5_size_100": {
+      "avg_speedup": 2.6091441825676065,
+      "count": 4
+    },
+    "iter_1_size_10": {
+      "avg_speedup": 1.5427361200192344,
+      "count": 6
+    },
+    "iter_5_size_10": {
+      "avg_speedup": 1.8775726723317683,
+      "count": 5
+    },
+    "iter_20_size_100": {
+      "avg_speedup": 1.308401220189046,
+      "count": 7
+    },
+    "iter_50_size_1": {
+      "avg_speedup": 2.0378374714488094,
+      "count": 1
+    },
+    "iter_20_size_1": {
+      "avg_speedup": 2.2423969525490612,
+      "count": 4
+    },
+    "iter_20_size_10": {
+      "avg_speedup": 2.6064991077646606,
+      "count": 4
+    },
+    "iter_50_size_10": {
+      "avg_speedup": 2.30241369581265,
+      "count": 3
+    }
+  },
+  "network_performance": {
+    "lat_0_loss_0.01_bw_100": {
+      "avg_speedup": 0.9722403864520125,
+      "count": 1
+    },
+    "lat_0_loss_0.5_bw_500": {
+      "avg_speedup": 3.497071272391754,
+      "count": 3
+    },
+    "lat_5_loss_0.01_bw_1000": {
+      "avg_speedup": 1.6831310837976836,
+      "count": 2
+    },
+    "lat_100_loss_0.01_bw_5000": {
+      "avg_speedup": 2.322113993619694,
+      "count": 3
+    },
+    "lat_100_loss_0.5_bw_5000": {
+      "avg_speedup": 2.9904019218642817,
+      "count": 2
+    },
+    "lat_0_loss_0.5_bw_5000": {
+      "avg_speedup": 1.0348639396634907,
+      "count": 2
+    },
+    "lat_5_loss_0.5_bw_5000": {
+      "avg_speedup": 1.6238351444042614,
+      "count": 3
+    },
+    "lat_20_loss_0_bw_None": {
+      "avg_speedup": 2.1171269838166697,
+      "count": 2
+    },
+    "lat_20_loss_0_bw_500": {
+      "avg_speedup": 0.8963512508955471,
+      "count": 1
+    },
+    "lat_0_loss_0_bw_100": {
+      "avg_speedup": 1.2885047924628992,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_500": {
+      "avg_speedup": 1.1632608472387638,
+      "count": 2
+    },
+    "lat_0_loss_0.01_bw_None": {
+      "avg_speedup": 4.713021085810565,
+      "count": 1
+    },
+    "lat_20_loss_0.01_bw_None": {
+      "avg_speedup": 1.3290543252804463,
+      "count": 1
+    },
+    "lat_5_loss_0.5_bw_None": {
+      "avg_speedup": 2.8825867470885216,
+      "count": 2
+    },
+    "lat_20_loss_0.5_bw_500": {
+      "avg_speedup": 2.3281941657489984,
+      "count": 2
+    },
+    "lat_5_loss_0.01_bw_100": {
+      "avg_speedup": 1.813139954121537,
+      "count": 1
+    },
+    "lat_5_loss_0.5_bw_500": {
+      "avg_speedup": 7.330295700712096,
+      "count": 1
+    },
+    "lat_20_loss_0.01_bw_100": {
+      "avg_speedup": 1.4246932570629607,
+      "count": 1
+    },
+    "lat_20_loss_0_bw_5000": {
+      "avg_speedup": 2.1900383364688034,
+      "count": 2
+    },
+    "lat_20_loss_0.5_bw_100": {
+      "avg_speedup": 1.961751318941206,
+      "count": 1
+    },
+    "lat_0_loss_0_bw_1000": {
+      "avg_speedup": 1.6154961315233665,
+      "count": 1
+    },
+    "lat_5_loss_0.5_bw_1000": {
+      "avg_speedup": 1.9283223928917992,
+      "count": 2
+    },
+    "lat_100_loss_0.5_bw_1000": {
+      "avg_speedup": 1.0348324810722482,
+      "count": 1
+    },
+    "lat_5_loss_0.01_bw_5000": {
+      "avg_speedup": 2.029183753860894,
+      "count": 1
+    },
+    "lat_100_loss_0_bw_100": {
+      "avg_speedup": 3.0426321566695544,
+      "count": 1
+    },
+    "lat_100_loss_0_bw_5000": {
+      "avg_speedup": 1.583495345368603,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_1000": {
+      "avg_speedup": 1.2577804130252712,
+      "count": 2
+    },
+    "lat_0_loss_0_bw_5000": {
+      "avg_speedup": 2.84113935701248,
+      "count": 2
+    },
+    "lat_100_loss_0.5_bw_500": {
+      "avg_speedup": 1.5661632692964522,
+      "count": 2
+    },
+    "lat_20_loss_0.01_bw_5000": {
+      "avg_speedup": 1.5150036568129628,
+      "count": 1
+    },
+    "lat_5_loss_0_bw_500": {
+      "avg_speedup": 1.8115274738964924,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_100": {
+      "avg_speedup": 0.9346500007027482,
+      "count": 1
+    }
+  },
+  "top_configs": [
+    {
+      "chain": "listproducts->getproduct->listrecommendations",
+      "fusion_groups": [
+        [
+          "listproducts->getproduct->listrecommendations"
+        ]
+      ],
+      "memory": {
+        "listproducts": 128,
+        "getproduct": 512,
+        "listrecommendations": 1024
+      },
+      "speedup": 7.330295700712096,
+      "latency_ms": 79.99649999692338
+    },
+    {
+      "chain": "frontend->checkout->payment->currency",
+      "fusion_groups": [
+        [
+          "frontend->checkout->payment"
+        ]
+      ],
+      "memory": {
+        "frontend": 512,
+        "checkout": 512,
+        "payment": 1024,
+        "currency": 128
+      },
+      "speedup": 4.713021085810565,
+      "latency_ms": 61.66690000100061
+    },
+    {
+      "chain": "frontend->listproducts->getproduct",
+      "fusion_groups": [
+        [
+          "frontend->listproducts->getproduct"
+        ]
+      ],
+      "memory": {
+        "frontend": 1024,
+        "listproducts": 256,
+        "getproduct": 512
+      },
+      "speedup": 4.4243887697313475,
+      "latency_ms": 62.554200005251914
+    },
+    {
+      "chain": "frontend->checkout->payment->currency",
+      "fusion_groups": [
+        [
+          "checkout->payment->currency"
+        ]
+      ],
+      "memory": {
+        "frontend": 2048,
+        "checkout": 2048,
+        "payment": 512,
+        "currency": 512
+      },
+      "speedup": 4.412568652298291,
+      "latency_ms": 56.844599996111356
+    },
+    {
+      "chain": "frontend->listproducts->getproduct->listrecommendations",
+      "fusion_groups": [
+        [
+          "getproduct->listrecommendations"
+        ]
+      ],
+      "memory": {
+        "frontend": 2048,
+        "listproducts": 1024,
+        "getproduct": 256,
+        "listrecommendations": 512
+      },
+      "speedup": 4.356126098447613,
+      "latency_ms": 174.25119999825256
+    }
+  ],
+  "best_fusion_candidates": [
+    {
+      "functions": [
+        "listproducts",
+        "getproduct",
+        "listrecommendations"
+      ],
+      "avg_speedup": 7.330295700712096,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "frontend",
+        "checkout",
+        "payment"
+      ],
+      "avg_speedup": 4.5179426719956055,
+      "test_count": 2
+    },
+    {
+      "functions": [
+        "checkout",
+        "payment",
+        "currency"
+      ],
+      "avg_speedup": 3.857675071301391,
+      "test_count": 2
+    },
+    {
+      "functions": [
+        "frontend",
+        "listproducts",
+        "getproduct"
+      ],
+      "avg_speedup": 3.626924154813768,
+      "test_count": 2
+    },
+    {
+      "functions": [
+        "getproduct",
+        "listrecommendations"
+      ],
+      "avg_speedup": 3.198196900199195,
+      "test_count": 3
+    },
+    {
+      "functions": [
+        "checkout",
+        "getcart",
+        "cartkvstorage"
+      ],
+      "avg_speedup": 3.0426321566695544,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "checkout",
+        "emptycart",
+        "cartkvstorage"
+      ],
+      "avg_speedup": 2.531753192574566,
+      "test_count": 3
+    },
+    {
+      "functions": [
+        "frontend",
+        "checkout",
+        "emptycart"
+      ],
+      "avg_speedup": 2.4168079508932023,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "checkout",
+        "email"
+      ],
+      "avg_speedup": 2.336273603245715,
+      "test_count": 2
+    },
+    {
+      "functions": [
+        "frontend",
+        "listproducts"
+      ],
+      "avg_speedup": 2.239580380604795,
+      "test_count": 1
+    }
+  ]
+}

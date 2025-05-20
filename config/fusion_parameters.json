@@ -20,14 +20,14 @@
   },
   "deployment": ["local", "remote"],
   "io_config": {
-    "iterations": [1, 5, 10, 20, 50, 100],
-    "file_size_kb": [1, 10, 50, 100, 500, 1000],
+    "iterations": [1, 5, 20, 50],
+    "file_size_kb": [1, 10, 100],
     "enable_fsync": [true, false],
     "enable_fio": [true, false]
   },
   "network": {
-    "latency_ms": [0, 5, 10, 20, 50, 100],
-    "loss_percent": [0, 0.01, 0.05, 0.1, 0.5],
+    "latency_ms": [0, 5, 20, 100],
+    "loss_percent": [0, 0.01, 0.5],
     "bandwidth_kbit": [null, 5000, 1000, 500, 100]
   },
   "enable_dag": true,

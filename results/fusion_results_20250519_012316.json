@@ -1,0 +1,1053 @@
+{
+  "timestamp": 1747610596.5612416,
+  "progress": 10,
+  "total_tests": 10,
+  "results": {
+    "3023502": {
+      "config": {
+        "id": 3023502,
+        "type": "fusion_test",
+        "chain": [
+          "shipmentquote",
+          "currency"
+        ],
+        "fusion_groups": [],
+        "memory_config": {
+          "shipmentquote": 2048,
+          "currency": 2048
+        },
+        "deployment": "remote",
+        "io_config": {
+          "iterations": 20,
+          "file_size_kb": 10,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 20,
+          "loss_percent": 0.5,
+          "bandwidth_kbit": 1000
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 9221.828937530518,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0,
+      "baseline_results": {
+        "function_results": {
+          "shipmentquote": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "currency": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "shipmentquote": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "currency": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0
+      },
+      "timestamp": 1747610513.4519646
+    },
+    "4848546": {
+      "config": {
+        "id": 4848546,
+        "type": "fusion_test",
+        "chain": [
+          "checkout",
+          "payment",
+          "currency"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "payment"
+          ]
+        ],
+        "memory_config": {
+          "checkout": 256,
+          "payment": 128,
+          "currency": 1024
+        },
+        "deployment": "remote",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 1,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 0,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": 5000
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 11570.815324783325,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "payment": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "currency": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "checkout_payment": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "currency": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610538.906222
+    },
+    "3886520": {
+      "config": {
+        "id": 3886520,
+        "type": "fusion_test",
+        "chain": [
+          "checkout",
+          "emptycart",
+          "cartkvstorage"
+        ],
+        "fusion_groups": [
+          [
+            "emptycart",
+            "cartkvstorage"
+          ]
+        ],
+        "memory_config": {
+          "checkout": 1024,
+          "emptycart": 256,
+          "cartkvstorage": 512
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 50,
+          "file_size_kb": 100,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 5,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": null
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 11567.4729347229,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "emptycart": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "cartkvstorage": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "emptycart_cartkvstorage": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610520.3939393
+    },
+    "8464553": {
+      "config": {
+        "id": 8464553,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "checkout",
+          "payment"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "payment"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 256,
+          "checkout": 2048,
+          "payment": 2048
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 10,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 100,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": 500
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 11548.413038253784,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "payment": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout_payment": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610545.8316693
+    },
+    "8266722": {
+      "config": {
+        "id": 8266722,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "checkout",
+          "payment"
+        ],
+        "fusion_groups": [
+          [
+            "frontend",
+            "checkout"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 128,
+          "checkout": 128,
+          "payment": 2048
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 50,
+          "file_size_kb": 1,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 20,
+          "loss_percent": 0.5,
+          "bandwidth_kbit": 1000
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 11567.169904708862,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "payment": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend_checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "payment": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610520.3932476
+    },
+    "5355052": {
+      "config": {
+        "id": 5355052,
+        "type": "fusion_test",
+        "chain": [
+          "checkout",
+          "shipmentquote",
+          "currency"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "shipmentquote"
+          ]
+        ],
+        "memory_config": {
+          "checkout": 128,
+          "shipmentquote": 2048,
+          "currency": 1024
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 50,
+          "file_size_kb": 1,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 100,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": 1000
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 11548.88129234314,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "shipmentquote": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "currency": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "checkout_shipmentquote": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "currency": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610545.8325078
+    },
+    "15538090": {
+      "config": {
+        "id": 15538090,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "checkout",
+          "getcart",
+          "cartkvstorage"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "getcart",
+            "cartkvstorage"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 2048,
+          "checkout": 256,
+          "getcart": 256,
+          "cartkvstorage": 2048
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 5,
+          "file_size_kb": 10,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 0,
+          "loss_percent": 0.5,
+          "bandwidth_kbit": null
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 13881.770372390747,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "getcart": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "cartkvstorage": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout_getcart_cartkvstorage": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610527.3346198
+    },
+    "18818077": {
+      "config": {
+        "id": 18818077,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "listproducts",
+          "getproduct",
+          "listrecommendations"
+        ],
+        "fusion_groups": [],
+        "memory_config": {
+          "frontend": 2048,
+          "listproducts": 512,
+          "getproduct": 2048,
+          "listrecommendations": 512
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 10,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 20,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": 1000
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 18461.214542388916,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "listproducts": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "getproduct": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "listrecommendations": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "listproducts": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "getproduct": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "listrecommendations": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0
+      },
+      "timestamp": 1747610564.2626152
+    },
+    "20286919": {
+      "config": {
+        "id": 20286919,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "checkout",
+          "emptycart",
+          "cartkvstorage",
+          "getcart"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "emptycart"
+          ],
+          [
+            "cartkvstorage",
+            "getcart"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 512,
+          "checkout": 2048,
+          "emptycart": 2048,
+          "cartkvstorage": 128,
+          "getcart": 1024
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 10,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 5,
+          "loss_percent": 0,
+          "bandwidth_kbit": 100
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 18437.636375427246,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "emptycart": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "cartkvstorage": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "getcart": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "checkout_emptycart": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "cartkvstorage_getcart": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610580.444146
+    },
+    "308596": {
+      "config": {
+        "id": 308596,
+        "type": "fusion_test",
+        "chain": [
+          "checkout",
+          "email"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "email"
+          ]
+        ],
+        "memory_config": {
+          "checkout": 256,
+          "email": 512
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 5,
+          "file_size_kb": 1,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 5,
+          "loss_percent": 0,
+          "bandwidth_kbit": 5000
+        }
+      },
+      "baseline_time_ms": 0,
+      "fusion_time_ms": 0,
+      "speedup_factor": 0,
+      "test_duration_ms": 6889.547109603882,
+      "average_latency_ms": 0,
+      "requests_per_second": 0,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "checkout": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          },
+          "email": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0
+      },
+      "fusion_results": {
+        "function_results": {
+          "checkout_email": {
+            "error": "All connection attempts failed",
+            "execution_time_ms": 0
+          }
+        },
+        "total_time_ms": 0,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747610596.555278
+    }
+  },
+  "best_configs": [
+    {
+      "id": 3023502,
+      "type": "fusion_test",
+      "chain": [
+        "shipmentquote",
+        "currency"
+      ],
+      "fusion_groups": [],
+      "memory_config": {
+        "shipmentquote": 2048,
+        "currency": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 10,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 4848546,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "payment",
+        "currency"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "payment"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 256,
+        "payment": 128,
+        "currency": 1024
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 5000
+      }
+    },
+    {
+      "id": 3886520,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "emptycart",
+        "cartkvstorage"
+      ],
+      "fusion_groups": [
+        [
+          "emptycart",
+          "cartkvstorage"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 1024,
+        "emptycart": 256,
+        "cartkvstorage": 512
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 100,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 8464553,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "payment"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "payment"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 256,
+        "checkout": 2048,
+        "payment": 2048
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 100,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 8266722,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "payment"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "checkout"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 128,
+        "checkout": 128,
+        "payment": 2048
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 1,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 5355052,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "shipmentquote",
+        "currency"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "shipmentquote"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 128,
+        "shipmentquote": 2048,
+        "currency": 1024
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 50,
+        "file_size_kb": 1,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 100,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 15538090,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "getcart",
+        "cartkvstorage"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "getcart",
+          "cartkvstorage"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "checkout": 256,
+        "getcart": 256,
+        "cartkvstorage": 2048
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 18818077,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "listproducts",
+        "getproduct",
+        "listrecommendations"
+      ],
+      "fusion_groups": [],
+      "memory_config": {
+        "frontend": 2048,
+        "listproducts": 512,
+        "getproduct": 2048,
+        "listrecommendations": 512
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 1000
+      }
+    },
+    {
+      "id": 20286919,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "emptycart",
+        "cartkvstorage",
+        "getcart"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "emptycart"
+        ],
+        [
+          "cartkvstorage",
+          "getcart"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 512,
+        "checkout": 2048,
+        "emptycart": 2048,
+        "cartkvstorage": 128,
+        "getcart": 1024
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 308596,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "email"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "email"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 256,
+        "email": 512
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0,
+        "bandwidth_kbit": 5000
+      }
+    }
+  ]
+}

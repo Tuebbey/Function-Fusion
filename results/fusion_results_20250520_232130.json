@@ -1,0 +1,185 @@
+{
+  "timestamp": 1747776090.811727,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "15116507": {
+      "config": {
+        "id": 15116507,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "checkout",
+          "getcart",
+          "cartkvstorage"
+        ],
+        "fusion_groups": [
+          [
+            "checkout",
+            "getcart"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 2048,
+          "checkout": 256,
+          "getcart": 2048,
+          "cartkvstorage": 512
+        },
+        "deployment": "remote",
+        "io_config": {
+          "iterations": 20,
+          "file_size_kb": 1,
+          "enable_fsync": false
+        },
+        "network": {
+          "latency_ms": 100,
+          "loss_percent": 0,
+          "bandwidth_kbit": 1000
+        }
+      },
+      "baseline_time_ms": 193.7486000242643,
+      "fusion_time_ms": 146.96520002325997,
+      "speedup_factor": 1.3183297814285286,
+      "test_duration_ms": 340.9605026245117,
+      "average_latency_ms": 146.96520002325997,
+      "requests_per_second": 6.804331908790186,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 4.060224997374462,
+            "metadata": {
+              "function": "getproduct",
+              "timestamp": "2025-05-20T21:21:30.732465",
+              "duration_ms": 4.060224997374462
+            },
+            "execution_time_ms": 52.87959999986924
+          },
+          "checkout": {
+            "statusCode": 200,
+            "body": {
+              "error": "Unbekannte Operation",
+              "received_operation": "test"
+            },
+            "executionTime": 0.016010999388527125,
+            "metadata": {
+              "function": "cartkvstorage",
+              "timestamp": "2025-05-20T21:21:30.777407",
+              "duration_ms": 0.016010999388527125
+            },
+            "execution_time_ms": 43.58989998581819
+          },
+          "getcart": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 3.9922889991430566,
+            "metadata": {
+              "function": "listrecommendations",
+              "timestamp": "2025-05-20T21:21:30.832319",
+              "duration_ms": 3.9922889991430566
+            },
+            "execution_time_ms": 53.48910001339391
+          },
+          "cartkvstorage": {
+            "statusCode": 200,
+            "body": {
+              "statusCode": 200,
+              "body": true
+            },
+            "executionTime": 0.011636002454906702,
+            "metadata": {
+              "function": "add_cart_item",
+              "timestamp": "2025-05-20T21:21:30.877319",
+              "duration_ms": 0.011636002454906702
+            },
+            "execution_time_ms": 43.79000002518296
+          }
+        },
+        "total_time_ms": 193.7486000242643
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 3.0445889969996642,
+            "metadata": {
+              "function": "getproduct",
+              "timestamp": "2025-05-20T21:21:30.931475",
+              "duration_ms": 3.0445889969996642
+            },
+            "execution_time_ms": 52.737000019988045
+          },
+          "checkout_getcart": {
+            "statusCode": 200,
+            "body": {
+              "error": "Unbekannte Operation",
+              "received_operation": "test"
+            },
+            "executionTime": 0.015682002413086593,
+            "metadata": {
+              "function": "cartkvstorage",
+              "timestamp": "2025-05-20T21:21:30.978272",
+              "duration_ms": 0.015682002413086593
+            },
+            "execution_time_ms": 45.555399992736056
+          },
+          "cartkvstorage": {
+            "statusCode": 200,
+            "body": {
+              "statusCode": 200,
+              "body": true
+            },
+            "executionTime": 0.014378001651493832,
+            "metadata": {
+              "function": "add_cart_item",
+              "timestamp": "2025-05-20T21:21:31.028395",
+              "duration_ms": 0.014378001651493832
+            },
+            "execution_time_ms": 48.672800010535866
+          }
+        },
+        "total_time_ms": 146.96520002325997,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747776090.8091767
+    }
+  },
+  "best_configs": [
+    {
+      "id": 15116507,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "getcart",
+        "cartkvstorage"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "getcart"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "checkout": 256,
+        "getcart": 2048,
+        "cartkvstorage": 512
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 100,
+        "loss_percent": 0,
+        "bandwidth_kbit": 1000
+      }
+    }
+  ]
+}

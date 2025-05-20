@@ -1,4 +1,4 @@
-# fusion_optimizer.py
+# app/optimizer/fusion_optimizer.py
 import asyncio
 import json
 import time
@@ -21,10 +21,6 @@ logger = logging.getLogger("fusion_optimizer")
 console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 logger.addHandler(console_handler)
-
-# Aktiviere DEBUG-Level für detailliertere Logging-Informationen
-# Auskommentieren, um mehr Details zu sehen
-# logger.setLevel(logging.DEBUG)
 
 class FunctionCallGraph:
     """
@@ -193,49 +189,46 @@ class FunctionFusionOptimizer:
     Schließt nur unrealistische Funktionsaufrufe aus.
     """
     
-    def __init__(self, config_file="config/fusion_parameters.json"):
-        logger.info(f"Initialisiere FunctionFusionOptimizer mit Konfiguration aus {config_file}")
-        logger.info(f"Arbeitsverzeichnis: {os.getcwd()}")
+    def __init__(self, config_file="config/fusion_parameters.json", 
+                 call_patterns_file="config/call_patterns.json",
+                 test_data_file="config/test_data.json"):
+        logger.info(f"Initialisiere FunctionFusionOptimizer")
         
-        # Lade Konfiguration
+        # Lade Hauptkonfiguration
         try:
-            logger.info(f"Versuche, Konfigurationsdatei zu laden: {config_file}")
+            logger.info(f"Lade Konfigurationsdatei: {config_file}")
             with open(config_file, 'r') as f:
                 self.params = json.load(f)
                 logger.info(f"Konfiguration erfolgreich geladen: {len(self.params)} Parameter")
-                logger.debug(f"Geladene Konfiguration: {json.dumps(self.params, indent=2)}")
-        except FileNotFoundError:
-            logger.error(f"Konfigurationsdatei nicht gefunden: {config_file}")
-            logger.info("Überprüfe folgende Dateien im aktuellen Verzeichnis:")
-            for f in os.listdir():
-                logger.info(f"  - {f}")
-            if os.path.exists("config"):
-                logger.info("Dateien im config-Verzeichnis:")
-                for f in os.listdir("config"):
-                    logger.info(f"  - config/{f}")
-            
-            # Fallback zu Standardkonfiguration
-            self.params = {
-                "function_memory_configs": {},
-                "deployment": ["local"],
-                "io_config": {
-                    "iterations": [1],
-                    "file_size_kb": [10],
-                    "enable_fsync": [False]
-                },
-                "network": {
-                    "latency_ms": [0],
-                    "loss_percent": [0],
-                    "bandwidth_kbit": [None]
-                },
-                "max_chain_length": 5,
-                "min_chain_length": 2,
-                "auto_discover_functions": True
-            }
-            logger.warning("Standard-Konfiguration wird verwendet")
         except Exception as e:
-            logger.exception(f"Unerwarteter Fehler beim Laden der Konfiguration: {e}")
-            raise
+            logger.exception(f"Fehler beim Laden der Konfiguration: {e}")
+            # Fallback zu Standardkonfiguration
+            self.params = self._get_default_params()
+            logger.warning("Standard-Konfiguration wird verwendet")
+        
+        # Lade Aufrufmuster
+        try:
+            logger.info(f"Lade Aufrufmuster aus: {call_patterns_file}")
+            with open(call_patterns_file, 'r') as f:
+                self.call_patterns = json.load(f)
+                logger.info(f"Aufrufmuster erfolgreich geladen: {len(self.call_patterns)} Funktionen")
+        except Exception as e:
+            logger.exception(f"Fehler beim Laden der Aufrufmuster: {e}")
+            # Fallback zu leeren Aufrufmustern
+            self.call_patterns = {}
+            logger.warning("Keine Aufrufmuster verfügbar - es werden alle möglichen Kombinationen generiert")
+        
+        # Lade Testdaten
+        try:
+            logger.info(f"Lade Testdaten aus: {test_data_file}")
+            with open(test_data_file, 'r') as f:
+                self.test_data = json.load(f)
+                logger.info(f"Testdaten erfolgreich geladen: {len(self.test_data)} Funktionen")
+        except Exception as e:
+            logger.exception(f"Fehler beim Laden der Testdaten: {e}")
+            # Fallback zu leeren Testdaten
+            self.test_data = {}
+            logger.warning("Keine Testdaten verfügbar - es werden Standarddaten generiert")
         
         self.tester = None  # DockerFusionTester wird später initialisiert
         self.results = {}
@@ -273,12 +266,48 @@ class FunctionFusionOptimizer:
         
         logger.info("FunctionFusionOptimizer initialisiert und bereit")
     
+    def _get_default_params(self):
+        """Liefert Standard-Parameter zurück, wenn keine Konfigurationsdatei verfügbar ist."""
+        return {
+            "function_memory_configs": {},
+            "deployment": ["local"],
+            "io_config": {
+                "iterations": [1],
+                "file_size_kb": [10],
+                "enable_fsync": [False]
+            },
+            "network": {
+                "latency_ms": [0],
+                "loss_percent": [0],
+                "bandwidth_kbit": [None]
+            },
+            "max_chain_length": 5,
+            "min_chain_length": 2,
+            "auto_discover_functions": True
+        }
+    
     def _discover_all_functions(self) -> List[str]:
         """Findet automatisch alle verfügbaren Funktionen im System."""
         # Zuerst prüfen, ob Funktionen in der Konfiguration angegeben sind
         if "functions" in self.params:
             logger.info("Verwende vorkonfigurierte Funktionsliste")
             return self.params["functions"]
+        
+        # Alternativ aus dem call_patterns extrahieren
+        if self.call_patterns:
+            functions = set(self.call_patterns.keys())
+            for caller, details in self.call_patterns.items():
+                functions.update(details.get("calls", []))
+            if functions:
+                logger.info(f"Extrahiere Funktionen aus call_patterns.json: {len(functions)} gefunden")
+                return list(functions)
+        
+        # Alternativ aus test_data extrahieren
+        if self.test_data:
+            functions = list(self.test_data.keys())
+            if functions:
+                logger.info(f"Extrahiere Funktionen aus test_data.json: {len(functions)} gefunden")
+                return functions
         
         # Andernfalls versuchen, sie automatisch zu erkennen
         functions = []
@@ -312,7 +341,7 @@ class FunctionFusionOptimizer:
     def _build_function_call_graph(self) -> FunctionCallGraph:
         """
         Erstellt einen gerichteten Graphen von Funktionsaufrufen
-        basierend auf Kompatibilität zwischen Funktionen.
+        basierend auf den Aufrufmustern in call_patterns.json.
         """
         logger.info("Erstelle Funktionsaufruf-Graph mit realistischen Aufrufbeziehungen")
         graph = FunctionCallGraph()
@@ -321,40 +350,50 @@ class FunctionFusionOptimizer:
         for func in self.all_functions:
             graph.add_function(func)
         
-        logger.info("Definiere Aufrufbeziehungen")
-        # 2. Realistische Kanten definieren (ohne Wahrscheinlichkeiten)
-        # Frontend-Flows
-        graph.add_edge("frontend", "listproducts")
-        graph.add_edge("frontend", "getads")
-        graph.add_edge("frontend", "getcart")
-        graph.add_edge("frontend", "supportedcurrencies")
-        graph.add_edge("frontend", "checkout")
+        # 2. Kanten basierend auf call_patterns definieren
+        if self.call_patterns:
+            logger.info("Definiere Aufrufbeziehungen aus call_patterns.json")
+            for caller, details in self.call_patterns.items():
+                for callee in details.get("calls", []):
+                    graph.add_edge(caller, callee, compatible=True)
+                    logger.debug(f"Definiere Aufrufkante: {caller} -> {callee}")
+        else:
+            # Fallback: Hartcodierte Beziehungen definieren
+            logger.info("Definiere hartcodierte Aufrufbeziehungen")
+            
+            # Frontend-Flows
+            graph.add_edge("frontend", "listproducts")
+            graph.add_edge("frontend", "getads")
+            graph.add_edge("frontend", "getcart")
+            graph.add_edge("frontend", "supportedcurrencies")
+            graph.add_edge("frontend", "checkout")
+            
+            # Produkt-Flow
+            graph.add_edge("listproducts", "getproduct")
+            graph.add_edge("getproduct", "searchproducts")
+            graph.add_edge("searchproducts", "getproduct")
+            graph.add_edge("getproduct", "listrecommendations")
+            
+            # Warenkorb-Flow
+            graph.add_edge("getcart", "cartkvstorage")
+            graph.add_edge("addcartitem", "cartkvstorage")
+            graph.add_edge("emptycart", "cartkvstorage")
+            graph.add_edge("cartkvstorage", "getcart")
+            
+            # Checkout-Flow
+            graph.add_edge("checkout", "getcart")
+            graph.add_edge("checkout", "shipmentquote")
+            graph.add_edge("checkout", "payment")
+            graph.add_edge("checkout", "shiporder")
+            graph.add_edge("checkout", "email")
+            graph.add_edge("checkout", "emptycart")
+            
+            graph.add_edge("shipmentquote", "currency")
+            graph.add_edge("payment", "currency")
         
-        # Produkt-Flow
-        graph.add_edge("listproducts", "getproduct")
-        graph.add_edge("getproduct", "searchproducts")
-        graph.add_edge("searchproducts", "getproduct")
-        graph.add_edge("getproduct", "listrecommendations")
-        
-        # Warenkorb-Flow
-        graph.add_edge("getcart", "cartkvstorage")
-        graph.add_edge("addcartitem", "cartkvstorage")
-        graph.add_edge("emptycart", "cartkvstorage")
-        graph.add_edge("cartkvstorage", "getcart")
-        
-        # Checkout-Flow
-        graph.add_edge("checkout", "getcart")
-        graph.add_edge("checkout", "shipmentquote")
-        graph.add_edge("checkout", "payment")
-        graph.add_edge("checkout", "shiporder")
-        graph.add_edge("checkout", "email")
-        graph.add_edge("checkout", "emptycart")
-        
-        graph.add_edge("shipmentquote", "currency")
-        graph.add_edge("payment", "currency")
-        
-        logger.info("Definiere semantisch inkompatible Funktionspaare (Blacklist)")
         # 3. Definiere semantisch inkompatible Funktionspaare (Blacklist)
+        logger.info("Definiere semantisch inkompatible Funktionspaare (Blacklist)")
+        
         # Dies sind die unrealistischen Aufrufe, die ausgeschlossen werden sollen
         graph.add_blacklist_pair("addcartitem", "emptycart")
         graph.add_blacklist_pair("checkout", "addcartitem")
@@ -744,6 +783,7 @@ class FunctionFusionOptimizer:
     async def _run_fusion_test(self, config):
         """
         Führt einen Fusionstest für eine Funktionskette mit Fusionsgruppen durch.
+        Verwendet die Testdaten aus test_data.json.
         
         Args:
             config: Die Testkonfiguration
@@ -843,6 +883,7 @@ class FunctionFusionOptimizer:
     async def _run_baseline_test(self, chain, io_params, config_id):
         """
         Führt einen Baseline-Test ohne Fusion durch.
+        Verwendet Testdaten aus test_data.json.
         
         Args:
             chain: Die Funktionskette
@@ -859,17 +900,17 @@ class FunctionFusionOptimizer:
         # Rufe jede Funktion einzeln auf
         for i, func_name in enumerate(chain):
             logger.debug(f"  Baseline: Rufe Funktion {i+1}/{len(chain)} auf: {func_name}")
-            # Erstelle ein Test-Event für diese Funktion
-            event = {
-                "operation": "test",
-                "userId": f"test_{config_id}_baseline_{i}",
-                "io_params": io_params
-            }
+            
+            # Hole Testdaten für diese Funktion
+            input_data = self._get_test_data_for_function(func_name, config_id, i)
+            
+            # Füge I/O-Parameter für Tests hinzu
+            input_data["io_params"] = io_params
             
             # Rufe die Funktion auf
             try:
                 start_time = time.time()
-                result = await self.tester.invoke_function(func_name, event)
+                result = await self.tester.invoke_function(func_name, input_data)
                 end_time = time.time()
                 
                 execution_time = result.get("execution_time_ms", 0)
@@ -893,6 +934,7 @@ class FunctionFusionOptimizer:
     async def _run_fusion_chain(self, chain, fusion_groups, io_params, config_id):
         """
         Führt einen Test mit Fusion für die Funktionskette durch.
+        Verwendet Testdaten aus test_data.json.
         
         Args:
             chain: Die Funktionskette
@@ -936,18 +978,17 @@ class FunctionFusionOptimizer:
                 
                 logger.debug(f"  Fusion: Rufe Fusionsgruppe auf: {group_str} (startet mit {group_start_func})")
                 
-                # Erstelle ein Event für die Fusionsgruppe
-                event = {
-                    "operation": "fusion_test",
-                    "userId": f"test_{config_id}_fusion_{i}",
-                    "io_params": io_params,
-                    "fusion_group": fusion_group  # Gib die Fusionsgruppe mit
-                }
+                # Hole Testdaten für die erste Funktion in der Gruppe
+                input_data = self._get_test_data_for_function(group_start_func, config_id, i)
+                
+                # Füge I/O-Parameter und Fusionsgruppe hinzu
+                input_data["io_params"] = io_params
+                input_data["fusion_group"] = fusion_group
                 
                 try:
                     # Rufe die erste Funktion der Gruppe auf, um die Fusion zu simulieren
                     start_time = time.time()
-                    result = await self.tester.invoke_function(group_start_func, event)
+                    result = await self.tester.invoke_function(group_start_func, input_data)
                     end_time = time.time()
                     
                     execution_time = result.get("execution_time_ms", 0)
@@ -980,15 +1021,16 @@ class FunctionFusionOptimizer:
             else:
                 # Keine Fusion für diese Funktion - rufe sie einzeln auf
                 logger.debug(f"  Fusion: Rufe einzelne Funktion auf: {current_func} (keine Fusionsgruppe)")
-                event = {
-                    "operation": "test",
-                    "userId": f"test_{config_id}_single_{i}",
-                    "io_params": io_params
-                }
+                
+                # Hole Testdaten für diese Funktion
+                input_data = self._get_test_data_for_function(current_func, config_id, i)
+                
+                # Füge I/O-Parameter hinzu
+                input_data["io_params"] = io_params
                 
                 try:
                     start_time = time.time()
-                    result = await self.tester.invoke_function(current_func, event)
+                    result = await self.tester.invoke_function(current_func, input_data)
                     end_time = time.time()
                     
                     execution_time = result.get("execution_time_ms", 0)
@@ -1016,6 +1058,50 @@ class FunctionFusionOptimizer:
             "total_time_ms": total_time,
             "resource_usage_percent": resource_usage_percent
         }
+    
+    def _get_test_data_for_function(self, func_name, config_id, position):
+        """
+        Holt Testdaten für eine bestimmte Funktion aus test_data.json.
+        
+        Args:
+            func_name: Name der Funktion
+            config_id: ID der Testkonfiguration (für eindeutige IDs)
+            position: Position der Funktion in der Kette (für eindeutige IDs)
+            
+        Returns:
+            Testdaten für die Funktion
+        """
+        # Standard-Testdaten falls nichts Spezifisches gefunden wird
+        default_data = {
+            "operation": "test",
+            "userId": f"test_{config_id}_{position}"
+        }
+        
+        # Spezifische Testdaten aus der JSON-Datei
+        if func_name in self.test_data:
+            # Direkte Daten verwenden
+            func_data = self.test_data.get(func_name, {})
+            
+            # Spezialfälle für Funktionen mit verschiedenen Operationen
+            if isinstance(func_data, dict) and any(op in func_data for op in ["add", "get", "empty"]):
+                # Bei cartkvstorage oder ähnlichen mit mehreren Operationen
+                operation = "get"  # Standard-Operation
+                if "add" in func_data:
+                    operation = "add"
+                
+                func_data = func_data.get(operation, {})
+            
+            # Tiefe Kopie erstellen und mit Default-Daten verbinden
+            result = default_data.copy()
+            if isinstance(func_data, dict):
+                result.update(func_data)
+            
+            # Eindeutige ID einfügen
+            result["userId"] = f"test_{config_id}_{position}"
+            
+            return result
+        
+        return default_data
     
     def _calculate_fitness(self, result):
         """Berechnet den Fitness-Wert eines Testergebnisses."""
@@ -1257,8 +1343,6 @@ class FunctionFusionOptimizer:
 
         logger.info(f"Analyse abgeschlossen: Durchschnittlicher Speedup = {report['summary']['average_speedup']:.2f}x")
         return report
-            
-
     
     def identify_best_fusion_candidates(self):
         """

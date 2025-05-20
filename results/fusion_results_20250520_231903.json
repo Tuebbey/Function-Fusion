@@ -1,0 +1,150 @@
+{
+  "timestamp": 1747775943.2228012,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "7671044": {
+      "config": {
+        "id": 7671044,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "checkout",
+          "getcart"
+        ],
+        "fusion_groups": [
+          [
+            "frontend",
+            "checkout"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 128,
+          "checkout": 128,
+          "getcart": 2048
+        },
+        "deployment": "remote",
+        "io_config": {
+          "iterations": 1,
+          "file_size_kb": 10,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 20,
+          "loss_percent": 0.5,
+          "bandwidth_kbit": 100
+        }
+      },
+      "baseline_time_ms": 149.57649999996647,
+      "fusion_time_ms": 96.13479999825358,
+      "speedup_factor": 1.5559037934513176,
+      "test_duration_ms": 245.89848518371582,
+      "average_latency_ms": 96.13479999825358,
+      "requests_per_second": 10.402060440320948,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 4.088085999683244,
+            "metadata": {
+              "function": "getproduct",
+              "timestamp": "2025-05-20T21:19:03.196949",
+              "duration_ms": 4.088085999683244
+            },
+            "execution_time_ms": 53.00679997890256
+          },
+          "checkout": {
+            "statusCode": 200,
+            "body": {
+              "error": "Unbekannte Operation",
+              "received_operation": "test"
+            },
+            "executionTime": 0.0157430004037451,
+            "metadata": {
+              "function": "cartkvstorage",
+              "timestamp": "2025-05-20T21:19:03.242923",
+              "duration_ms": 0.0157430004037451
+            },
+            "execution_time_ms": 44.726200023433194
+          },
+          "getcart": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 4.000238997832639,
+            "metadata": {
+              "function": "listrecommendations",
+              "timestamp": "2025-05-20T21:19:03.296089",
+              "duration_ms": 4.000238997832639
+            },
+            "execution_time_ms": 51.843499997630715
+          }
+        },
+        "total_time_ms": 149.57649999996647
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend_checkout": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 2.6726200012490153,
+            "metadata": {
+              "function": "getproduct",
+              "timestamp": "2025-05-20T21:19:03.344677",
+              "duration_ms": 2.6726200012490153
+            },
+            "execution_time_ms": 47.44850000133738
+          },
+          "getcart": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 2.6628919986251276,
+            "metadata": {
+              "function": "listrecommendations",
+              "timestamp": "2025-05-20T21:19:03.394864",
+              "duration_ms": 2.6628919986251276
+            },
+            "execution_time_ms": 48.686299996916205
+          }
+        },
+        "total_time_ms": 96.13479999825358,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747775943.2202642
+    }
+  },
+  "best_configs": [
+    {
+      "id": 7671044,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "getcart"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "checkout"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 128,
+        "checkout": 128,
+        "getcart": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 100
+      }
+    }
+  ]
+}

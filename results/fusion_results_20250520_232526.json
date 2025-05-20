@@ -1,0 +1,123 @@
+{
+  "timestamp": 1747776326.6863391,
+  "progress": 1,
+  "total_tests": 1,
+  "results": {
+    "1210340": {
+      "config": {
+        "id": 1210340,
+        "type": "fusion_test",
+        "chain": [
+          "frontend",
+          "getads"
+        ],
+        "fusion_groups": [
+          [
+            "frontend",
+            "getads"
+          ]
+        ],
+        "memory_config": {
+          "frontend": 2048,
+          "getads": 128
+        },
+        "deployment": "local",
+        "io_config": {
+          "iterations": 20,
+          "file_size_kb": 1,
+          "enable_fsync": true
+        },
+        "network": {
+          "latency_ms": 5,
+          "loss_percent": 0.01,
+          "bandwidth_kbit": null
+        }
+      },
+      "baseline_time_ms": 110.22789997514337,
+      "fusion_time_ms": 47.62759999721311,
+      "speedup_factor": 2.3143702387185847,
+      "test_duration_ms": 157.9749584197998,
+      "average_latency_ms": 47.62759999721311,
+      "requests_per_second": 20.9962290784863,
+      "resource_usage_percent": 0.0,
+      "baseline_results": {
+        "function_results": {
+          "frontend": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 4.446363000170095,
+            "metadata": {
+              "function": "getproduct",
+              "timestamp": "2025-05-20T21:25:26.868433",
+              "duration_ms": 4.446363000170095
+            },
+            "execution_time_ms": 53.58409998007119
+          },
+          "getads": {
+            "statusCode": 200,
+            "body": {
+              "results": []
+            },
+            "executionTime": 13.328497996553779,
+            "metadata": {
+              "function": "searchproducts",
+              "timestamp": "2025-05-20T21:25:26.926830",
+              "duration_ms": 13.328497996553779
+            },
+            "execution_time_ms": 56.643799995072186
+          }
+        },
+        "total_time_ms": 110.22789997514337
+      },
+      "fusion_results": {
+        "function_results": {
+          "frontend_getads": {
+            "statusCode": 200,
+            "body": [],
+            "executionTime": 2.5720320008986164,
+            "metadata": {
+              "function": "getproduct",
+              "timestamp": "2025-05-20T21:25:26.975784",
+              "duration_ms": 2.5720320008986164
+            },
+            "execution_time_ms": 47.62759999721311
+          }
+        },
+        "total_time_ms": 47.62759999721311,
+        "resource_usage_percent": 0.0
+      },
+      "timestamp": 1747776326.6838963
+    }
+  },
+  "best_configs": [
+    {
+      "id": 1210340,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "getads"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "getads"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "getads": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 1,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

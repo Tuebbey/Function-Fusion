@@ -1,0 +1,92 @@
+{
+  "summary": {
+    "total_tests": 1,
+    "average_speedup": 2.3143702387185847,
+    "max_speedup": 2.3143702387185847,
+    "best_config": {
+      "id": 1210340,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "getads"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "getads"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "getads": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 1,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": null
+      }
+    }
+  },
+  "chain_performance": {
+    "frontend->getads": {
+      "avg_speedup": 2.3143702387185847,
+      "count": 1
+    }
+  },
+  "fusion_performance": {
+    "frontend_getads": {
+      "avg_speedup": 2.3143702387185847,
+      "count": 1
+    }
+  },
+  "memory_performance": {
+    "avg_1088MB": {
+      "avg_speedup": 2.3143702387185847,
+      "count": 1
+    }
+  },
+  "io_performance": {
+    "iter_20_size_1": {
+      "avg_speedup": 2.3143702387185847,
+      "count": 1
+    }
+  },
+  "network_performance": {
+    "lat_5_loss_0.01_bw_None": {
+      "avg_speedup": 2.3143702387185847,
+      "count": 1
+    }
+  },
+  "top_configs": [
+    {
+      "chain": "frontend->getads",
+      "fusion_groups": [
+        [
+          "frontend->getads"
+        ]
+      ],
+      "memory": {
+        "frontend": 2048,
+        "getads": 128
+      },
+      "speedup": 2.3143702387185847,
+      "latency_ms": 47.62759999721311
+    }
+  ],
+  "best_fusion_candidates": [
+    {
+      "functions": [
+        "frontend",
+        "getads"
+      ],
+      "avg_speedup": 2.3143702387185847,
+      "test_count": 1
+    }
+  ]
+}

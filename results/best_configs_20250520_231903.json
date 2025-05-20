@@ -1,0 +1,36 @@
+{
+  "timestamp": 1747775943.223963,
+  "best_configs": [
+    {
+      "id": 7671044,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "getcart"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "checkout"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 128,
+        "checkout": 128,
+        "getcart": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 100
+      }
+    }
+  ]
+}

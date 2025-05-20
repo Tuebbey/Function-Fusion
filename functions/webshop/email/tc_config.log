@@ -1,5 +1,5 @@
 ==== Netzwerkkonfiguration für email ====
-Timestamp: Sun May 18 17:36:34 UTC 2025
+Timestamp: Tue May 20 21:13:07 UTC 2025
 [entrypoint] Setze netem-Regeln:  delay 20ms 5ms loss 0.01%
 Error: Specified qdisc kind is unknown.
 ⚠️ Netem konnte nicht gesetzt werden

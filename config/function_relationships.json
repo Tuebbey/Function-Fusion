@@ -1,0 +1,22 @@
+{
+  "addcartitem": {
+    "calls": ["cartkvstorage"],
+    "sync": true
+  },
+  "checkout": {
+    "calls": ["getcart", "getproduct", "shipmentquote", "payment", "shiporder", "email", "emptycart"],
+    "sync": true
+  },
+  "getcart": {
+    "calls": ["cartkvstorage"],
+    "sync": true
+  },
+  "frontend": {
+    "calls": ["supportedcurrencies", "listproducts", "getcart", "getads", "listrecommendations"],
+    "sync": true
+  },
+  "searchproducts": {
+    "calls": ["listproducts"],
+    "sync": true
+  }
+}

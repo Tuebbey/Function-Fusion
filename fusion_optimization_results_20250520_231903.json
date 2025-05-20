@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "total_tests": 1,
+    "average_speedup": 1.5559037934513176,
+    "max_speedup": 1.5559037934513176,
+    "best_config": {
+      "id": 7671044,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "getcart"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "checkout"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 128,
+        "checkout": 128,
+        "getcart": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 100
+      }
+    }
+  },
+  "chain_performance": {
+    "frontend->checkout->getcart": {
+      "avg_speedup": 1.5559037934513176,
+      "count": 1
+    }
+  },
+  "fusion_performance": {
+    "frontend_checkout": {
+      "avg_speedup": 1.5559037934513176,
+      "count": 1
+    }
+  },
+  "memory_performance": {
+    "avg_768MB": {
+      "avg_speedup": 1.5559037934513176,
+      "count": 1
+    }
+  },
+  "io_performance": {
+    "iter_1_size_10": {
+      "avg_speedup": 1.5559037934513176,
+      "count": 1
+    }
+  },
+  "network_performance": {
+    "lat_20_loss_0.5_bw_100": {
+      "avg_speedup": 1.5559037934513176,
+      "count": 1
+    }
+  },
+  "top_configs": [
+    {
+      "chain": "frontend->checkout->getcart",
+      "fusion_groups": [
+        [
+          "frontend->checkout"
+        ]
+      ],
+      "memory": {
+        "frontend": 128,
+        "checkout": 128,
+        "getcart": 2048
+      },
+      "speedup": 1.5559037934513176,
+      "latency_ms": 96.13479999825358
+    }
+  ],
+  "best_fusion_candidates": [
+    {
+      "functions": [
+        "frontend",
+        "checkout"
+      ],
+      "avg_speedup": 1.5559037934513176,
+      "test_count": 1
+    }
+  ]
+}

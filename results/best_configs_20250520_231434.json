@@ -1,0 +1,326 @@
+{
+  "timestamp": 1747775674.7653108,
+  "best_configs": [
+    {
+      "id": 5624078,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "shipmentquote",
+        "currency"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "shipmentquote",
+          "currency"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 256,
+        "shipmentquote": 512,
+        "currency": 512
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 20,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 18640936,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "listproducts",
+        "getproduct",
+        "listrecommendations"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "listproducts"
+        ],
+        [
+          "getproduct",
+          "listrecommendations"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "listproducts": 2048,
+        "getproduct": 256,
+        "listrecommendations": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 10,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0,
+        "bandwidth_kbit": 5000
+      }
+    },
+    {
+      "id": 12575129,
+      "type": "fusion_test",
+      "chain": [
+        "searchproducts",
+        "getproduct",
+        "listrecommendations"
+      ],
+      "fusion_groups": [
+        [
+          "searchproducts",
+          "getproduct",
+          "listrecommendations"
+        ]
+      ],
+      "memory_config": {
+        "searchproducts": 1024,
+        "getproduct": 128,
+        "listrecommendations": 1024
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 100,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 100
+      }
+    },
+    {
+      "id": 5751426,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "shipmentquote",
+        "currency"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "shipmentquote",
+          "currency"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 128,
+        "shipmentquote": 2048,
+        "currency": 256
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 5000
+      }
+    },
+    {
+      "id": 5673953,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "shipmentquote",
+        "currency"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "shipmentquote",
+          "currency"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 2048,
+        "shipmentquote": 256,
+        "currency": 128
+      },
+      "deployment": "local",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 100,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 100,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 5733593,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "shipmentquote",
+        "currency"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "shipmentquote",
+          "currency"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 512,
+        "shipmentquote": 256,
+        "currency": 256
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 10,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 100,
+        "loss_percent": 0.01,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 8011030,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "getcart"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "checkout",
+          "getcart"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 128,
+        "checkout": 256,
+        "getcart": 2048
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 100,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": null
+      }
+    },
+    {
+      "id": 1793788,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "listproducts"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "listproducts"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "listproducts": 512
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 20,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 5,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 6838983,
+      "type": "fusion_test",
+      "chain": [
+        "frontend",
+        "checkout",
+        "email"
+      ],
+      "fusion_groups": [
+        [
+          "frontend",
+          "checkout",
+          "email"
+        ]
+      ],
+      "memory_config": {
+        "frontend": 2048,
+        "checkout": 128,
+        "email": 256
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 5,
+        "file_size_kb": 1,
+        "enable_fsync": false
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0,
+        "bandwidth_kbit": 500
+      }
+    },
+    {
+      "id": 3673690,
+      "type": "fusion_test",
+      "chain": [
+        "checkout",
+        "emptycart",
+        "cartkvstorage"
+      ],
+      "fusion_groups": [
+        [
+          "checkout",
+          "emptycart"
+        ]
+      ],
+      "memory_config": {
+        "checkout": 128,
+        "emptycart": 256,
+        "cartkvstorage": 256
+      },
+      "deployment": "remote",
+      "io_config": {
+        "iterations": 1,
+        "file_size_kb": 100,
+        "enable_fsync": true
+      },
+      "network": {
+        "latency_ms": 0,
+        "loss_percent": 0.5,
+        "bandwidth_kbit": null
+      }
+    }
+  ]
+}

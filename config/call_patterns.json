@@ -1,0 +1,20 @@
+{
+  "addcartitem": {
+    "calls": ["cartkvstorage"]
+  },
+  "checkout": {
+    "calls": ["getcart", "getproduct", "shipmentquote", "payment", "shiporder", "email", "emptycart"]
+  },
+  "getcart": {
+    "calls": ["cartkvstorage"]
+  },
+  "getproduct": {
+    "calls": ["listproducts"] 
+  },
+  "frontend": {
+    "calls": ["supportedcurrencies", "listproducts", "getcart", "getads", "listrecommendations", "currency"]
+  },
+  "searchproducts": {
+    "calls": ["listproducts"]
+  }
+}

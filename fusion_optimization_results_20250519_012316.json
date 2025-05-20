@@ -1,0 +1,327 @@
+{
+  "summary": {
+    "total_tests": 10,
+    "average_speedup": 0.0,
+    "max_speedup": 0,
+    "best_config": null
+  },
+  "chain_performance": {
+    "shipmentquote->currency": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout->payment->currency": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout->emptycart->cartkvstorage": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "frontend->checkout->payment": {
+      "avg_speedup": 0.0,
+      "count": 2
+    },
+    "checkout->shipmentquote->currency": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "frontend->checkout->getcart->cartkvstorage": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "frontend->listproducts->getproduct->listrecommendations": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "frontend->checkout->emptycart->cartkvstorage->getcart": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout->email": {
+      "avg_speedup": 0.0,
+      "count": 1
+    }
+  },
+  "fusion_performance": {
+    "no_fusion": {
+      "avg_speedup": 0.0,
+      "count": 2
+    },
+    "checkout_payment": {
+      "avg_speedup": 0.0,
+      "count": 2
+    },
+    "emptycart_cartkvstorage": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "frontend_checkout": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout_shipmentquote": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout_getcart_cartkvstorage": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout_emptycart|cartkvstorage_getcart": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "checkout_email": {
+      "avg_speedup": 0.0,
+      "count": 1
+    }
+  },
+  "memory_performance": {
+    "avg_2048MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_469MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_597MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_1450MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_768MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_1066MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_1152MB": {
+      "avg_speedup": 0.0,
+      "count": 2
+    },
+    "avg_1280MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "avg_384MB": {
+      "avg_speedup": 0.0,
+      "count": 1
+    }
+  },
+  "io_performance": {
+    "iter_20_size_10": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "iter_1_size_1": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "iter_50_size_100": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "iter_1_size_10": {
+      "avg_speedup": 0.0,
+      "count": 3
+    },
+    "iter_50_size_1": {
+      "avg_speedup": 0.0,
+      "count": 2
+    },
+    "iter_5_size_10": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "iter_5_size_1": {
+      "avg_speedup": 0.0,
+      "count": 1
+    }
+  },
+  "network_performance": {
+    "lat_20_loss_0.5_bw_1000": {
+      "avg_speedup": 0.0,
+      "count": 2
+    },
+    "lat_0_loss_0.01_bw_5000": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_5_loss_0.01_bw_None": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_500": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_100_loss_0.01_bw_1000": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_0_loss_0.5_bw_None": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_20_loss_0.01_bw_1000": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_5_loss_0_bw_100": {
+      "avg_speedup": 0.0,
+      "count": 1
+    },
+    "lat_5_loss_0_bw_5000": {
+      "avg_speedup": 0.0,
+      "count": 1
+    }
+  },
+  "top_configs": [
+    {
+      "chain": "shipmentquote->currency",
+      "fusion_groups": [
+        []
+      ],
+      "memory": {
+        "shipmentquote": 2048,
+        "currency": 2048
+      },
+      "speedup": 0,
+      "latency_ms": 0
+    },
+    {
+      "chain": "checkout->payment->currency",
+      "fusion_groups": [
+        [
+          "checkout->payment"
+        ]
+      ],
+      "memory": {
+        "checkout": 256,
+        "payment": 128,
+        "currency": 1024
+      },
+      "speedup": 0,
+      "latency_ms": 0
+    },
+    {
+      "chain": "checkout->emptycart->cartkvstorage",
+      "fusion_groups": [
+        [
+          "emptycart->cartkvstorage"
+        ]
+      ],
+      "memory": {
+        "checkout": 1024,
+        "emptycart": 256,
+        "cartkvstorage": 512
+      },
+      "speedup": 0,
+      "latency_ms": 0
+    },
+    {
+      "chain": "frontend->checkout->payment",
+      "fusion_groups": [
+        [
+          "checkout->payment"
+        ]
+      ],
+      "memory": {
+        "frontend": 256,
+        "checkout": 2048,
+        "payment": 2048
+      },
+      "speedup": 0,
+      "latency_ms": 0
+    },
+    {
+      "chain": "frontend->checkout->payment",
+      "fusion_groups": [
+        [
+          "frontend->checkout"
+        ]
+      ],
+      "memory": {
+        "frontend": 128,
+        "checkout": 128,
+        "payment": 2048
+      },
+      "speedup": 0,
+      "latency_ms": 0
+    }
+  ],
+  "best_fusion_candidates": [
+    {
+      "functions": [
+        "checkout",
+        "payment"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 2
+    },
+    {
+      "functions": [
+        "emptycart",
+        "cartkvstorage"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "frontend",
+        "checkout"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "checkout",
+        "shipmentquote"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "checkout",
+        "getcart",
+        "cartkvstorage"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "checkout",
+        "emptycart"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "cartkvstorage",
+        "getcart"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    },
+    {
+      "functions": [
+        "checkout",
+        "email"
+      ],
+      "avg_speedup": 0.0,
+      "test_count": 1
+    }
+  ]
+}

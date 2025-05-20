@@ -1,0 +1,24 @@
+{
+  "addcartitem": {
+    "userId": "user123",
+    "productId": "QWERTY",
+    "quantity": 2
+  },
+  "checkout": {
+    "userId": "user123",
+    "userCurrency": "EUR",
+    "address": {
+      "streetAddress": "Schillerstrasse 9",
+      "city": "Munich",
+      "state": "Bavaria",
+      "country": "Germany"
+    },
+    "email": "user@example.com",
+    "creditCard": {
+      "creditCardNumber": "378282246310005",
+      "creditCardCvv": 123,
+      "creditCardExpirationYear": 2025,
+      "creditCardExpirationMonth": 10
+    }
+  }
+}
